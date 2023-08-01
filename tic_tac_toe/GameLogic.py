@@ -1,3 +1,5 @@
+import TTTExceptions
+
 def check_win(XO):
     if len(XO) >= 3:
         if 5 in XO:
@@ -21,9 +23,13 @@ def check_win(XO):
                 return True
     return False
 
+XandO = []
 def proper_value(xo,XO):
-    if xo not in XO and isinstance(xo,int) and xo >= 1 and xo <= 9:
-        pass
+    if xo in XandO:
+        raise TTTExceptions.AlreadyTaken(xo)
+    elif xo < 1 or xo > 9:
+        raise TTTExceptions.WrongNumber
     else:
-        raise Exception
+        XandO.append(xo)
+
     

@@ -1,38 +1,24 @@
 from Players import Players
 import GameLogic
 
-game_vis = '1|2|3\n4|5|6\n7|8|9'
 game_finished = False
-Os = []
-Xs = []
 
-print(game_vis)
-player1 = Players(input('Name:\n'), input('Age:\n'))
-print(player1)
+# creating players
+player_one = Players(input('Name:\n'), input('Age:\n'))
+# print(player_one)
+player_two = Players(input('Name:\n'), input('Age:\n'))
+# print(player_one)
 
-def first_player(o):
-    try:
-        GameLogic.proper_value(o,Os)
+players = [player_one, player_two]
 
-        global game_vis
-        game_vis = game_vis.replace(str(o),'o')
-        print(game_vis)
-        
-        Os.append(o)
-        return GameLogic.check_win(Os)
-    except Exception:
-        print('Retry')
-        first_player(int(input('Kółko:\n')))
+for move in range(9):
+    player = players[move%2]
 
-def second_player(x):
+    a = input(f'{player.name}, enter the place for {player.symbol}:\n')
+    game_won = player.make_a_move(a)
 
-    global game_vis
-    game_vis = game_vis.replace(str(x),'x')
-    print(game_vis)
-    Xs.append(x)
-    return GameLogic.check_win(Xs)
+    if game_won:
+        print(f'Congratulations {player.name}, you won!')
+        break
 
-while game_finished == False:
-    game_finished = first_player(int(input('Kółko:\n')))
-    game_finished = second_player(int(input('Krzyżyk:\n')))
-    
+    elif move == 8:   print('It\'s a draw')
