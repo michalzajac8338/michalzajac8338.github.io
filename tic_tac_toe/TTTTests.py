@@ -1,7 +1,6 @@
 import unittest
 import keyboard
 
-
 from Players import Players
 
 keyboard.press_and_release("enter")

@@ -13,6 +13,7 @@ class Players:
         self.symbol = Players.ox[Players.index]
         self.squares = []
         Players.index += 1
+        
     def __repr__(self):
         return f'I am {self.name}, I am {self.age} years old and my symbol is {self.symbol}'
     

@@ -31,5 +31,3 @@ def proper_value(xo,XO):
         raise TTTExceptions.WrongNumber
     else:
         XandO.append(xo)
-
-    
