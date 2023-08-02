@@ -4,7 +4,7 @@ class Players:
 
     ox = ['o','x']
     index = 0
-    game_vis = '1|2|3\n4|5|6\n7|8|9'
+    game_vis = '1|2|3\n4|5|6\n7|8|9\n'
     print(game_vis)
     
     def __init__(self, name, age):

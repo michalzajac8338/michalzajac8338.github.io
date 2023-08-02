@@ -5,9 +5,12 @@ game_finished = False
 
 # creating players
 player_one = Players(input('Name:\n'), input('Age:\n'))
-# print(player_one)
+print(player_one)
 player_two = Players(input('Name:\n'), input('Age:\n'))
-# print(player_one)
+print(player_two)
+
+print(f'\n{player_one.name}, {player_two.name}, I assume You know the rules\n')
+print(Players.game_vis)
 
 players = [player_one, player_two]
 
