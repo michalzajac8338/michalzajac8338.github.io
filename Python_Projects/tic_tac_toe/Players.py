@@ -1,3 +1,6 @@
+# This is the class where players are created. Its objects are assigned
+# appropriate attributes (e.g. 'o' or 'x') and a method which, when invoked,
+# allows you to make a move
 import GameLogic
 
 class Players:

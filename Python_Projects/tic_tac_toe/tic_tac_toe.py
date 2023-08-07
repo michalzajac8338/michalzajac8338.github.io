@@ -1,3 +1,5 @@
+# This is the main project file. In it, Player class objects are created,
+# which then play tic-tac-toe with each other in the terminal.
 from Players import Players
 import GameLogic
 

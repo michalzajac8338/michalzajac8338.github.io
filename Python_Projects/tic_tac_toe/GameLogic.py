@@ -1,3 +1,5 @@
+# This is a file that checks the correctness of the selected fields
+# and the possible win of the current player
 import TTTExceptions
 
 def check_win(XO):

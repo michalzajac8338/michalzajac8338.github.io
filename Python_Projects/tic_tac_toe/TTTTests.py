@@ -1,3 +1,7 @@
+# This is a test file of the executed program. Tie, 1st and 2nd player wins are
+# checked here
+
+
 import unittest
 import GameLogic
 from Players import Players

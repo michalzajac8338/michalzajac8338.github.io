@@ -1,3 +1,4 @@
+# Appropriate exceptions are created in this file
 class WrongNumber(Exception):
     def __str__(self):
         return 'The number doesn\'t belong to [1:9]'
