@@ -1,0 +1,1 @@
+This is a design that allows you to type on an acoustic keyboard. The presentation.m file periodically checks the dominant frequency of the sound from the connected microphone, and then calls the alphabet_1.m function to type the appropriate letter. The f_dominant_check.m script allows you to check the dominant frequency of an excited vessel.
