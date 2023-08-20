@@ -20,7 +20,7 @@ public class Question {
         }
 
         answers[3] = properAnswer;
-        String[] randAnswers = new String[4];
+        String[] randAnswers;
         randAnswers = this.randomizeAnswers(answers);
 
         for(int j=0; j< abcd.length; j++)

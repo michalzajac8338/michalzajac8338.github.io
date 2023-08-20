@@ -16,19 +16,35 @@ public class Main {
         while (didOk) {
             q.askQuestion();
 
-            if(!FiftyFifty.used) {
+            if(!FiftyFifty.used | !AskTheAudience.used) {
                 System.out.println("Do You wish to use Lifeline? y-yes other-no");
                 ans = input.next();
 
                 if (Objects.equals(ans, "y")) {
-                    System.out.println("Which one? f - fifty-fifty\nother - OK i don't need it");
+                    System.out.println("Which one?");
+                    if(!FiftyFifty.used) System.out.println("f - fifty-fifty");
+                    if(!AskTheAudience.used) System.out.println("a - ask the audience");
+                    System.out.println("other - OK i don't need it");
                     ans = input.next();
                     switch (ans.toUpperCase()) {
                         case "F":
+                            if(FiftyFifty.used){
+                                System.out.println("You have already used this one :C");
+                                break;
+                            }
                             FiftyFifty ff = new FiftyFifty();
                             ff.useLifeline();
-                            //default:
-                            //  System.out.println("Ok, another time");
+                            break;
+                        case "A":
+                            if(AskTheAudience.used){
+                                System.out.println("You have already used this one :C");
+                                break;
+                            }
+                            AskTheAudience ata = new AskTheAudience();
+                            ata.useLifeline();
+                            break;
+                            default:
+                            System.out.println("Ok, another time");
                     }
                 }
             }
