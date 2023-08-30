@@ -4,7 +4,31 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="623f7243-88ce-4566-8a43-c4a0087b22b9" name="Changes" comment="" />
+    <list default="true" id="623f7243-88ce-4566-8a43-c4a0087b22b9" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../FortuneTeller/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../FortuneTeller/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FortuneTeller/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../FortuneTeller/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Restaurant_Codecademy/Customer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Restaurant_Codecademy/Customer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Restaurant_Codecademy/Food.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Restaurant_Codecademy/Food.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Restaurant_Codecademy/FoodMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Restaurant_Codecademy/FoodMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Restaurant_Codecademy/IntUserInputRetriever.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Restaurant_Codecademy/IntUserInputRetriever.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Restaurant_Codecademy/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Restaurant_Codecademy/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Restaurant_Codecademy/PricedItem.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Restaurant_Codecademy/PricedItem.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Restaurant_Codecademy/ShoppingBag.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Restaurant_Codecademy/ShoppingBag.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Restaurant_Codecademy/TakeOutSimulator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Restaurant_Codecademy/TakeOutSimulator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Food.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Food.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FoodMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FoodMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../WhoWantsToBeAMillionaire/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../WhoWantsToBeAMillionaire/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../WhoWantsToBeAMillionaire/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../WhoWantsToBeAMillionaire/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../WhoWantsToBeAMillionaire/out/production/WhoWantsToBeAMillionaire/AskTheAudience.class" beforeDir="false" afterPath="$PROJECT_DIR$/../WhoWantsToBeAMillionaire/out/production/WhoWantsToBeAMillionaire/AskTheAudience.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../WhoWantsToBeAMillionaire/out/production/WhoWantsToBeAMillionaire/FiftyFifty.class" beforeDir="false" afterPath="$PROJECT_DIR$/../WhoWantsToBeAMillionaire/out/production/WhoWantsToBeAMillionaire/FiftyFifty.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../WhoWantsToBeAMillionaire/out/production/WhoWantsToBeAMillionaire/Lifeline.class" beforeDir="false" afterPath="$PROJECT_DIR$/../WhoWantsToBeAMillionaire/out/production/WhoWantsToBeAMillionaire/Lifeline.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../WhoWantsToBeAMillionaire/out/production/WhoWantsToBeAMillionaire/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/../WhoWantsToBeAMillionaire/out/production/WhoWantsToBeAMillionaire/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../WhoWantsToBeAMillionaire/out/production/WhoWantsToBeAMillionaire/MoneyWon.class" beforeDir="false" afterPath="$PROJECT_DIR$/../WhoWantsToBeAMillionaire/out/production/WhoWantsToBeAMillionaire/MoneyWon.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../WhoWantsToBeAMillionaire/out/production/WhoWantsToBeAMillionaire/Question.class" beforeDir="false" afterPath="$PROJECT_DIR$/../WhoWantsToBeAMillionaire/out/production/WhoWantsToBeAMillionaire/Question.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../WhoWantsToBeAMillionaire/out/production/WhoWantsToBeAMillionaire/Questions.class" beforeDir="false" afterPath="$PROJECT_DIR$/../WhoWantsToBeAMillionaire/out/production/WhoWantsToBeAMillionaire/Questions.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,6 +41,9 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -25,16 +52,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/micha/Desktop/JavaProjects/WhoWantsToBeAMillionaire",
-    "onboarding.tips.debug.path": "C:/Users/micha/Desktop/JavaProjects/Restaurant_Codecademy/src/Main.java",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/micha/Desktop/Python_/michalzajac8338.github.io/JavaProjects/Restaurant&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/micha/Desktop/JavaProjects/Restaurant_Codecademy/src/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -45,5 +76,15 @@
       <updated>1692295793460</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NullPointerException" package="java.lang" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

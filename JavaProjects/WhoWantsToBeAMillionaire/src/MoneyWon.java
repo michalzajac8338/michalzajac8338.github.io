@@ -13,6 +13,7 @@ public class MoneyWon {
     }
 
     public static void resigned(){
+        Questions.think();
         System.out.println("Really nice. You have won "+moneyToWin[index]);
     }
 }

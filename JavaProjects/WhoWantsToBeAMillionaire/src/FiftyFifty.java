@@ -1,31 +1,33 @@
 import java.util.*;
 
-public class FiftyFifty extends Lifeline{
-    public FiftyFifty(){
-        super();
-    }
+public class FiftyFifty implements Lifeline{
     public static boolean used = false;
-
-    @Override
     public void useLifeline(){
-        used = true;
+        FiftyFifty.used = true;
 
-        String otherAnsKey;
-        String otherAnsVal;
+        String properABCD = Questions.currentQuestion.getProperABCD();
+        String properAnswer = Questions.currentQuestion.getProperAnswer();
 
         Random random = new Random();
-        int wrongAnsRandom = random.nextInt(3);
+        String[] wrongABCD = Questions.currentQuestion.options[random.nextInt(2)];
+        String[] wrongABCD2 = Questions.currentQuestion.options[random.nextInt(2,4)];
 
-        otherAnsKey = abcd.get(wrongAnsRandom);
-        otherAnsVal = opt.get(otherAnsKey);
+        if(Objects.equals(wrongABCD[0], properABCD)) wrongABCD = wrongABCD2;
 
         System.out.println("Removing two wrong answers...\n");
-        if(properAnsKey.compareTo(otherAnsKey) < 0){
-            System.out.println(properAnsKey + ": " + properAnsVal);
-            System.out.println(otherAnsKey + ": " + otherAnsVal);
+        Questions.think();
+
+        if(properABCD.compareTo(wrongABCD[0]) < 0)
+        {
+            Questions.think();
+            System.out.println(properABCD + ": " + properAnswer);
+            Questions.think();
+            System.out.println(wrongABCD[0] + ": " + wrongABCD[1]);
         } else {
-            System.out.println(otherAnsKey + ": " + otherAnsVal);
-            System.out.println(properAnsKey + ": " + properAnsVal);
+            Questions.think();
+            System.out.println(wrongABCD[0] + ": " + wrongABCD[1]);
+            Questions.think();
+            System.out.println(properABCD + ": " + properAnswer);
         }
     }
 }

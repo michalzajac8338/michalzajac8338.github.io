@@ -1,27 +1,34 @@
+import java.util.Objects;
 import java.util.Random;
 
-public class AskTheAudience extends Lifeline{
+public class AskTheAudience implements Lifeline{
     public static boolean used = false;
-    @Override
+    String properABCD = Questions.currentQuestion.getProperABCD();
     public void useLifeline(){
-        used = true;
+        AskTheAudience.used = true;
+
+        String[][] optionsPercentage = new String[4][2];
+        int[] wrong = new int[3];
 
         Random random = new Random();
         int goodAnsPercentage = random.nextInt(30) + 50;
-        int wrong1 = random.nextInt(100-goodAnsPercentage);
-        int wrong2 = random.nextInt(100-goodAnsPercentage-wrong1);
-        int wrong3 = 100-goodAnsPercentage-wrong1-wrong2;
+        wrong[0] = random.nextInt(100-goodAnsPercentage);
+        wrong[1] = random.nextInt(100-goodAnsPercentage-wrong[0]);
+        wrong[2] = 100-goodAnsPercentage-wrong[0]-wrong[1];
 
-        opt.put(properAnsKey, goodAnsPercentage + "%");
-        opt.put(abcd.get(0), wrong1 + "%");
-        opt.put(abcd.get(1), wrong2 + "%");
-        opt.put(abcd.get(2), wrong3 + "%");
-
+        int j = 0;
+        Questions.think();
         System.out.println("The Audience has spoken!!!");
-        System.out.println("A" + ": " + opt.get("A"));
-        System.out.println("B" + ": " + opt.get("B"));
-        System.out.println("C" + ": " + opt.get("C"));
-        System.out.println("D" + ": " + opt.get("D"));
-
+        for(int i = 0; i < 4; i++) {
+            Questions.think();
+            if(Objects.equals(Question.abcd[i], properABCD)){
+                optionsPercentage[i] = new String[]{Question.abcd[i], goodAnsPercentage + "%"};
+            }
+            else {
+                optionsPercentage[i] = new String[]{Question.abcd[i], wrong[j] + "%"};
+                j++;
+            }
+            System.out.println(optionsPercentage[i][0] + ": " + optionsPercentage[i][1]);
+        }
     }
 }

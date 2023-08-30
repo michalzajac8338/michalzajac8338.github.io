@@ -15,11 +15,11 @@ public class FoodMenu{
 
     @Override
     public String toString(){
-        String text = "";
+        StringBuilder text = new StringBuilder();
         for (int i = 1; i< menu.size()+1; i++){
-            text += i + ". " + menu.get(i-1).toString();
+            text.append(i).append(". ").append(menu.get(i - 1).toString());
         }
-        return text;
+        return text.toString();
     }
 
     public Food getFood(int index){

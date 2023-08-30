@@ -5,14 +5,34 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c1495e14-2ab5-43b5-8a29-0b6040718edd" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../FortuneTeller/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../FortuneTeller/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FortuneTeller/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../FortuneTeller/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Restaurant/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Restaurant/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Restaurant/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Restaurant/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Restaurant/out/production/Restaurant_Codecademy/Customer.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Restaurant/out/production/Restaurant_Codecademy/Customer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Restaurant/out/production/Restaurant_Codecademy/Food.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Restaurant/out/production/Restaurant_Codecademy/Food.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Restaurant/out/production/Restaurant_Codecademy/FoodMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Restaurant/out/production/Restaurant_Codecademy/FoodMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Restaurant/out/production/Restaurant_Codecademy/IntUserInputRetriever.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Restaurant/out/production/Restaurant_Codecademy/IntUserInputRetriever.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Restaurant/out/production/Restaurant_Codecademy/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Restaurant/out/production/Restaurant_Codecademy/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Restaurant/out/production/Restaurant_Codecademy/PricedItem.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Restaurant/out/production/Restaurant_Codecademy/PricedItem.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Restaurant/out/production/Restaurant_Codecademy/ShoppingBag.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Restaurant/out/production/Restaurant_Codecademy/ShoppingBag.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Restaurant/out/production/Restaurant_Codecademy/TakeOutSimulator.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Restaurant/out/production/Restaurant_Codecademy/TakeOutSimulator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Restaurant/src/Food.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Restaurant/src/Food.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Restaurant/src/FoodMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Restaurant/src/FoodMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/WhoWantsToBeAMillionaire/AskTheAudience.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/WhoWantsToBeAMillionaire/AskTheAudience.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/WhoWantsToBeAMillionaire/FiftyFifty.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/WhoWantsToBeAMillionaire/FiftyFifty.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/WhoWantsToBeAMillionaire/Lifeline.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/WhoWantsToBeAMillionaire/Lifeline.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/WhoWantsToBeAMillionaire/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/WhoWantsToBeAMillionaire/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/WhoWantsToBeAMillionaire/MoneyWon.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/WhoWantsToBeAMillionaire/MoneyWon.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/WhoWantsToBeAMillionaire/Question.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/WhoWantsToBeAMillionaire/Question.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/WhoWantsToBeAMillionaire/Questions.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/WhoWantsToBeAMillionaire/Questions.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AskTheAudience.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AskTheAudience.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/FiftyFifty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FiftyFifty.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Lifeline.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lifeline.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MoneyWon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MoneyWon.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Question.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Question.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Questions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Questions.java" afterDir="false" />
     </list>
@@ -43,18 +63,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/micha/Desktop/Python_/michalzajac8338.github.io/JavaProjects/WhoWantsToBeAMillionaire&quot;,
-    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/micha/Desktop/JavaProjects/WhoWantsToBeAMillionaire/src/Main.java&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editing.templates&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/micha/Desktop/Python_/michalzajac8338.github.io/JavaProjects/WhoWantsToBeAMillionaire",
+    "onboarding.tips.debug.path": "C:/Users/micha/Desktop/JavaProjects/WhoWantsToBeAMillionaire/src/Main.java",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.0",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "configurable.group.editor"
   }
-}</component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
