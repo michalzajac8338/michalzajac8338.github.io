@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0" prefWidth="1073.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="whoWantsTBAM.QuestionsController">
+   <children>
+      <Label fx:id="question" alignment="CENTER" contentDisplay="TOP" layoutX="51.0" layoutY="24.0" prefHeight="96.0" prefWidth="969.0" text="q">
+         <font>
+            <Font name="Arial Italic" size="23.0" />
+         </font>
+      </Label>
+      <RadioButton fx:id="A" layoutX="45.0" layoutY="170.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="462.0">
+         <toggleGroup>
+            <ToggleGroup fx:id="answers" />
+         </toggleGroup>
+         <font>
+            <Font size="18.0" />
+         </font>
+      </RadioButton>
+      <RadioButton fx:id="C" layoutX="45.0" layoutY="223.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="462.0" toggleGroup="$answers">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </RadioButton>
+      <RadioButton fx:id="B" layoutX="526.0" layoutY="170.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="524.0" toggleGroup="$answers">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </RadioButton>
+      <RadioButton fx:id="D" layoutX="526.0" layoutY="223.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="524.0" toggleGroup="$answers">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </RadioButton>
+      <Button fx:id="submit" layoutX="476.0" layoutY="330.0" mnemonicParsing="false" onAction="#submitAnswer" prefHeight="64.0" prefWidth="124.0" text="Submit">
+         <font>
+            <Font size="19.0" />
+         </font></Button>
+      <Label fx:id="question1" alignment="CENTER" contentDisplay="CENTER" layoutX="171.0" layoutY="425.0" prefHeight="84.0" prefWidth="731.0" text="If You are not sure, how about a lifeline?">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <RadioButton fx:id="ATA" layoutX="659.0" layoutY="539.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="214.0" text="Ask The Audience" toggleGroup="$answers">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </RadioButton>
+      <RadioButton fx:id="FF" layoutX="196.0" layoutY="539.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="160.0" text="Fifty Fifty" toggleGroup="$answers">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </RadioButton>
+   </children>
+</AnchorPane>

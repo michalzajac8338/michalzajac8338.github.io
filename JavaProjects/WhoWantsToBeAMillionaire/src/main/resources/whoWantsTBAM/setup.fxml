@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0" prefWidth="1073.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="whoWantsTBAM.SetupController">
+   <children>
+      <Label alignment="CENTER" layoutX="84.0" layoutY="24.0" prefHeight="78.0" prefWidth="913.0" text="Who wants to be a millionaire?" textAlignment="CENTER">
+         <font>
+            <Font size="26.0" />
+         </font>
+      </Label>
+      <Label fx:id="enterName" alignment="CENTER" layoutX="452.0" layoutY="110.0" prefHeight="50.0" prefWidth="169.0" text="Enter Your name:" />
+      <Button fx:id="submit" layoutX="476.0" layoutY="224.0" mnemonicParsing="false" onAction="#submit" prefHeight="64.0" prefWidth="124.0" text="Submit" />
+      <TextField fx:id="textField" layoutX="442.0" layoutY="173.0" prefHeight="42.0" prefWidth="190.0" style="-fx-border-color: white; -fx-border-width: 5;" />
+      <TextArea fx:id="textArea" editable="false" layoutX="-18.0" layoutY="353.0" prefHeight="282.0" prefWidth="1104.0" text="    Some rules:&#10;&#10;     -There are 12 questions.&#10;     -You can choose to walk away with Your winnings at any point,&#10;       but You must give an answer to question that You decided to hear.&#10;     -The safety nets on the money tree are: $1000 and $50,000.&#10;     - You have (currently) 2 Lifelines:&#10;       * Ask the audience,&#10;       * 50/50.&#10;     You know how they work.&#10;&#10;      Good luck! :)">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextArea>
+   </children>
+</AnchorPane>

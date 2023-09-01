@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0" prefWidth="1073.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="whoWantsTBAM.ContinueController">
+   <children>
+      <Label fx:id="question" alignment="CENTER" contentDisplay="TOP" layoutX="52.0" layoutY="54.0" prefHeight="96.0" prefWidth="969.0" text="---">
+         <font>
+            <Font name="Arial Italic" size="23.0" />
+         </font>
+      </Label>
+      <Button fx:id="submit" layoutX="476.0" layoutY="465.0" mnemonicParsing="false" onAction="#submitAnswer" prefHeight="64.0" prefWidth="124.0" text="Submit">
+         <font>
+            <Font size="19.0" />
+         </font></Button>
+      <RadioButton fx:id="NO" layoutX="617.0" layoutY="376.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="214.0" text="No">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <toggleGroup>
+            <ToggleGroup fx:id="answers" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="YES" layoutX="408.0" layoutY="376.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="160.0" text="Yes" toggleGroup="$answers">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </RadioButton>
+      <Label alignment="CENTER" contentDisplay="TOP" layoutX="52.0" layoutY="190.0" prefHeight="96.0" prefWidth="969.0" text="Do You want to continie?">
+         <font>
+            <Font name="Arial Italic" size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="err" layoutX="757.0" layoutY="364.0" prefHeight="50.0" prefWidth="272.0" />
+   </children>
+</AnchorPane>

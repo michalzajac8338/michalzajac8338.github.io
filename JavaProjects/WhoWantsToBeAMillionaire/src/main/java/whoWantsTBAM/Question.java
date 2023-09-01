@@ -1,3 +1,5 @@
+package whoWantsTBAM;
+
 import java.util.*;
 
 public class Question {
@@ -50,13 +52,12 @@ public class Question {
         return this.properABCD;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder s = new StringBuilder(this.question + "\n");
+    public String toStringOption(int a) {
+        String[] s = new String[4];
         for (var i = 0; i<=3; i++) {
-            s.append(this.options[i][0]).append(": ").append(this.options[i][1]).append("\n");
+            s[i] = this.options[i][0] + ": " + this.options[i][1];
         }
-        return s.toString();
+        return s[a];
     }
 
     private String[] randomizeAnswers(String[] a){
