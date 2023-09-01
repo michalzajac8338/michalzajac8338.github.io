@@ -53,5 +53,6 @@
             <Font size="18.0" />
          </font>
       </RadioButton>
+      <Label fx:id="err" layoutX="659.0" layoutY="327.0" prefHeight="84.0" prefWidth="362.0" />
    </children>
 </AnchorPane>

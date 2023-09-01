@@ -37,7 +37,7 @@ public class MainApp extends Application {
         root = loader.load();
         scene = new Scene(root);
         scene.getStylesheets().add(css);
-        stage.getIcons().add(new Image("C:\\Users\\micha\\Desktop\\JavaProjects\\WhoWantsToBeAMillionaire\\src\\main\\java\\whoWantsTBAM\\icon.png"));
+        stage.getIcons().add(new Image("C:\\Users\\micha\\Desktop\\Python_\\michalzajac8338.github.io\\JavaProjects\\WhoWantsToBeAMillionaire\\src\\main\\java\\whoWantsTBAM\\icon.png"));
 
         stage.setTitle("Who wants to be a millionaire?");
         stage.setScene(scene);
