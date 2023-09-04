@@ -32,7 +32,7 @@ public class SetupController {
         root = loader.load();
 
         QuestionsController controller2 = loader.getController();
-        controller2.setLayout("Normal");
+        controller2.setLayout("Normal","");
 
         stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);

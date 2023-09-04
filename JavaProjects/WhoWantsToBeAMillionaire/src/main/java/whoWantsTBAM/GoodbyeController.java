@@ -1,14 +1,14 @@
 package whoWantsTBAM;
 
+import whoWantsTBAM.Controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import whoWantsTBAM.MainApp;
 
-import java.io.IOException;
-
-public class GoodbyeController {
+public class GoodbyeController implements Controller {
 
 
     @FXML
@@ -17,6 +17,7 @@ public class GoodbyeController {
     public Button submit;
     Stage stage;
 
+    @Override
     public void setLayout(String s, String s1) {
         label1.setText("It was a nice game, " + MainApp.name);
         label2.setText(s);

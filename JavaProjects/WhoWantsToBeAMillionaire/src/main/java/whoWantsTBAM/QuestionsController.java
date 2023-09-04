@@ -3,12 +3,10 @@ package whoWantsTBAM;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Objects;
 
-public class QuestionsController {
+public class QuestionsController implements Controller {
 
 
     @FXML
@@ -22,8 +20,8 @@ public class QuestionsController {
 
     MainApp mainApp = new MainApp();
 
-
-    public void setLayout(String option) {
+    @Override
+    public void setLayout(String option, String o2) {
         question.setText(Questions.currentQuestion.question);
 
         if(FiftyFifty.used) FF.setDisable(true);
@@ -79,7 +77,7 @@ public class QuestionsController {
         else {
             mainApp.wantToPlay(event);
         }
-        } catch (NullPointerException e) {
+        } catch (NullPointerException | InstantiationException | IllegalAccessException e) {
             err.setText("Choose an option");
         }
 

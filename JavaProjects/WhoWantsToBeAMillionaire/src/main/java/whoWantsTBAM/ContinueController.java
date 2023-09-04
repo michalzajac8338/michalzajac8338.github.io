@@ -6,10 +6,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import whoWantsTBAM.Controller;
+import whoWantsTBAM.MainApp;
+import whoWantsTBAM.MoneyWon;
 
 import java.io.IOException;
 
-public class ContinueController {
+public class ContinueController implements Controller {
 
 
     @FXML
@@ -24,8 +27,8 @@ public class ContinueController {
 
     MainApp mainApp = new MainApp();
 
-
-    public void setLayout() {
+    @Override
+    public void setLayout(String s, String s2) {
         question.setText("You are at: " + MoneyWon.moneyToWin[MoneyWon.index]);
     }
 
