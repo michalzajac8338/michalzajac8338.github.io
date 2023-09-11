@@ -8,33 +8,36 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import whoWantsTBAM.GUIControllers.Controller;
+import whoWantsTBAM.GameLogic.MoneyWon;
+import whoWantsTBAM.GameLogic.QuestionHandler;
 
 import java.io.IOException;
 import java.util.Objects;
 
-import static whoWantsTBAM.Questions.currentQuestion;
+import static whoWantsTBAM.GameLogic.QuestionHandler.currentQuestion;
 
 public class MainApp extends Application {
-    Parent root;
-    FXMLLoader loader;
-    Scene scene;
-    Stage stage;
     public static final String css = Objects.requireNonNull(MainApp.class.getResource("appStyle.css")).toExternalForm();
     public static String name;
     public static String ans = null;
-    boolean didOk = true;
-    Questions q = new Questions();
+
+    private Parent root;
+    private FXMLLoader loader;
+    private Scene scene;
+
+    private final QuestionHandler q = new QuestionHandler();
 
 
     @Override
     public void start(Stage stage) throws IOException {
 
-        Questions.createQuestionSet();
+        QuestionHandler.createQuestionSet();
 
         q.askQuestion();
         stage.getIcons().add(new Image(String.valueOf(getClass().getResource("icon.png"))));
 
-        loader = new FXMLLoader(getClass().getResource("setup.fxml"));
+        loader = new FXMLLoader(getClass().getResource("Scenes/setup.fxml"));
         root = loader.load();
         scene = new Scene(root);
         scene.getStylesheets().add(css);
@@ -45,13 +48,12 @@ public class MainApp extends Application {
 
     public void wantToPlay(ActionEvent event) throws IOException, InstantiationException, IllegalAccessException {
 
-        didOk = q.checkAnswer(ans);
+        boolean didOk = q.checkAnswer(ans);
 
         if(MoneyWon.index==12 || !didOk){
             String s1 = MoneyWon.index==12 ? "CONGRATULATIONS" : "The proper answer was: "+currentQuestion.getProperABCD() + ": " + currentQuestion.getProperAnswer();
-            displayNextScene("goodbye.fxml", MoneyWon.EndMoney(),s1,event);
+            displayNextScene("goodbye.fxml", MoneyWon.endMoney(),s1,event);
         }
-
         else{
             displayNextScene("continue.fxml", "", "",event);
         }
@@ -75,13 +77,13 @@ public class MainApp extends Application {
         displayNextScene("questions.fxml", "AskTheAudience", "", event);
     }
     public void displayNextScene(String fxmlName, String opt, String opt2, ActionEvent event) throws IOException{
-        loader = new FXMLLoader(getClass().getResource(fxmlName));
+        loader = new FXMLLoader(getClass().getResource("Scenes/"+fxmlName));
         root = loader.load();
 
         Controller controller = loader.getController();
         controller.setLayout(opt, opt2);
 
-        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         scene.getStylesheets().add(css);
         stage.setScene(scene);

@@ -1,14 +1,14 @@
-package whoWantsTBAM;
+package whoWantsTBAM.GameLogic;
 
 import java.util.*;
 
 public class Question {
+
+    public static final String[] abcd = {"A","B","C","D"};
     public String question;
     private final String properAnswer;
-    private String properABCD;
-    public static final String[] abcd = {"A","B","C","D"};
     public String[][] options = new String[4][2];
-    private static final Set<Question> questionSet = new LinkedHashSet<>();
+    private String properABCD;
 
     public Question(String question, String[] wrongAnswers, String properAnswer){
 
@@ -31,18 +31,6 @@ public class Question {
             this.options[j] = new String[]{abcd[j], randAnswers[j]};
             if(Objects.equals(randAnswers[j], properAnswer)) this.properABCD = abcd[j];
         }
-    }
-
-    public static void addQuestion(Question question) {
-        questionSet.add(question);
-    }
-
-    public static Iterator <Question> getQuestionIterator() {
-        return questionSet.iterator();
-    }
-
-    public String[][] getOptions() {
-        return this.options;
     }
 
     public String getProperAnswer(){

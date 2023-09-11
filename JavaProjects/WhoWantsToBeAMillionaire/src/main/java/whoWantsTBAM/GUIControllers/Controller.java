@@ -1,4 +1,4 @@
-package whoWantsTBAM;
+package whoWantsTBAM.GUIControllers;
 
 public interface Controller {
 

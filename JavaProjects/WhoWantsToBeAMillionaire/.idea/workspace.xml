@@ -5,13 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3a36d836-a93c-499a-9f5c-c3480996af76" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/GameLogic/Lifeline.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/ContinueController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/ContinueController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/GoodbyeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/GoodbyeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/AskTheAudience.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/GameLogic/AskTheAudience.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/ContinueController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/GUIControllers/ContinueController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/GUIControllers/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/FiftyFifty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/GameLogic/FiftyFifty.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/GoodbyeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/GUIControllers/GoodbyeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/Lifeline.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/MainApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/MainApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/QuestionsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/QuestionsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/SetupController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/SetupController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/icon.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/icon.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/MoneyWon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/GameLogic/MoneyWon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/Question.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/GameLogic/Question.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/Questions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/GameLogic/QuestionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/QuestionsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/GUIControllers/QuestionsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/SetupController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/GUIControllers/SetupController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/whoWantsTBAM/continue.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/whoWantsTBAM/Scenes/continue.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/whoWantsTBAM/goodbye.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/whoWantsTBAM/Scenes/goodbye.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/whoWantsTBAM/icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/whoWantsTBAM/questions.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/whoWantsTBAM/Scenes/questions.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/whoWantsTBAM/setup.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/whoWantsTBAM/Scenes/setup.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +66,8 @@
     "last_opened_file_path": "C:/Users/micha/Desktop/Python_/michalzajac8338.github.io/JavaProjects/WhoWantsToBeAMillionaire/src/main/resources/whoWantsTBAM",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0"
+    "project.structure.side.proportion": "0.0",
+    "run.code.analysis.last.selected.profile": "pProject Default"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -62,11 +78,11 @@
       <recent name="C:\Users\micha\Desktop\JavaProjects\creatingUsername\src\main\resources\com\example\creatingusername" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\micha\Desktop\Python_\michalzajac8338.github.io\JavaProjects\WhoWantsToBeAMillionaire\src" />
-      <recent name="C:\Users\micha\Desktop\JavaProjects\WhoWantsToBeAMillionaire\target\classes\whoWantsTBAM" />
-      <recent name="C:\Users\micha\Desktop\JavaProjects\WhoWantsToBeAMillionaire\src\main\java\whoWantsTBAM" />
-      <recent name="C:\Users\micha\Desktop\JavaProjects\WhoWantsToBeAMillionaire\src\main\java" />
-      <recent name="C:\Users\micha\Desktop\JavaProjects\WhoWantsToBeAMillionaire\src\main\resources" />
+      <recent name="C:\Users\micha\Desktop\Python_\michalzajac8338.github.io\JavaProjects\WhoWantsToBeAMillionaire\target\classes\whoWantsTBAM" />
+      <recent name="C:\Users\micha\Desktop\Python_\michalzajac8338.github.io\JavaProjects\WhoWantsToBeAMillionaire\src\main\resources" />
+      <recent name="C:\Users\micha\Desktop\Python_\michalzajac8338.github.io\JavaProjects\WhoWantsToBeAMillionaire\src\main\resources\whoWantsTBAM\Scenes" />
+      <recent name="C:\Users\micha\Desktop\Python_\michalzajac8338.github.io\JavaProjects\WhoWantsToBeAMillionaire\target\classes\whoWantsTBAM\Scenes" />
+      <recent name="C:\Users\micha\Desktop\Python_\michalzajac8338.github.io\JavaProjects\WhoWantsToBeAMillionaire\target\classes\whoWantsTBAM\GUIControllers" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="whoWantsTBAM" />

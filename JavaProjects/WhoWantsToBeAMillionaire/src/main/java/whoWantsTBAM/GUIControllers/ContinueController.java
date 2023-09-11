@@ -1,4 +1,4 @@
-package whoWantsTBAM;
+package whoWantsTBAM.GUIControllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -6,9 +6,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
-import whoWantsTBAM.Controller;
+import whoWantsTBAM.GameLogic.MoneyWon;
 import whoWantsTBAM.MainApp;
-import whoWantsTBAM.MoneyWon;
 
 import java.io.IOException;
 
