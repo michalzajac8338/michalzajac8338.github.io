@@ -1,0 +1,48 @@
+*{
+    -fx-font-family: "Lucida Console";
+    -fx-text-fill: "white";
+}
+
+.label{
+    -fx-font-size: 20;
+}
+
+.text-field {
+    -fx-text-fill: "purple";
+    -fx-border-width: 2;
+    -fx-border-radius: 4;
+    -fx-border-color: "white";
+}
+
+.text-area .content {
+    -fx-background-color: "darkblue" ;
+    -fx-border-color: "darkblue" ;
+}
+
+.root{
+    -fx-background-color: "darkblue";
+}
+
+
+.radio-button .radio {
+    -fx-border-width: 2;
+    -fx-border-color: "purple";
+    -fx-background-color: "white";
+    -fx-border-radius: 15;
+}
+
+#submit{
+    -fx-font-size: 15;
+    -fx-background-color: "purple";
+    -fx-border-width: 2;
+    -fx-border-radius: 4;
+    -fx-border-color: "white";
+}
+
+#enterName{
+    -fx-font-size: 12;
+}
+
+#label1{
+    -fx-font-size: 25;
+}

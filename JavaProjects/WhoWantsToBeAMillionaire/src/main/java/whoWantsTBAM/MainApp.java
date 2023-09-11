@@ -18,7 +18,7 @@ import java.util.Objects;
 import static whoWantsTBAM.GameLogic.QuestionHandler.currentQuestion;
 
 public class MainApp extends Application {
-    public static final String css = Objects.requireNonNull(MainApp.class.getResource("appStyle.css")).toExternalForm();
+    public static final String css = Objects.requireNonNull(MainApp.class.getResource("/appStyle.css")).toExternalForm();
     public static String name;
     public static String ans = null;
 
@@ -35,7 +35,7 @@ public class MainApp extends Application {
         QuestionHandler.createQuestionSet();
 
         q.askQuestion();
-        stage.getIcons().add(new Image(String.valueOf(getClass().getResource("icon.png"))));
+        stage.getIcons().add(new Image(String.valueOf(getClass().getResource("/icon.png"))));
 
         loader = new FXMLLoader(getClass().getResource("Scenes/setup.fxml"));
         root = loader.load();
