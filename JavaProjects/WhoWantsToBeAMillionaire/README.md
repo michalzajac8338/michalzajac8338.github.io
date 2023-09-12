@@ -4,6 +4,7 @@ This is my custom project of a popular TV show. Project isn't yet finished, but 
 
 The aim of the project is to demonstrate understanding of issues:
 * simple JavaFX implementation,
+* testing with JUnit (given/when/then, paramterized Tests, tests with Mockito),
 * classes, interfaces,
 * collections, access restrictions etc.
 
