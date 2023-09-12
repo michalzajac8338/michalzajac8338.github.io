@@ -27,6 +27,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="DEPENDENCY_CHECKER_PROBLEMS_TAB" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
 }</component>
@@ -83,20 +86,7 @@
       <recent name="com.example.creatingusername" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.MoneyWonTest">
-    <configuration name="MainApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="whoWantsTBAM.MainApp" />
-      <module name="WWTBAM" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="whoWantsTBAM.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="JUnit.java in WWTBAM">
     <configuration name="MoneyWonTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="WWTBAM" />
       <extension name="coverage">
@@ -160,6 +150,14 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="java in WWTBAM" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="WWTBAM" />
+      <option name="TEST_OBJECT" value="directory" />
+      <dir value="$PROJECT_DIR$/src/test/java" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="JetRunConfigurationType">
       <module name="WhoWantsToBeAMillionaire" />
       <method v="2">
@@ -175,11 +173,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.java in WWTBAM" />
         <item itemvalue="JUnit.MoneyWonTest" />
         <item itemvalue="JUnit.MoneyWonTest.resigned_AtDifferentPoints" />
         <item itemvalue="JUnit.MoneyWonTest.endMoney_failsWithIndexOutOfZeroToTwelve" />
         <item itemvalue="JUnit.MoneyWonTest.endMoney_lostAt50000SafetyNet" />
-        <item itemvalue="Application.MainApp" />
       </list>
     </recent_temporary>
   </component>
