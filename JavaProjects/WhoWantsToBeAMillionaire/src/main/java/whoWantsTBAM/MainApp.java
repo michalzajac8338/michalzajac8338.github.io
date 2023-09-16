@@ -11,6 +11,8 @@ import javafx.stage.Stage;
 import whoWantsTBAM.GUIControllers.Controller;
 import whoWantsTBAM.GameLogic.MoneyWon;
 import whoWantsTBAM.GameLogic.QuestionHandler;
+import whoWantsTBAM.model.Player;
+import whoWantsTBAM.service.WWTBAMService;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -18,19 +20,22 @@ import java.util.Objects;
 import static whoWantsTBAM.GameLogic.QuestionHandler.currentQuestion;
 
 public class MainApp extends Application {
+    public static Player player;
     public static final String css = Objects.requireNonNull(MainApp.class.getResource("/appStyle.css")).toExternalForm();
     public static String name;
     public static String ans = null;
-
     private Parent root;
     private FXMLLoader loader;
     private Scene scene;
-
     private final QuestionHandler q = new QuestionHandler();
 
 
     @Override
     public void start(Stage stage) throws IOException {
+//        WWTBAMService.loadDriver();
+//        WWTBAMService.testDatabaseConnection();
+//        WWTBAMService.createTable();
+//        WWTBAMService.resetDatabase();
 
         QuestionHandler.createQuestionSet();
 
@@ -52,6 +57,8 @@ public class MainApp extends Application {
 
         if(MoneyWon.index==12 || !didOk){
             String s1 = MoneyWon.index==12 ? "CONGRATULATIONS" : "The proper answer was: "+currentQuestion.getProperABCD() + ": " + currentQuestion.getProperAnswer();
+            player.setResult();
+            WWTBAMService.saveResult(player);
             displayNextScene("goodbye.fxml", MoneyWon.endMoney(),s1,event);
         }
         else{
@@ -66,6 +73,8 @@ public class MainApp extends Application {
             displayNextScene("questions.fxml", "Normal", "", event);
         }
         else {
+            player.setResult();
+            WWTBAMService.saveResult(player);
             displayNextScene("goodbye.fxml", MoneyWon.resigned(), "Sometimes it's good to give up",event);
         }
     }
@@ -89,6 +98,7 @@ public class MainApp extends Application {
         stage.setScene(scene);
         stage.show();
     }
+
 
     public static void main (String[]args){
         launch();

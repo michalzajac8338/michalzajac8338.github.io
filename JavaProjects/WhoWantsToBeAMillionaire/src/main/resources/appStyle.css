@@ -14,6 +14,26 @@
     -fx-border-color: "white";
 }
 
+.table-view {
+    -fx-background-color: transparent;
+}
+.table-view .table-cell{
+    -fx-border-color: transparent;
+
+}
+
+.table-view .column-header {
+    -fx-background-color: "purple";
+}
+
+.table-row-cell: odd{
+    -fx-background-color: "purple";
+}
+.table-row-cell: even{
+    -fx-background-color: "darkblue";
+
+}
+
 .text-area .content {
     -fx-background-color: "darkblue" ;
     -fx-border-color: "darkblue" ;

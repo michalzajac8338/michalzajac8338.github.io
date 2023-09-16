@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import whoWantsTBAM.MainApp;
+import whoWantsTBAM.model.Player;
 
 import java.io.IOException;
 
@@ -23,6 +24,7 @@ public class SetupController {
     @FXML
     protected void submit(ActionEvent event) throws IOException {
         MainApp.name = String.valueOf(textField.getText());
+        MainApp.player = new Player(MainApp.name);
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/whoWantsTBAM/Scenes/questions.fxml"));
         Parent root = loader.load();

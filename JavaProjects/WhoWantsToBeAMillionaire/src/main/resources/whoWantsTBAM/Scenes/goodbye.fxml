@@ -6,23 +6,35 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0" prefWidth="1073.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="whoWantsTBAM.GUIControllers.GoodbyeController">
    <children>
-      <Label fx:id="label1" alignment="CENTER" contentDisplay="TOP" layoutX="52.0" layoutY="58.0" prefHeight="96.0" prefWidth="969.0" text="nice name">
+      <Label fx:id="label1" alignment="CENTER" contentDisplay="TOP" layoutX="50.0" layoutY="6.0" prefHeight="64.0" prefWidth="970.0" text="1">
          <font>
             <Font name="Arial Italic" size="23.0" />
          </font>
       </Label>
-      <Button fx:id="submit" layoutX="476.0" layoutY="449.0" mnemonicParsing="false" onAction="#submitAnswer" prefHeight="64.0" prefWidth="124.0" text="Thank You">
+      <Button fx:id="submit" layoutX="473.0" layoutY="545.0" mnemonicParsing="false" onAction="#submitAnswer" prefHeight="64.0" prefWidth="124.0" text="Thank You">
          <font>
             <Font size="24.0" />
          </font></Button>
-      <Label fx:id="label2" alignment="CENTER" contentDisplay="TOP" layoutX="52.0" layoutY="199.0" prefHeight="96.0" prefWidth="969.0" text="you have won">
+      <Label fx:id="label2" alignment="CENTER" contentDisplay="TOP" layoutX="52.0" layoutY="53.0" prefHeight="96.0" prefWidth="969.0" text="2">
          <font>
             <Font name="Arial Italic" size="23.0" />
          </font>
       </Label>
-      <Label fx:id="label3" alignment="CENTER" contentDisplay="TOP" layoutX="52.0" layoutY="319.0" prefHeight="96.0" prefWidth="969.0" text="you have won">
+      <Label fx:id="label3" alignment="CENTER" contentDisplay="TOP" layoutX="52.0" layoutY="118.0" prefHeight="96.0" prefWidth="969.0" text="3">
          <font>
             <Font name="Arial Italic" size="23.0" />
+         </font>
+      </Label>
+      <TableView id="tableview" fx:id="tableview" layoutX="146.0" layoutY="259.0" prefHeight="278.0" prefWidth="782.0">
+        <columns>
+          <TableColumn fx:id="column1" prefWidth="115.00003051757812" text="place" />
+          <TableColumn fx:id="column2" prefWidth="346.4000244140625" sortType="DESCENDING" text="name" />
+            <TableColumn fx:id="column3" prefWidth="318.3999877929688" text="result" />
+        </columns>
+      </TableView>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="293.0" layoutY="203.0" prefHeight="52.0" prefWidth="487.0" text="TOP SCORES">
+         <font>
+            <Font size="15.0" />
          </font>
       </Label>
    </children>
