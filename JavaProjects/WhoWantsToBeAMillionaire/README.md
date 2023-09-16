@@ -12,4 +12,4 @@ The logic of the game show Who Wants To Be A Millionaire was applied to it.
 
 Gameplay:
 
-https://github.com/michalzajac8338/michalzajac8338.github.io/assets/140641623/ed34418d-c75c-43d0-a747-4f707434766c
+https://github.com/michalzajac8338/michalzajac8338.github.io/assets/140641623/5e2b03a3-8221-4104-b5b6-c7244827a4bf
