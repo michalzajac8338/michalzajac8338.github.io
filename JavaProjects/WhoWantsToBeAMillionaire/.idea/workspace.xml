@@ -6,15 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="3a36d836-a93c-499a-9f5c-c3480996af76" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WWTBAM-1.0-SNAPSHOT.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/GUIControllers/GoodbyeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/GUIControllers/GoodbyeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/GUIControllers/SetupController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/GUIControllers/SetupController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/MainApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/whoWantsTBAM/MainApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/appStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/appStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/whoWantsTBAM/Scenes/goodbye.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/whoWantsTBAM/Scenes/goodbye.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/TOPTEN.db" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/TOPTEN.db" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,7 +88,7 @@
       <recent name="com.example.creatingusername" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.java in WWTBAM">
+  <component name="RunManager">
     <configuration name="MoneyWonTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="WWTBAM" />
       <extension name="coverage">
