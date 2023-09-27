@@ -1,4 +1,4 @@
-package com.project1.springbootrestfulwebservices.entity;
+package com.michal.todo.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,15 +11,17 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "todos")
+public class Todo {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
-    private String firstName;
+    private String title;
+
     @Column(nullable = false)
-    private String lastName;
-    @Column(nullable = false, unique = true)
-    private String email;
+    private String description;
+    private boolean completed;
 }
