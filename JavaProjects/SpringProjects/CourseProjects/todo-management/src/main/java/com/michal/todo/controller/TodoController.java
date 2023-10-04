@@ -33,7 +33,7 @@ public class TodoController {
         TodoDto todoDto = todoService.getTodo(id);
         return new ResponseEntity<>(todoDto, HttpStatus.OK);
     }
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+//    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @GetMapping
     public ResponseEntity<List<TodoDto>> getAll(){
         List<TodoDto> todoDtoList = todoService.getAllTodos();
