@@ -5,7 +5,7 @@ import com.michal.socialnetworkingsite.dto.PostDto;
 import java.util.List;
 
 public interface PostService {
-    void savePost(PostDto postDto);
+    PostDto savePost(PostDto postDto);
 
     List<PostDto> getAllPosts();
 }

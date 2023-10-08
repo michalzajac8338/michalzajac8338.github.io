@@ -1,20 +1,16 @@
 package com.michal.socialnetworkingsite.controller;
 
 import com.michal.socialnetworkingsite.dto.PostDto;
+import com.michal.socialnetworkingsite.dto.PostLikeDto;
 import com.michal.socialnetworkingsite.dto.UserDto;
-import com.michal.socialnetworkingsite.entity.User;
-import com.michal.socialnetworkingsite.repository.UserRepository;
+import com.michal.socialnetworkingsite.service.PostLikeService;
 import com.michal.socialnetworkingsite.service.PostService;
-import com.michal.socialnetworkingsite.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,18 +19,16 @@ import java.util.List;
 @AllArgsConstructor
 public class PostController {
 
-    private UserService userService;
     private PostService postService;
+    private PostLikeService postLikeService;
 
     @GetMapping
     public String news(Model model){
 
         PostDto postDto = new PostDto();
-        UserDto userDto = new UserDto();
 
         List<PostDto> posts = postService.getAllPosts();
 
-        model.addAttribute("user", userDto);
         model.addAttribute("post", postDto);
         model.addAttribute("posts", posts);
 
@@ -42,18 +36,24 @@ public class PostController {
     }
 
     @PostMapping("/post")
-    public String postAPost(@ModelAttribute("post") PostDto postDto,
-                            Model model){
+    public String postAPost(@ModelAttribute("post") PostDto postDto){
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.getCurrentUser(auth.getName());
-        postDto.setCreator(user);
-
-        postService.savePost(postDto);
-
-        model.addAttribute("post", postDto);
+        postDto.setCreator((SecurityContextHolder.getContext().getAuthentication().getName()));
+        PostDto savedPost = postService.savePost(postDto);
 
         return "redirect:/Z/news?success";
+    }
+
+    @PostMapping("/like/{likeId}")
+    public String likeAPost(@PathVariable Long likeId){
+
+        PostLikeDto postLikeDto = new PostLikeDto();
+        postLikeDto.setUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        postLikeDto.setPostId(likeId);
+
+        postLikeService.savePostLike(postLikeDto);
+
+        return "redirect:/Z/news";
     }
 
 

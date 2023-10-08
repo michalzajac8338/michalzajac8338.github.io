@@ -26,10 +26,4 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    @Override
-    public User getCurrentUser(String name) {
-
-        User user = userRepository.findByUsername(name);
-        return user;
-    }
 }

@@ -11,6 +11,20 @@
 
 <div th:replace="~{common/navbar::navbar}">Navbar Error</div>
 
+<div class="container">
+
+    <div class="row">
+        <div class="col">
+            <div th:if="${param.logout}">
+                <div class="col-md-8 offset-md-2 text-success">You've been logged out successfully</div>
+            </div>
+            <div th:if="${param.registered_successfully}">
+                <div class="col-md-8 offset-md-2 text-success">You've been regitered successfully</div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="card-header">Login</div>
 <div class="card-body">
     <form method="post" th:action="@{/Z/login}" th:object="${user}">

@@ -5,6 +5,4 @@ import com.michal.socialnetworkingsite.entity.User;
 
 public interface UserService {
     UserDto save(UserDto userDto);
-
-    User getCurrentUser(String name);
 }

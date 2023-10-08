@@ -1,6 +1,7 @@
 package com.michal.socialnetworkingsite.dto;
 
 import com.michal.socialnetworkingsite.entity.Comment;
+import com.michal.socialnetworkingsite.entity.Post;
 import com.michal.socialnetworkingsite.entity.PostLike;
 import com.michal.socialnetworkingsite.entity.User;
 import jakarta.persistence.*;
@@ -20,9 +21,10 @@ import java.util.List;
 @AllArgsConstructor
 public class PostDto {
 
+    private Long id;
     private String content;
-    private User creator;
+    private String creator;
     private List<Comment> comments;
-    private List<PostLike> likes;
+    private List<PostLikeDto> likes;
 
 }

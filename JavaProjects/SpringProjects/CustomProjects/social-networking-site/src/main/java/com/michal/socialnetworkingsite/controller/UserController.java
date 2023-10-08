@@ -41,13 +41,11 @@ public class UserController {
     }
 
     @PostMapping("/register/save")
-    public String registerUser(@ModelAttribute("user") UserDto userDto,
-                               Model model){
+    public String registerUser(@ModelAttribute("user") UserDto userDto){
 
-        model.addAttribute("user", userDto);
         userService.save(userDto);
 
-        return "redirect:/Z/news";
+        return "redirect:/Z/login?registered_successfully";
     }
 
 
