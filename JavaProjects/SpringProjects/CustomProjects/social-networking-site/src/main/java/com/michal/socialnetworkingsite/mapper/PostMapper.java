@@ -8,28 +8,39 @@ import com.michal.socialnetworkingsite.entity.User;
 import com.michal.socialnetworkingsite.service.UserService;
 import lombok.AllArgsConstructor;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class PostMapper {
 
-    public static Post mapToPost(PostDto postDto, User user, List<PostLike> postLikes){
+    public static Post mapToPost(PostDto postDto, User user){
         Post post = new Post();
         post.setContent(postDto.getContent());
         post.setCreator(user);
-        post.setComments(postDto.getComments());
-        post.setLikes(postLikes);
 
         return post;
 
     }
 
-    public static PostDto mapToPostDto(Post post, String username, List<PostLikeDto> postLikesDto){
+    public static PostDto mapToPostDto(Post post, String username){
         PostDto postDto = new PostDto();
         postDto.setId(post.getId());
         postDto.setContent(post.getContent());
-        postDto.setComments(post.getComments());
-        postDto.setLikes(postLikesDto);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime dateTime = post.getLastUpdated();
+        postDto.setCreated(dateTime.format(formatter));
+
+        postDto.setComments(post.getComments().stream().map(
+                comment -> CommentMapper.mapToCommentDto(comment, comment.getCreator().getUsername())).toList());
+
+        postDto.setLikes(post.getLikes().stream().map(
+                postLike -> PostLikeMapper.mapToPostLikeDto(
+                        postLike.getCreator().getUsername())).toList());
+
         postDto.setCreator(username);
+
 
         return postDto;}
 }

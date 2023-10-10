@@ -23,6 +23,8 @@ public class UserMapper {
         userDto.setEmail(user.getEmail());
         userDto.setPassword(user.getPassword());
         userDto.setUsername(user.getUsername());
+        userDto.setFollowing(user.getFollowing().stream().map(User::getId).toList());
+        userDto.setFollowers(user.getFollowers().stream().map(User::getId).toList());
 
         return userDto;
     }

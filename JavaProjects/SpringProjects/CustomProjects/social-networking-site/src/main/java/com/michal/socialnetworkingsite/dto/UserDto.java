@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,5 +19,7 @@ public class UserDto {
     private String email;
     private String username;
     private String password;
+    private List<Long> following;
+    private List<Long> followers;
 
 }

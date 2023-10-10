@@ -37,7 +37,7 @@ public class SpringSecurity {
 
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(a->{
-                    a.requestMatchers(HttpMethod.GET, "/Z/news").authenticated();
+//                    a.requestMatchers(HttpMethod.GET, "/Z/news").authenticated();
                     a.anyRequest().permitAll();}
                 )
 //                    a.requestMatchers(HttpMethod.GET, "/Z/home").permitAll();

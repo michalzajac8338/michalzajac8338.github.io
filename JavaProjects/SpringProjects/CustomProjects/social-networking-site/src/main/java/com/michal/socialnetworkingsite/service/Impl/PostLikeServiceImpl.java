@@ -22,13 +22,8 @@ public class PostLikeServiceImpl implements PostLikeService {
     UserRepository userRepository;
 
     @Override
-    public PostLikeDto findByPostId(Long id) {
-        return null;
-    }
-
-    @Override
     @Transactional
-    public PostLikeDto savePostLike(PostLikeDto postLikeDto) {
+    public void savePostLike(PostLikeDto postLikeDto) {
 
         User user = userRepository.findByUsername(postLikeDto.getUsername());
         Post post = postRepository.findById(postLikeDto.getPostId()).get();
@@ -39,16 +34,10 @@ public class PostLikeServiceImpl implements PostLikeService {
 
             postLikeRepository.delete(postLikeCheck);
 
-            return null;
-
         } else {
 
             PostLike postLike = PostLikeMapper.mapToPostLike(post, user);
-            PostLike savedPostLike = postLikeRepository.save(postLike);
-            PostLikeDto savedPostLikeDto = PostLikeMapper.mapToPostLikeDto(user.getUsername());
-
-            return savedPostLikeDto;
+            postLikeRepository.save(postLike);
         }
-
     }
 }

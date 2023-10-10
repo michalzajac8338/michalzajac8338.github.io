@@ -1,6 +1,5 @@
 package com.michal.socialnetworkingsite.mapper;
 
-import com.michal.socialnetworkingsite.dto.PostDto;
 import com.michal.socialnetworkingsite.dto.PostLikeDto;
 import com.michal.socialnetworkingsite.entity.Post;
 import com.michal.socialnetworkingsite.entity.PostLike;
@@ -21,7 +20,6 @@ public class PostLikeMapper {
 
         PostLikeDto postLikeDto = new PostLikeDto();
         postLikeDto.setUsername(username);
-//        postLikeDto.setPostId(postId);
 
         return postLikeDto;
     }

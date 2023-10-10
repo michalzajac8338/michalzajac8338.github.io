@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -46,4 +47,17 @@ public class User {
     private List<CommentLike> likedComments;
     @OneToMany(mappedBy = "creator")
     private List<PostLike> likedPosts;
+
+
+
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "following")
+    private List<User> followers = new ArrayList<>();
+
+    @JoinTable(name = "followers",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "follower_id")})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<User> following = new ArrayList<>();
+
 }

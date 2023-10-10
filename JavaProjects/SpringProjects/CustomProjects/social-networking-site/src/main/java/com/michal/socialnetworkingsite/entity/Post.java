@@ -30,7 +30,7 @@ public class Post {
 
 
     @ManyToOne
-    @JoinColumn(name="user_id")//, referencedColumnName = "id")
+    @JoinColumn(name="user_id")
     private User creator;
     @OneToMany(mappedBy = "post")
     private List<Comment> comments;

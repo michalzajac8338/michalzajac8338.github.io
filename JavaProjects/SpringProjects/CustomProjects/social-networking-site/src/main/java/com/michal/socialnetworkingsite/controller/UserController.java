@@ -3,12 +3,10 @@ package com.michal.socialnetworkingsite.controller;
 import com.michal.socialnetworkingsite.dto.UserDto;
 import com.michal.socialnetworkingsite.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("Z")
@@ -46,6 +44,16 @@ public class UserController {
         userService.save(userDto);
 
         return "redirect:/Z/login?registered_successfully";
+    }
+
+    @PostMapping("/follow/{username}")
+    public String follow(@PathVariable String username){
+
+        String currentUserName = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        userService.followOrUnfollowUser(currentUserName, username);
+        return "redirect:/Z/news";
+
     }
 
 

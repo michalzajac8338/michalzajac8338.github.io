@@ -5,7 +5,5 @@ import com.michal.socialnetworkingsite.entity.PostLike;
 
 public interface PostLikeService {
 
-    PostLikeDto findByPostId(Long id);
-
-    PostLikeDto savePostLike(PostLikeDto postLikeDto);
+    void savePostLike(PostLikeDto postLikeDto);
 }

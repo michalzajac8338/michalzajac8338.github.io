@@ -8,4 +8,11 @@ public interface PostService {
     PostDto savePost(PostDto postDto);
 
     List<PostDto> getAllPosts();
+
+    PostDto getCurrentPost(Long postId);
+
+    void updatePost(PostDto currentPost);
+
+    List<PostDto> getFollowingPosts(String currentUsername);
+
 }

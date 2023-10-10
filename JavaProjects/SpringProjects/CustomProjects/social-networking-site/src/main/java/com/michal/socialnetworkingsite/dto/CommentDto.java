@@ -1,6 +1,5 @@
 package com.michal.socialnetworkingsite.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,13 +12,12 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostDto {
+public class CommentDto {
 
     private Long id;
     private String content;
-    private String creator;
-    private String created;
-    private List<CommentDto> comments;
-    private List<PostLikeDto> likes;
+    private String lastUpdated;
+    private String username;
+    private List<CommentLikeDto> likes;
 
 }
