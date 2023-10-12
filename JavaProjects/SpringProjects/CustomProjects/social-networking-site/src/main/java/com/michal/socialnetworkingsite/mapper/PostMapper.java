@@ -30,7 +30,7 @@ public class PostMapper {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime dateTime = post.getLastUpdated();
-        postDto.setCreated(dateTime.format(formatter));
+        postDto.setLastUpdated(dateTime.format(formatter));
 
         postDto.setComments(post.getComments().stream().map(
                 comment -> CommentMapper.mapToCommentDto(comment, comment.getCreator().getUsername())).toList());

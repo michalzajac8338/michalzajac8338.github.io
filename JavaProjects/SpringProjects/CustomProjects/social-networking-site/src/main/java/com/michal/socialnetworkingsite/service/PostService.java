@@ -15,4 +15,5 @@ public interface PostService {
 
     List<PostDto> getFollowingPosts(String currentUsername);
 
+    List<PostDto> getRelatedPosts(Long userId);
 }

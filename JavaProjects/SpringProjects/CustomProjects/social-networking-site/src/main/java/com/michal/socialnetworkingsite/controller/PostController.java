@@ -20,7 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 public class PostController {
 
-private UserService userService;
+    private UserService userService;
     private PostService postService;
     private PostLikeService postLikeService;
 
@@ -31,7 +31,8 @@ private UserService userService;
         model.addAttribute("post", postDto);
 
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        model.addAttribute("currentUsername", currentUsername);
+        UserDto currentUser = userService.getCurrentUser(currentUsername);
+        model.addAttribute("currentUser", currentUser);
 
 //        List<PostDto> posts = postService.getAllPosts();
         List<PostDto> followingPosts = postService.getFollowingPosts(currentUsername);
@@ -47,12 +48,10 @@ private UserService userService;
     public String postAPost(@ModelAttribute("post") PostDto postDto){
 
         postDto.setCreator((SecurityContextHolder.getContext().getAuthentication().getName()));
-        PostDto savedPost = postService.savePost(postDto);
+        postService.savePost(postDto);
 
         return "redirect:/Z/news?success";
     }
-
-
 
     @PostMapping("/like/{postId}")
     public String likeAPost(@PathVariable Long postId){
@@ -66,6 +65,9 @@ private UserService userService;
         return "redirect:/Z/news";
     }
 
+    @PostMapping("/singlePost/{postId}")
+    public String comment(@PathVariable Long postId){
 
-
+        return "redirect:/Z/news/singlePost?postId={postId}";
+    }
 }

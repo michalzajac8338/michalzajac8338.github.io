@@ -15,10 +15,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -69,24 +66,34 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional
     public List<PostDto> getFollowingPosts(String currentUsername) {
 
         User currentUser = userRepository.findByUsername(currentUsername);
-        List<User> followingUsers = currentUser.getFollowing()
-                .stream().peek(System.out::println).toList();
-//        List<UserDto> followingUsers = currentUser.getFollowing().stream().map(
-//                UserMapper::mapToUserDto
-//        ).peek(System.out::println).toList();
+        List<User> followingUsers = new ArrayList<>(currentUser.getFollowing());
 
-        System.out.println("EMPTYYYYYYYYYYYYYYYYYY");
+        followingUsers.add(currentUser);
 
         List<PostDto> followingPosts = followingUsers.stream().map(
-                author -> postRepository.findByCreatorUsername(author.getUsername()).stream().peek(System.out::println).map(
-                                p->PostMapper.mapToPostDto(p, p.getCreator().getUsername())).toList()).flatMap(Collection::stream).peek(System.out::println).toList();
-
-//        followingPosts.sort(Comparator.comparing(PostDto::getCreated));
+                author -> postRepository.findByCreatorUsername(author.getUsername()).stream()
+                        .map(p->PostMapper.mapToPostDto(p, p.getCreator().getUsername())).toList()).flatMap(Collection::stream).sorted(Comparator.comparing(PostDto::getLastUpdated))
+        .toList().reversed();
 
         return followingPosts;
 
+    }
+
+    @Override
+    public List<PostDto> getRelatedPosts(Long userId) {
+
+        User currentUser = userRepository.findById(userId).get();
+
+        List<PostDto> followingPosts = currentUser.getPosts()
+                .stream().map(
+                        p->PostMapper.mapToPostDto(p, p.getCreator().getUsername()))
+                .sorted(Comparator.comparing(PostDto::getLastUpdated)).toList()
+                .reversed();
+
+        return followingPosts;
     }
 }

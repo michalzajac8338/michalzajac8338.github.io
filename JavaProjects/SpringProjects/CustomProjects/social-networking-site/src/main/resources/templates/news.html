@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Z</title>
@@ -11,92 +11,135 @@
 
 <div th:replace="~{common/navbar::navbar}">Navbar Error</div>
 
-<div class="container">
+<div class="container-fluid">
+
+    <div th:if="${param.success}" class="row">
+        <div class="col-md-8 offset-md-2 text-success text-center">Your post has been saved successfully</div>
+    </div>
+
 
     <div class="row">
 
+        <div class="col-md-2 offset-md-1 text-center"><h1>Your profile</h1>
+            <br />
+            <h1 class="card-header text-center" th:text="${currentUser.username}"><strong></strong></h1>
+            <div class="card-body">
 
-        <div class="col-md-8 offset-md-2">
-            <div class="row">
-                <div class="col">
-                    <div th:if="${param.success}">
-                        <div class="col-md-8 offset-md-2 text-success">Your post has been saved successfully</div>
-                    </div>
+                <div class="card-text">First name:
+                    <span class="card-text" th:text="${currentUser.firstName}"></span>
                 </div>
-            </div>
 
-            <div class="col">
-                <form method="post" th:action="@{/Z/news/post}" th:object="${post}">
-                    <div class="card-header">
-                        <h3>What's on Your mind?</h3>
-                    </div>
-                    <div class="card-body">
-                        <textarea rows="10" cols="80" th:field="*{content}"></textarea>
-                        <button class="btn btn-primary" type="submit">Submit Your Thoughts</button>
-                    </div>
+                <div class="card-text">Last name:
+                    <span class="card-text" th:text="${currentUser.lastName}"></span>
+                </div>
+
+                <div class="card-text">Email:
+                    <span class="card-text" th:text="${currentUser.email}"></span>
+                </div>
+                <br />
+
+                <form class="text-center card-text" method="post" th:action="@{/Z/editProfile}">
+                    <button class="btn btn-info" type="submit">Edit Profile</button>
+                </form>
+                <br />
+                <form method="post" th:action="@{/Z/viewProfile/{userId}(userId=${currentUser.id})}">
+                    <button class="btn btn-secondary" type="submit">View Profile</button>
+                </form>
+                <br />
+                <form method="post" th:action="@{/Z/deleteProfile}">
+                    <button class="btn btn-danger" type="submit">Delete Profile</button>
                 </form>
             </div>
+        </div>
 
-            <div class="container row col-md-8 offset-md-2">
-                <!--        <div class="row">-->
-                <!--            <div class="col-md-4">-->
-                <div th:each="p:${posts}">
-                    <div class="card-header">
-                        <h2 class="text-center" th:text="${p.creator}"><strong></strong></h2>
-                        <div class="text-center" th:text="${p.created}"></div>
-                        <div th:if="${p.creator}==${currentUsername}">
-                            <form method="post" th:action="@{/Z/news/singlePost/edit/{postId}(postId=${p.id})}">
-                                <button class="btn btn-secondary" type="submit">Edit</button>
-                            </form>
-                        </div>
-                    </div>
+        <div class="col-md-4 offset-md-1">
+            <div class="card-header">
+                <h3>What's on Your mind?</h3>
+            </div>
+            <div class="card-body" >
+                <form method="post" th:action="@{/Z/news/post}" th:object="${post}">
+                    <textarea class="card-text" rows="10" cols="55" th:field="*{content}"></textarea>
+                    <button class="btn btn-primary" type="submit">Submit Your Thoughts</button>
+                </form>
+            </div>
+        </div>
+        <br /> <br /> <br />
+
+
+        <div class="col-md-2 offset-md-1"><h3 class="text-center">List of users</h3><br />
+
+            <div th:each="u:${users}">
+                <div th:if="${u.username}!=${currentUser.username}">
+                    <h2 class="card-header text-center" th:text="${u.username}"><strong></strong></h2>
                     <div class="card-body">
-                        <div class="card-text" th:text="${p.content}"></div>
-                    </div>
+                        <form method="post" th:action="@{/Z/follow/{username}(username=${u.username})}">
+                            <div th:unless="${#lists.contains(currentUser.following, u.id)}">
+                                <button class="btn btn-success float-start" type="submit">Follow</button>
+                            </div>
+                            <div th:if="${#lists.contains(currentUser.following, u.id)}">
+                                <button class="btn btn-success float-start" type="submit">Unfollow</button>
+                            </div>
+                        </form>
 
-                    <div class="row">
-                        <div class="col-md-1">
-                            <form method="post" th:action="@{/Z/news/like/{postId}(postId=${p.id})}">
-                                <button class="btn btn-secondary" type="submit">Like</button>
-                            </form>
-                        </div>
-                        <div class="col-md-2">
-                            <div th:text="${#lists.size(p.likes)}"></div>
-                        </div>
-                    </div>
+                        <form method="post" th:action="@{/Z/viewProfile/{userId}(userId=${u.id})}">
+                            <button class="btn btn-secondary float-end" type="submit">View Profile</button>
+                        </form>
 
-                    <div class="row">
-                        <div class="col-md-2">
-                            <form method="post" th:action="@{/Z/news/singlePost/{postId}(postId=${p.id})}">
-                                <button class="btn btn-secondary" type="submit">Comment</button>
-                            </form>
-                        </div>
-                        <div class="col-md-2">
-                            <div th:text="${#lists.size(p.comments)}"></div>
-                        </div>
+                        <br /><br />
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-2"><h3>List of users</h3>
+        <div class="container row col-md-4 offset-md-4">
 
-        <div th:each="u:${users}">
-                <h2 class="card-header text-center" th:text="${u.username}"><strong></strong></h2>
-                <div class="card-body" th:if="${u.username}!=${currentUsername}">
-                    <form method="post" th:action="@{/Z/follow/{username}(username=${u.username})}">
-                        <button class="btn btn-secondary" type="submit">Follow</button>
-                    </form>
+            <div th:each="p:${posts}">
+                <div class="card-header">
+                    <div th:if="${p.creator}==${currentUser.username}">
+                        <form method="post" th:action="@{/Z/news/singlePost/edit/{postId}(postId=${p.id})}">
+                            <button class="btn btn-primary" type="submit">Edit</button>
+                        </form>
+                    </div>
+                    <h2 class="text-center" th:text="${p.creator}"><strong></strong></h2>
+                    <div class="text-center" th:text="${p.lastUpdated}"></div>
                 </div>
+                <div class="card-body">
+                    <div class="card-text" th:text="${p.content}"></div>
+                </div>
+
+                <div class="clearfix">
+
+                    <!--                        <div class="clearfix">-->
+                    <!--                            <div class="float-start">left align</div>-->
+                    <!--                            <div class="float-end">Right align</div>-->
+                    <!--                        </div>-->
+                    <div class="float-start">
+                        <form method="post" th:action="@{/Z/news/like/{postId}(postId=${p.id})}">
+                            <button class="btn btn-secondary" type="submit">Like :
+                            <span class="card-text" th:text="${#lists.size(p.likes)}"></span>
+                            </button>
+                        </form>
+                    </div>
+
+
+                    <div class="float-end">
+
+                        <form method="post" th:action="@{/Z/news/singlePost/{postId}(postId=${p.id})}">
+                            <button class="btn btn-secondary" type="submit">Comment :
+                                <span class="card-text" th:text="${#lists.size(p.comments)}"></span>
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+                <br /><br /><br />
+
             </div>
         </div>
     </div>
 
 
-
 </div>
-
-
 
 </body>
 </html>

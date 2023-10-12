@@ -5,12 +5,14 @@ import com.michal.socialnetworkingsite.entity.User;
 
 public class UserMapper {
 
-    public static User mapToUser(UserDto userDto){
-        User user = new User();
+    public static User mapToUser(UserDto userDto, User user){
+
+        if(user==null)
+            {user = new User();}
+
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
         user.setUsername(userDto.getUsername());
 
         return user;
@@ -18,10 +20,11 @@ public class UserMapper {
 
     public static UserDto mapToUserDto(User user){
         UserDto userDto = new UserDto();
+        userDto.setId(user.getId());
         userDto.setFirstName(user.getFirstName());
         userDto.setLastName(user.getLastName());
         userDto.setEmail(user.getEmail());
-        userDto.setPassword(user.getPassword());
+//        userDto.setPassword(user.getPassword());
         userDto.setUsername(user.getUsername());
         userDto.setFollowing(user.getFollowing().stream().map(User::getId).toList());
         userDto.setFollowers(user.getFollowers().stream().map(User::getId).toList());

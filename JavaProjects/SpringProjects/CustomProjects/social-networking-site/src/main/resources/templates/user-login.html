@@ -21,6 +21,9 @@
             <div th:if="${param.registered_successfully}">
                 <div class="col-md-8 offset-md-2 text-success">You've been registered successfully</div>
             </div>
+            <div th:if="${param.deletedSuccessfully}">
+                <div class="col-md-8 offset-md-2 text-success">Your profile has been deleted successfully</div>
+            </div>
         </div>
     </div>
 </div>

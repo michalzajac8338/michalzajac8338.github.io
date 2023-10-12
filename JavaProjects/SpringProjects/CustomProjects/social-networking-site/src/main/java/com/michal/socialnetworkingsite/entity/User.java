@@ -39,25 +39,22 @@ public class User {
     private LocalDateTime lastUpdated;
 
 
-    @OneToMany(mappedBy = "creator")
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
     private List<Post> posts;
-    @OneToMany(mappedBy = "creator")
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
     private List<Comment> comments;
-    @OneToMany(mappedBy = "creator")
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
     private List<CommentLike> likedComments;
-    @OneToMany(mappedBy = "creator")
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
     private List<PostLike> likedPosts;
 
-
-
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "following")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "following")
     private List<User> followers = new ArrayList<>();
 
     @JoinTable(name = "followers",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "follower_id")})
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<User> following = new ArrayList<>();
 
 }

@@ -32,9 +32,9 @@ public class Post {
     @ManyToOne
     @JoinColumn(name="user_id")
     private User creator;
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Comment> comments;
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<PostLike> likes;
 
 

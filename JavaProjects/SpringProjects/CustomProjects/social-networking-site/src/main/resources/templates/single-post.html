@@ -17,21 +17,21 @@
         <h1 class="text-center" th:text="${currentPost.creator}"><strong></strong></h1>
         <div class="row">
             <div>On </div>
-        <div class="text-center" th:text="${currentPost.created}"></div>
+            <div class="text-center" th:text="${currentPost.lastUpdated}"></div>
             <div> posted:</div>
         </div>
     </div>
     <div class="card-body">
 
         <div th:unless="${param.edit}">
-        <div class="card-text" th:text="${currentPost.content}"></div>
+            <div class="card-text" th:text="${currentPost.content}"></div>
         </div>
 
         <div th:if="${param.edit}">
             <form method="post" th:action="@{/Z/news/singlePost/submitEdition/{postId}(postId=${currentPost.id})}" th:object="${currentPost}">
                 <div class="card-body">
                     <textarea rows="10" cols="80" th:field="*{content}" th:text="${currentPost.content}"></textarea>
-                    <button class="btn btn-primary" type="submit">Submit Your Thoughts</button>
+                    <button class="btn btn-primary" type="submit">Submit Post Edition</button>
                 </div>
             </form>
         </div>
@@ -43,21 +43,47 @@
                 <div class="text-center" th:text="${c.lastUpdated}"><strong></strong></div>
             </div>
             <div class="card-body">
-                <div class="card-text" th:text="${c.content}"></div>
-
-
                 <div class="row">
+                    <div class="card-text" th:text="${c.content}"></div>
                     <div class="col-md-1">
                         <form method="post" th:action="@{/Z/news/singlePost/{postId}/likeComment/{commentId}(postId=${currentPost.id},commentId=${c.id})}">
                             <button class="btn btn-secondary" type="submit">Like Comment</button>
                         </form>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col offset-md-1">
                         <div th:text="${#lists.size(c.likes)}"></div>
+                    </div>
+
+
+                    <div th:if="${currentUserUsername}==${c.username}">
+                        <div class="col-md-1 offset-md-2" th:unless="${param.editComment}">
+                            <form method="post" th:action="@{/Z/news/singlePost/{postId}/editComment/{commentId}(postId=${currentPost.id},commentId=${c.id})}">
+                                <button class="btn btn-secondary" type="submit">Edit Comment</button>
+                            </form>
+                        </div>
+
+
+
+                        <div class="col-md-1 offset-md-3" th:unless="${param.editComment}">
+                            <form method="post" th:action="@{/Z/news/singlePost/{postId}/deleteComment/{commentId}(postId=${currentPost.id},commentId=${c.id})}">
+                                <button class="btn btn-secondary" type="submit">Delete Comment</button>
+                            </form>
+                        </div>
+
                     </div>
                 </div>
 
+                <div th:if="${param.editComment}">
 
+                    <div th:if="${c.id}==${currentComment.id}">
+
+                        <form method="post" th:action="@{/Z/news/singlePost/submitEdition/{postId}/comment/{commentId}(postId=${currentPost.id},commentId=${c.id})}"
+                              th:object="${currentComment}">
+                            <textarea th:field="*{content}" th:text="*{content}" rows="10" cols="80"></textarea>
+                            <button class="btn btn-secondary" type="submit">Submit comment edition</button>
+                        </form>
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -75,7 +101,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row" th:unless="${param.editComment}">
         <div class="col-md-2">
             <form method="post" th:object="${comment}" th:action="@{/Z/news/singlePost/comment/{postId}(postId=${currentPost.id})}">
                 <textarea th:field="*{content}" rows="10" cols="80"></textarea>
@@ -83,9 +109,9 @@
             </form>
         </div>
 
-<!--        <div class="col-md-2">-->
-<!--            <div th:if="${currentPost.comments}!=null"><div th:text="${#lists.size(currentPost.comments)}"></div></div>-->
-<!--        </div>-->
+        <!--        <div class="col-md-2">-->
+        <!--            <div th:if="${currentPost.comments}!=null"><div th:text="${#lists.size(currentPost.comments)}"></div></div>-->
+        <!--        </div>-->
     </div>
 </div>
 

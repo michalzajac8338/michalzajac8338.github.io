@@ -18,7 +18,7 @@ public class PostDto {
     private Long id;
     private String content;
     private String creator;
-    private String created;
+    private String lastUpdated;
     private List<CommentDto> comments;
     private List<PostLikeDto> likes;
 
