@@ -11,7 +11,7 @@
 
 <div th:replace="~{common/navbar::navbar}">Navbar Error</div>
 
-<div class="container row col-md-8 offset-md-2">
+<div class="container row col-md-6 offset-md-3">
     <div class="card">
         <div class="card-header">
             <h2 class="text-center">Register</h2>
@@ -19,31 +19,25 @@
         <div class="card-body">
             <form method="post" th:object="${user}" th:action="@{/Z/register/save}">
 
-<!--                <div class="form-group mb-3">-->
-<!--                    <label class="form-label">First Name</label>-->
-<!--                    <input class="form-control" id="firstName" name="firstName" placeholder="Enter First Name" type="text" th:field="*{firstName}"/>-->
-<!--                    <p th:if="${#fields.hasErrors('firstName')}" class="text-danger" th:errors="*{firstName}"></p>-->
-<!--                </div>-->
-
                 <div class="mb-3">
-                <label class="form-label" for="firstName">Enter Your first name</label>
-                <input class="form-control" id="firstName" name="firstName" type="text" placeholder="First Name" th:field="*{firstName}">
+                    <label class="form-label" for="firstName">Enter Your first name</label>
+                    <input class="form-control" id="firstName" name="firstName" type="text" placeholder="First Name" th:field="*{firstName}">
                 </div>
                 <div class="mb-3">
-                <label class="form-label" for="lastName">Enter Your last name</label>
-                <input class="form-control" id="lastName" name="lastName" type="text" placeholder="Last Name" th:field="*{lastName}">
+                    <label class="form-label" for="lastName">Enter Your last name</label>
+                    <input class="form-control" id="lastName" name="lastName" type="text" placeholder="Last Name" th:field="*{lastName}">
                 </div>
                 <div class="mb-3">
-                <label class="form-label" for="email">Enter Your email address</label>
-                <input class="form-control" id="email" name="email" type="email" placeholder="Email Address" th:field="*{email}">
+                    <label class="form-label" for="email">Enter Your email address</label>
+                    <input class="form-control" id="email" name="email" type="email" placeholder="Email Address" th:field="*{email}">
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="username">Enter Your username</label>
                     <input class="form-control" id="username" name="username" type="text" placeholder="Username" th:field="*{username}">
                 </div>
                 <div class="mb-3">
-                <label class="form-label" for="password">Enter Your password</label>
-                <input class="form-control" id="password" name="password" type="password" placeholder="Password" th:field="*{password}">
+                    <label class="form-label" for="password">Enter Your password</label>
+                    <input class="form-control" id="password" name="password" type="password" placeholder="Password" th:field="*{password}">
                 </div>
                 <button class="btn btn-success" type="submit">Submit</button>
             </form>

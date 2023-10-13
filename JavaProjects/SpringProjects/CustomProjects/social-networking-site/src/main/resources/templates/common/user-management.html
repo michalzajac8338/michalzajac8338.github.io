@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Z</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+    <div th:fragment="user-panel" class="col-md-2 offset-md-1 text-center"><h1>Your profile</h1>
+        <br />
+        <h1 class="card-header text-center" th:text="${currentUser.username}"><strong></strong></h1>
+        <div class="card-body">
+
+            <div class="card-text">First name:
+                <span class="card-text" th:text="${currentUser.firstName}"></span>
+            </div>
+
+            <div class="card-text">Last name:
+                <span class="card-text" th:text="${currentUser.lastName}"></span>
+            </div>
+
+            <div class="card-text">Email:
+                <span class="card-text" th:text="${currentUser.email}"></span>
+            </div>
+            <br />
+
+            <form class="text-center card-text" method="post" th:action="@{/Z/editProfile}">
+                <button class="btn btn-info" type="submit">Edit Profile</button>
+            </form>
+            <br />
+            <form method="post" th:action="@{/Z/viewProfile/{userId}(userId=${currentUser.id})}">
+                <button class="btn btn-secondary" type="submit">View Profile</button>
+            </form>
+            <br />
+            <form method="post" th:action="@{/Z/deleteProfile}">
+                <button class="btn btn-danger" type="submit">Delete Profile</button>
+            </form>
+        </div>
+    </div>
+
+    <div th:fragment="user-list" class="col-md-2 offset-md-1"><h3 class="text-center">List of users</h3><br />
+
+        <div th:each="u:${users}">
+            <div th:if="${u.username}!=${currentUser.username}">
+                <h2 class="card-header text-center" th:text="${u.username}"><strong></strong></h2>
+                <div class="card-body">
+                    <form method="post" th:action="@{/Z/follow/{username}(username=${u.username})}">
+                        <div th:unless="${#lists.contains(currentUser.following, u.id)}">
+                            <button class="btn btn-success float-start" type="submit">Follow</button>
+                        </div>
+                        <div th:if="${#lists.contains(currentUser.following, u.id)}">
+                            <button class="btn btn-success float-start" type="submit">Unfollow</button>
+                        </div>
+                    </form>
+
+                    <form method="post" th:action="@{/Z/viewProfile/{userId}(userId=${u.id})}">
+                        <button class="btn btn-secondary float-end" type="submit">View Profile</button>
+                    </form>
+
+                    <br /><br />
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>

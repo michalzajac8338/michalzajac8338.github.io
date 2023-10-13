@@ -11,110 +11,123 @@
 
 <div th:replace="~{common/navbar::navbar}">Navbar Error</div>
 
-<div class="container row col-md-8 offset-md-2">
-
-    <div class="card-header">
-        <h1 class="text-center" th:text="${currentPost.creator}"><strong></strong></h1>
-        <div class="row">
-            <div>On </div>
-            <div class="text-center" th:text="${currentPost.lastUpdated}"></div>
-            <div> posted:</div>
-        </div>
-    </div>
-    <div class="card-body">
-
-        <div th:unless="${param.edit}">
-            <div class="card-text" th:text="${currentPost.content}"></div>
-        </div>
-
-        <div th:if="${param.edit}">
-            <form method="post" th:action="@{/Z/news/singlePost/submitEdition/{postId}(postId=${currentPost.id})}" th:object="${currentPost}">
-                <div class="card-body">
-                    <textarea rows="10" cols="80" th:field="*{content}" th:text="${currentPost.content}"></textarea>
-                    <button class="btn btn-primary" type="submit">Submit Post Edition</button>
-                </div>
-            </form>
-        </div>
-
-
-        <div th:each="c:${currentPost.comments}">
-            <div class="card-header">
-                <h2 class="text-center" th:text="${c.username}"><strong></strong></h2>
-                <div class="text-center" th:text="${c.lastUpdated}"><strong></strong></div>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="card-text" th:text="${c.content}"></div>
-                    <div class="col-md-1">
-                        <form method="post" th:action="@{/Z/news/singlePost/{postId}/likeComment/{commentId}(postId=${currentPost.id},commentId=${c.id})}">
-                            <button class="btn btn-secondary" type="submit">Like Comment</button>
-                        </form>
-                    </div>
-                    <div class="col offset-md-1">
-                        <div th:text="${#lists.size(c.likes)}"></div>
-                    </div>
-
-
-                    <div th:if="${currentUserUsername}==${c.username}">
-                        <div class="col-md-1 offset-md-2" th:unless="${param.editComment}">
-                            <form method="post" th:action="@{/Z/news/singlePost/{postId}/editComment/{commentId}(postId=${currentPost.id},commentId=${c.id})}">
-                                <button class="btn btn-secondary" type="submit">Edit Comment</button>
-                            </form>
-                        </div>
-
-
-
-                        <div class="col-md-1 offset-md-3" th:unless="${param.editComment}">
-                            <form method="post" th:action="@{/Z/news/singlePost/{postId}/deleteComment/{commentId}(postId=${currentPost.id},commentId=${c.id})}">
-                                <button class="btn btn-secondary" type="submit">Delete Comment</button>
-                            </form>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div th:if="${param.editComment}">
-
-                    <div th:if="${c.id}==${currentComment.id}">
-
-                        <form method="post" th:action="@{/Z/news/singlePost/submitEdition/{postId}/comment/{commentId}(postId=${currentPost.id},commentId=${c.id})}"
-                              th:object="${currentComment}">
-                            <textarea th:field="*{content}" th:text="*{content}" rows="10" cols="80"></textarea>
-                            <button class="btn btn-secondary" type="submit">Submit comment edition</button>
-                        </form>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-    </div>
-
+<div class="container-fluid">
     <div class="row">
-        <div class="col-md-1">
-            <form method="post" th:action="@{/Z/news/singlePost/like/{postId}(postId=${currentPost.id})}">
-                <button class="btn btn-secondary" type="submit">Like Post</button>
-            </form>
-        </div>
-        <div class="col-md-2">
-            <div th:text="${#lists.size(currentPost.likes)}"></div>
-        </div>
-    </div>
 
-    <div class="row" th:unless="${param.editComment}">
-        <div class="col-md-2">
-            <form method="post" th:object="${comment}" th:action="@{/Z/news/singlePost/comment/{postId}(postId=${currentPost.id})}">
-                <textarea th:field="*{content}" rows="10" cols="80"></textarea>
-                <button class="btn btn-secondary" type="submit">Submit a comment</button>
-            </form>
-        </div>
+        <div th:replace="~{common/user-management::user-panel}">User error</div>
 
-        <!--        <div class="col-md-2">-->
-        <!--            <div th:if="${currentPost.comments}!=null"><div th:text="${#lists.size(currentPost.comments)}"></div></div>-->
-        <!--        </div>-->
+        <div class="col-md-4 offset-md-1">
+
+            <div class="card-header">
+                <div th:if="${currentPost.creator}==${currentUser.username}" class="clearfix">
+                    <div class="float-start">
+                        <form method="post" th:action="@{/Z/news/singlePost/edit/{postId}(postId=${currentPost.id})}">
+                            <button class="btn btn-primary" type="submit">Edit</button>
+                        </form>
+                    </div>
+                    <div class="float-end">
+                        <form method="post" th:action="@{/Z/news/delete/{postId}(postId=${currentPost.id})}">
+                            <button class="btn btn-danger" type="submit">Delete</button>
+                        </form>
+                    </div>
+
+                </div>
+                <h2 class="text-center" th:text="${currentPost.creator}"><strong></strong></h2>
+                <div class="text-center" th:text="${currentPost.lastUpdated}"></div>
+            </div>
+
+            <div class="card-body">
+
+                <div th:unless="${param.edit}">
+                    <div class="card-text" th:text="${currentPost.content}"></div>
+                </div>
+
+                <form method="post" th:action="@{/Z/news/singlePost/like/{postId}(postId=${currentPost.id})}">
+                    <button class="btn btn-secondary" type="submit">Like Post :
+                        <span class="card-text" th:text="${#lists.size(currentPost.likes)}"></span>
+                    </button>
+                </form>
+
+                <div th:if="${param.edit}">
+                    <div class="card-body">
+
+                        <form method="post" th:action="@{/Z/news/singlePost/submitEdition/{postId}(postId=${currentPost.id})}" th:object="${currentPost}">
+                            <textarea class="card-text" rows="10" cols="55" th:field="*{content}" th:text="${currentPost.content}"></textarea>
+                            <button class="btn btn-primary" type="submit">Submit Post Edition</button>
+                        </form>
+                    </div>
+                </div>
+
+                <br /> <br /> <br />
+
+                <div th:each="c:${currentPost.comments}">
+                    <div class="card-header">
+
+                        <div th:unless="${param.editComment}">
+                            <div th:if="${currentUser.username}==${c.username}" class="clearfix">
+                                <div class="float-start">
+                                    <form method="post" th:action="@{/Z/news/singlePost/{postId}/editComment/{commentId}(postId=${currentPost.id},commentId=${c.id})}">
+                                        <button class="btn btn-primary" type="submit">Edit Comment</button>
+                                    </form>
+                                </div>
+                                <div class="float-end">
+                                    <form method="post" th:action="@{/Z/news/singlePost/{postId}/deleteComment/{commentId}(postId=${currentPost.id},commentId=${c.id})}">
+                                        <button class="btn btn-danger" type="submit">Delete Comment</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h2 class="text-center" th:text="${c.username}"><strong></strong></h2>
+                        <div class="text-center" th:text="${c.lastUpdated}"><strong></strong></div>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="card-text" th:text="${c.content}"></div>
+
+                        <form method="post" th:action="@{/Z/news/singlePost/{postId}/likeComment/{commentId}(postId=${currentPost.id},commentId=${c.id})}">
+                            <button class="btn btn-secondary" type="submit">Like Comment :
+                                <span class="card-text" th:text="${#lists.size(c.likes)}"></span>
+                            </button>
+                        </form>
+
+
+                        <div th:if="${param.editComment}">
+
+                            <div th:if="${c.id}==${currentComment.id}">
+                                <div class="card-header">
+                                    <h4>Edit:</h4>
+                                </div>
+                                <div class="card-body">
+                                    <form method="post" th:action="@{/Z/news/singlePost/submitEdition/{postId}/comment/{commentId}(postId=${currentPost.id},commentId=${c.id})}"
+                                          th:object="${currentComment}">
+                                        <textarea class="card-text" rows="10" cols="55" th:field="*{content}" th:text="*{content}"></textarea>
+                                        <button class="btn btn-secondary" type="submit">Submit comment edition</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row" th:unless="${param.editComment}">
+                <div class="card-header">
+                    <h4>Edit:</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" th:object="${comment}" th:action="@{/Z/news/singlePost/comment/{postId}(postId=${currentPost.id})}">
+                        <textarea class="card-text" rows="10" cols="55" th:field="*{content}"></textarea>
+                        <button class="btn btn-secondary" type="submit">Submit a comment</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+        <div th:replace="~{common/user-management::user-list}">User List Error</div>
+
     </div>
 </div>
-
-
 </body>
 </html>
