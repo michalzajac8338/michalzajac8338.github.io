@@ -6,7 +6,7 @@ import com.michal.socialnetworkingsite.mapper.UserMapper;
 import com.michal.socialnetworkingsite.repository.UserRepository;
 import com.michal.socialnetworkingsite.service.UserService;
 import lombok.AllArgsConstructor;
-import org.hibernate.SessionFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,15 +20,16 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
     @Override
-    public UserDto save(UserDto userDto) {
+    @Transactional
+    public void save(UserDto userDto) {
 
         User user = UserMapper.mapToUser(userDto, null);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        User savedUser = userRepository.save(user);
-        return UserMapper.mapToUserDto(savedUser);
+        userRepository.save(user);
     }
 
     @Override
+    @Transactional
     public void updateUser(UserDto userDto) {
 
         User user = userRepository.findById(userDto.getId()).get();
@@ -41,19 +42,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> getAllUsers() {
+    public List<UserDto> getRandomUsers() {
 
-        List<User> users = userRepository.findAll();
-
+        List<User> users = userRepository.getThreeRandomUsers();
         return users.stream().map(UserMapper::mapToUserDto).toList();
     }
 
     @Override
     @Transactional
-    public void followOrUnfollowUser(String currentUserName, String otherUserName) {
+    public void followOrUnfollowUser(Long userId) {
 
-        User currentUser = userRepository.findByUsername(currentUserName);
-        User otherUser = userRepository.findByUsername(otherUserName);
+        User currentUser = getLoggedInUser();
+        User otherUser = userRepository.findById(userId).get();
 
         List<User> followers = otherUser.getFollowers();
         List<User> following = currentUser.getFollowing();
@@ -72,44 +72,47 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getCurrentUser(String currentUserName) {
+    public List<UserDto> getUsers(String name) {
 
-        User user = userRepository.findByUsername(currentUserName);
-        UserDto currentUserDto = UserMapper.mapToUserDto(user);
+        List<User> users = userRepository.findByUsernameContainsOrFirstNameContainsOrLastNameContains(name, name, name);
 
-        return currentUserDto;
+        return users.stream().map(UserMapper::mapToUserDto).toList();
     }
 
     @Override
+    public UserDto getCurrentUser() {
+
+        User currentUser = getLoggedInUser();
+        return UserMapper.mapToUserDto(currentUser);
+    }
+    @Override
     @Transactional
-    public void deleteProfile(String currentUserName) {
+    public void deleteCurrentUser() {
 
-        User user = userRepository.findByUsername(currentUserName);
+        User currentUser = getLoggedInUser();
+        currentUser.setFollowing(null);
 
-        //clearing follower table manually
-
-        user.setFollowing(null);
-
-        List<User> followers = userRepository.findByFollowing(user);
-
+        List<User> followers = userRepository.findByFollowing(currentUser);
         List<User> followersUpdate = followers.stream()
                 .map(follower -> {
                     List<User> f = follower.getFollowing();
-                    f.remove(user);
+                    f.remove(currentUser);
                     follower.setFollowing(f);
                     return follower; }
                 ).toList();
 
         userRepository.saveAll(followersUpdate);
-        userRepository.delete(user);
-
+        userRepository.delete(currentUser);
     }
 
     @Override
     public UserDto getUser(Long userId) {
 
         User user = userRepository.findById(userId).get();
-
         return UserMapper.mapToUserDto(user);
+    }
+
+    private User getLoggedInUser(){
+        return userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 }

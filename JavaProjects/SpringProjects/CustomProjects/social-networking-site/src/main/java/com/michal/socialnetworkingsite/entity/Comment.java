@@ -30,10 +30,10 @@ public class Comment {
 
 
     @ManyToOne
-    @JoinColumn(name="user_id")//, referencedColumnName = "id")
+    @JoinColumn(name="user_id")
     private User creator;
     @ManyToOne
-    @JoinColumn(name="post_id") //, referencedColumnName = "id")
+    @JoinColumn(name="post_id")
     private Post post;
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)
     private List<CommentLike> likes;

@@ -28,9 +28,9 @@ public class PostLike {
     private LocalDateTime lastUpdated;
 
     @ManyToOne
-    @JoinColumn(name="user_id")//, referencedColumnName = "id")
+    @JoinColumn(name="user_id")
     private User creator;
     @ManyToOne
-    @JoinColumn(name="post_id")//, referencedColumnName = "id")
+    @JoinColumn(name="post_id")
     private Post post;
 }

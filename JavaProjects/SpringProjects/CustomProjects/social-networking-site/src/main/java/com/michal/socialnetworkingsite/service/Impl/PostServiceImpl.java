@@ -1,17 +1,15 @@
 package com.michal.socialnetworkingsite.service.Impl;
 
+import com.michal.socialnetworkingsite.dto.CommentDto;
 import com.michal.socialnetworkingsite.dto.PostDto;
-import com.michal.socialnetworkingsite.dto.UserDto;
 import com.michal.socialnetworkingsite.entity.Post;
 import com.michal.socialnetworkingsite.entity.User;
-import com.michal.socialnetworkingsite.mapper.PostLikeMapper;
 import com.michal.socialnetworkingsite.mapper.PostMapper;
-import com.michal.socialnetworkingsite.mapper.UserMapper;
-import com.michal.socialnetworkingsite.repository.PostLikeRepository;
 import com.michal.socialnetworkingsite.repository.PostRepository;
 import com.michal.socialnetworkingsite.repository.UserRepository;
 import com.michal.socialnetworkingsite.service.PostService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +24,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public PostDto savePost(PostDto postDto) {
+    public void savePost(PostDto postDto) {
 
         User user = userRepository.findByUsername(postDto.getCreator());
 
@@ -36,7 +34,6 @@ public class PostServiceImpl implements PostService {
 
         postRepository.save(post);
 
-        return postDto;
     }
 
     @Override
@@ -50,15 +47,32 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDto getCurrentPost(Long postId) {
+    public List<Object> getCurrentPost(Long postId, int page) {
 
         Post post = postRepository.findById(postId).get();
         PostDto postDto = PostMapper.mapToPostDto(post, post.getCreator().getUsername());
 
-        return postDto;
+        int size = 3;
+        int totalPages = (int) Math.ceil(((double) post.getComments().size() / size));
+
+        List<CommentDto> commentsSorted = postDto.getComments().stream().sorted(Comparator.comparing(CommentDto::getLastUpdated, Comparator.reverseOrder())).toList();
+        List<CommentDto> commentsReturned;
+        try {
+            commentsReturned = commentsSorted.subList((page-1)*size, page*size);
+        } catch (IndexOutOfBoundsException e) {
+            commentsReturned = commentsSorted.subList((page-1)*size, postDto.getComments().size());
+        }
+
+        List<Object> postCommentsPageAndPages = new ArrayList<>();
+        postCommentsPageAndPages.add(postDto);
+        postCommentsPageAndPages.add(commentsReturned);
+        postCommentsPageAndPages.add(totalPages);
+
+        return postCommentsPageAndPages;
     }
 
     @Override
+    @Transactional
     public void updatePost(PostDto currentPost) {
         Post post = postRepository.findById(currentPost.getId()).get();
         post.setContent(currentPost.getContent());
@@ -67,34 +81,55 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public List<PostDto> getFollowingPosts(String currentUsername) {
+    public List<Object> getFollowingPosts(String currentUsername, int page) {
 
         User currentUser = userRepository.findByUsername(currentUsername);
         List<User> followingUsers = new ArrayList<>(currentUser.getFollowing());
 
-        followingUsers.add(currentUser);
+        if(!followingUsers.contains(currentUser)) {
+            followingUsers.add(currentUser);
+        }
 
         List<PostDto> followingPosts = followingUsers.stream().map(
-                author -> postRepository.findByCreatorUsername(author.getUsername()).stream()
-                        .map(p->PostMapper.mapToPostDto(p, p.getCreator().getUsername())).toList()).flatMap(Collection::stream).sorted(Comparator.comparing(PostDto::getLastUpdated))
-        .toList().reversed();
+                        author -> postRepository.findByCreatorUsername(author.getUsername()).stream()
+                                .map(p->PostMapper.mapToPostDto(p, p.getCreator().getUsername())).toList())
+                .flatMap(Collection::stream).sorted(Comparator.comparing(PostDto::getLastUpdated, Comparator.reverseOrder()))
+                .toList();
 
-        return followingPosts;
+        // manual pagination
+        int size = 3;
+        int totalPages = (int) Math.ceil(((double) followingPosts.size() / size));
 
+        List<PostDto> postsReturned;
+        try {
+            postsReturned =  followingPosts.subList((page-1)*size, page*size);
+        } catch (IndexOutOfBoundsException e) {
+            postsReturned = followingPosts.subList((page-1)*size, followingPosts.size());
+        }
+
+        List<Object> postsAndNumberOfPages = new ArrayList<>();
+        postsAndNumberOfPages.add(postsReturned);
+        postsAndNumberOfPages.add(totalPages);
+
+        return postsAndNumberOfPages;
     }
 
     @Override
-    public List<PostDto> getRelatedPosts(Long userId) {
+    public List<Object> getRelatedPosts(Long userId, Pageable pageable) {
 
-        User currentUser = userRepository.findById(userId).get();
+        User profileOwner = userRepository.findById(userId).get();
 
-        List<PostDto> followingPosts = currentUser.getPosts()
-                .stream().map(
-                        p->PostMapper.mapToPostDto(p, p.getCreator().getUsername()))
-                .sorted(Comparator.comparing(PostDto::getLastUpdated)).toList()
-                .reversed();
+        Page<Post> userPostPage = postRepository.findByCreator(profileOwner, pageable);
 
-        return followingPosts;
+        List<PostDto> followingPostsPage = userPostPage.stream().map(
+                p->PostMapper.mapToPostDto(p, p.getCreator().getUsername())).toList();
+
+        PageImpl<PostDto> page = new PageImpl<>(followingPostsPage);
+        List<Object> pageAndNumberOfPages = new ArrayList<>();
+        pageAndNumberOfPages.add(page);
+        pageAndNumberOfPages.add(userPostPage.getTotalPages()-1);
+
+        return pageAndNumberOfPages;
     }
 
     @Override

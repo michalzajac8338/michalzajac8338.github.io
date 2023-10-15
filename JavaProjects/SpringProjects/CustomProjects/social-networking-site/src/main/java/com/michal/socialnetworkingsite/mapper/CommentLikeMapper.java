@@ -1,7 +1,6 @@
 package com.michal.socialnetworkingsite.mapper;
 
 import com.michal.socialnetworkingsite.dto.CommentLikeDto;
-import com.michal.socialnetworkingsite.dto.PostLikeDto;
 import com.michal.socialnetworkingsite.entity.*;
 
 public class CommentLikeMapper {

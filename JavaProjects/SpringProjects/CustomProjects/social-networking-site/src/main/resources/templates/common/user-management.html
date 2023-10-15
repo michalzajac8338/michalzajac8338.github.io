@@ -8,8 +8,11 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
-    <div th:fragment="user-panel" class="col-md-2 offset-md-1 text-center"><h1>Your profile</h1>
-        <br />
+<div th:fragment="user-panel" class="col-md-2 offset-md-1 text-center">
+    <br/> <br/> <br/>
+    <h1>Your profile</h1>
+    <br />
+    <div class="card shadow rounded">
         <h1 class="card-header text-center" th:text="${currentUser.username}"><strong></strong></h1>
         <div class="card-body">
 
@@ -24,11 +27,20 @@
             <div class="card-text">Email:
                 <span class="card-text" th:text="${currentUser.email}"></span>
             </div>
+
+            <div class="card-text">Followers:
+                <span class="card-text" th:text="${#lists.size(currentUser.followers)}"></span>
+            </div>
+            <div class="card-text">Following:
+                <span class="card-text" th:text="${#lists.size(currentUser.following)}"></span>
+            </div>
+
             <br />
 
             <form class="text-center card-text" method="post" th:action="@{/Z/editProfile}">
                 <button class="btn btn-info" type="submit">Edit Profile</button>
             </form>
+
             <br />
             <form method="post" th:action="@{/Z/viewProfile/{userId}(userId=${currentUser.id})}">
                 <button class="btn btn-secondary" type="submit">View Profile</button>
@@ -40,13 +52,32 @@
         </div>
     </div>
 
-    <div th:fragment="user-list" class="col-md-2 offset-md-1"><h3 class="text-center">List of users</h3><br />
+</div>
+<div th:fragment="user-list" class="col-md-2 offset-md-1">
+    <br/> <br/> <br/>
+    <div class="card shadow rounded">
+        <div class="card-header text-center">User Search</div>
 
-        <div th:each="u:${users}">
-            <div th:if="${u.username}!=${currentUser.username}">
+        <div class="card-body text-center">
+            <form method="post" th:action="@{/Z/searchUser}">
+                <input class="form-control" type="text" placeholder="username/ first or last name" th:name="searchValue"/>
+                <br/><br/>
+                <button class="btn btn-success" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+    <br/><br/>
+    <h3 th:if="${#lists.isEmpty(searchResults)}" class="text-center">Suggestions:</h3>
+    <h3 th:unless="${#lists.isEmpty(searchResults)}" class="text-center">Search results:</h3>
+
+    <br />
+
+    <div th:with="uu = (${#lists.isEmpty(searchResults)} ? ${users} : ${searchResults})">
+        <div th:each="u:${uu}">
+            <div class="card shadow rounded">
                 <h2 class="card-header text-center" th:text="${u.username}"><strong></strong></h2>
                 <div class="card-body">
-                    <form method="post" th:action="@{/Z/follow/{username}(username=${u.username})}">
+                    <form method="post" th:action="@{/Z/follow/{userId}(userId=${u.id})}">
                         <div th:unless="${#lists.contains(currentUser.following, u.id)}">
                             <button class="btn btn-success float-start" type="submit">Follow</button>
                         </div>
@@ -54,16 +85,17 @@
                             <button class="btn btn-success float-start" type="submit">Unfollow</button>
                         </div>
                     </form>
-
                     <form method="post" th:action="@{/Z/viewProfile/{userId}(userId=${u.id})}">
                         <button class="btn btn-secondary float-end" type="submit">View Profile</button>
                     </form>
-
-                    <br /><br />
+                    <br />
                 </div>
             </div>
+            <br />
+
         </div>
     </div>
+</div>
 
 
 </body>

@@ -6,11 +6,16 @@ import com.michal.socialnetworkingsite.dto.UserDto;
 import com.michal.socialnetworkingsite.service.PostLikeService;
 import com.michal.socialnetworkingsite.service.PostService;
 import com.michal.socialnetworkingsite.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -50,30 +55,31 @@ public class UserController {
 
     // Read
     @PostMapping("/viewProfile/{userId}")
-    public String getProfile(@PathVariable Long userId,
-                             Model model){
+    public String getProfile(@PathVariable Long userId){
 
-        UserDto userDto = userService.getUser(userId);
-        model.addAttribute("user", userDto);
-
-        return "redirect:/Z/viewProfile/{userId}";
+        return "redirect:/Z/viewProfile/{userId}?page=0";
     }
     @GetMapping("/viewProfile/{userId}")
     public String viewProfile(@PathVariable Long userId,
+                              @RequestParam int page,
+                              @PageableDefault(sort = "lastUpdated", direction = Sort.Direction.DESC, value = 2)
+                              Pageable pageable,
                               Model model){
 
-        List<PostDto> userPosts = postService.getRelatedPosts(userId);
-        model.addAttribute("posts", userPosts);
+        List<Object> userPostsAndTotalPages = postService.getRelatedPosts(userId, pageable);
+        model.addAttribute("posts", userPostsAndTotalPages.get(0));
 
         UserDto userDto = userService.getUser(userId);
         model.addAttribute("user", userDto);
 
-        String currentUserName = SecurityContextHolder.getContext().getAuthentication().getName();
-        UserDto currentUser = userService.getCurrentUser(currentUserName);
+        UserDto currentUser = userService.getCurrentUser();
         model.addAttribute("currentUser", currentUser);
 
-        List<UserDto> users = userService.getAllUsers();
+        List<UserDto> users = userService.getRandomUsers();
         model.addAttribute("users", users);
+
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", userPostsAndTotalPages.get(1));
 
         return "view-profile";
     }
@@ -87,9 +93,8 @@ public class UserController {
     @GetMapping("/editProfile")
     public String editUser(Model model){
 
-        String currentUserName = SecurityContextHolder.getContext().getAuthentication().getName();
-        UserDto userDto = userService.getCurrentUser(currentUserName);
-        model.addAttribute("user", userDto);
+        UserDto currentUser = userService.getCurrentUser();
+        model.addAttribute("currentUser", currentUser);
 
         return "edit-profile";
     }
@@ -100,15 +105,14 @@ public class UserController {
 
         userDto.setId(userId);
         userService.updateUser(userDto);
-        return "redirect:/Z/news";
+        return "redirect:/Z/news?page=1";
     }
 
     // Delete
     @PostMapping("/deleteProfile")
-    public String deleteUser(Model model){
+    public String deleteUser(){
 
-        String currentUserName = SecurityContextHolder.getContext().getAuthentication().getName();
-        userService.deleteProfile(currentUserName);
+        userService.deleteCurrentUser();
 
         return "redirect:/Z/login?deletedSuccessfully";
     }
@@ -123,26 +127,53 @@ public class UserController {
         return "user-login";
     }
 
-    @PostMapping("/follow/{username}")
-    public String follow(@PathVariable String username){
+    @PostMapping("/follow/{userId}")
+    public String follow(HttpServletRequest request,
+                         @PathVariable Long userId){
 
-        String currentUserName = SecurityContextHolder.getContext().getAuthentication().getName();
+        userService.followOrUnfollowUser(userId);
+        String referer = request.getHeader("Referer");
 
-        userService.followOrUnfollowUser(currentUserName, username);
-        return "redirect:/Z/news";
-
+        return "redirect:" + referer;
     }
 
-    @PostMapping("viewProfile/{userId}/like/{postId}")
-    public String likeAPostViewingProfile(@PathVariable Long userId,
-                                          @PathVariable Long postId){
+    @PostMapping("/like/{postId}")
+    public String likeAPost(@PathVariable Long postId,
+                            HttpServletRequest request){
 
         PostLikeDto postLikeDto = new PostLikeDto();
-        postLikeDto.setUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        UserDto currentUser = userService.getCurrentUser();
+        postLikeDto.setUsername(currentUser.getUsername());
         postLikeDto.setPostId(postId);
 
         postLikeService.savePostLike(postLikeDto);
+        String referer = request.getHeader("Referer");
 
-        return "redirect:/Z/viewProfile/{userId}";
+        return "redirect:" + referer;
+    }
+    @PostMapping("/searchUser")
+    public String searchForUser(HttpServletRequest request,
+                                RedirectAttributes attributes,
+                                @RequestParam String searchValue) {
+
+        List<UserDto> results = userService.getUsers(searchValue);
+        attributes.addFlashAttribute("searchResults", results);
+        String referer = request.getHeader("Referer");
+
+        return "redirect:" + referer;
+    }
+
+    @PostMapping("/cancel")
+    public String cancel(HttpServletRequest request){
+
+        String referer = request.getHeader("Referer");
+        return "redirect:" + referer;
+    }
+
+    @PostMapping("/editProfile/cancel")
+    public String cancelProfileEdition(){
+
+        return "redirect:/Z/news?page=1";
     }
 }

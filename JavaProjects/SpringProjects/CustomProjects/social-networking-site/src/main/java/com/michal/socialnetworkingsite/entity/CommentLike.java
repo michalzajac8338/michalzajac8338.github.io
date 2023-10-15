@@ -27,9 +27,9 @@ public class CommentLike {
     private LocalDateTime lastUpdated;
 
     @ManyToOne
-    @JoinColumn(name="user_id")//, referencedColumnName = "id")
+    @JoinColumn(name="user_id")
     private User creator;
     @ManyToOne
-    @JoinColumn(name="comment_id")//, referencedColumnName = "id")
+    @JoinColumn(name="comment_id")
     private Comment comment;
 }

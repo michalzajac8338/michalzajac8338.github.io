@@ -7,16 +7,17 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
-<body>
+<body style="background-color:WhiteSmoke;">
 
 <div th:replace="~{common/navbar::navbar}">Navbar Error</div>
 
 <div class="container-fluid">
-
     <div th:if="${param.success}" class="row col-md-4 offset-md-4">
+        <br/> <br/> <br/>
         <div class="alert alert-success">Your post has been saved successfully</div>
     </div>
-    <div th:if="${param.postDeleted}" class="row col-md-4 offset-md-4">
+    <div th:if="${postDeleted==true}" class="row col-md-4 offset-md-4">
+        <br/> <br/> <br/>
         <div class="alert alert-info">Your post has been deleted successfully</div>
     </div>
 
@@ -25,74 +26,76 @@
         <div th:replace="~{common/user-management::user-panel}">User error</div>
 
         <div class="col-md-4 offset-md-1">
-            <div class="card-header">
-                <h3>What's on Your mind?</h3>
-            </div>
-            <div class="card-body" >
-                <form method="post" th:action="@{/Z/news/post}" th:object="${post}">
-                    <textarea class="card-text" rows="10" cols="55" th:field="*{content}"></textarea>
-                    <button class="btn btn-primary" type="submit">Submit Your Thoughts</button>
-                </form>
-            </div>
-        </div>
+            <br/> <br/> <br/>
 
-        <div th:replace="~{common/user-management::user-list}">User List Error</div>
-        <br /> <br /> <br />
+            <div class="card shadow rounded">
 
-        <div class="container row col-md-4 offset-md-4">
-
-            <div th:each="p:${posts}">
                 <div class="card-header">
-                    <div th:if="${p.creator}==${currentUser.username}" class="clearfix">
-                        <div class="float-start">
-                            <form method="post" th:action="@{/Z/news/singlePost/edit/{postId}(postId=${p.id})}">
-                                <button class="btn btn-primary" type="submit">Edit</button>
-                            </form>
+                    <h3>What's on Your mind?</h3>
+                </div>
+                <div class="card-body" >
+                    <form method="post" th:action="@{/Z/news/post}" th:object="${post}">
+                        <textarea class="card-text form-control" rows="10"  th:field="*{content}"></textarea>
+                        <button class="btn btn-primary" type="submit">Submit Your Thoughts</button>
+                    </form>
+                </div>
+            </div>
+            <br /><br />
+            <h1 class="text-center">Recent posts:</h1>
+            <br/> <br/>
+            <div th:each="p:${posts}">
+                <div class="card shadow rounded">
+                    <div class="card-header">
+                        <div th:if="${p.creator}==${currentUser.username}" class="clearfix">
+                            <div class="float-start">
+                                <form method="post" th:action="@{/Z/news/singlePost/edit/{postId}(postId=${p.id})}">
+                                    <button class="btn btn-primary" type="submit">Edit</button>
+                                </form>
+                            </div>
+                            <div class="float-end">
+                                <form method="post" th:action="@{/Z/news/delete/{postId}(postId=${p.id})}">
+                                    <button class="btn btn-danger" type="submit">Delete</button>
+                                </form>
+                            </div>
                         </div>
-                        <div class="float-end">
-                            <form method="post" th:action="@{/Z/news/delete/{postId}(postId=${p.id})}">
-                                <button class="btn btn-danger" type="submit">Delete</button>
-                            </form>
-                        </div>
-
+                        <h2 class="text-center" th:text="${p.creator}"><strong></strong></h2>
+                        <div class="text-center" th:text="${p.lastUpdated}"></div>
                     </div>
-                    <h2 class="text-center" th:text="${p.creator}"><strong></strong></h2>
-                    <div class="text-center" th:text="${p.lastUpdated}"></div>
+                    <div class="card-body">
+                        <div class="card-text" th:text="${p.content}"></div>
+                    </div>
                 </div>
-
-                <div class="card-body">
-                    <div class="card-text" th:text="${p.content}"></div>
-                </div>
-
                 <div class="clearfix">
-
                     <div class="float-start">
-                        <form method="post" th:action="@{/Z/news/like/{postId}(postId=${p.id})}">
-                            <button class="btn btn-secondary" type="submit">Like :
+                        <form method="post" th:action="@{/Z/like/{postId}(postId=${p.id})}">
+                            <button class="btn btn-secondary" type="submit">Like:
                                 <span class="card-text" th:text="${#lists.size(p.likes)}"></span>
                             </button>
                         </form>
                     </div>
-
-
                     <div class="float-end">
-
                         <form method="post" th:action="@{/Z/news/singlePost/{postId}(postId=${p.id})}">
-                            <button class="btn btn-secondary" type="submit">Comment :
+                            <button class="btn btn-secondary" type="submit">Comment:
                                 <span class="card-text" th:text="${#lists.size(p.comments)}"></span>
                             </button>
                         </form>
                     </div>
-
                 </div>
                 <br /><br /><br />
-
+            </div>
+            <div class="row col-md-8 offset-md-2 text-center">
+                <form th:action="@{/Z/news}">
+                <span>
+                    <button th:if="${pageNr>2}" class="btn btn-secondary offset-md-1" type="submit" th:name="page" th:value="1" th:text="1"></button>
+                    <button th:unless="${pageNr==1}" class="btn btn-secondary offset-md-1" type="submit" th:name="page" th:value="${pageNr-1}" th:text="'Prev: '+${pageNr-1}"></button>
+                    <button th:if="${pageNr<totalPages}" class="btn btn-secondary offset-md-1" type="submit" th:name="page" th:value="${pageNr+1}" th:text="'Next: '+${pageNr+1}"></button>
+                    <button th:if="${pageNr<totalPages-1}" class="btn btn-secondary offset-md-1" type="submit" th:name="page" th:value="${totalPages}" th:text="'Last: ' + ${totalPages}"></button>
+                </span>
+                </form>
             </div>
         </div>
+        <div th:replace="~{common/user-management::user-list}">User List Error</div>
     </div>
-
-
 </div>
-
 </body>
 </html>

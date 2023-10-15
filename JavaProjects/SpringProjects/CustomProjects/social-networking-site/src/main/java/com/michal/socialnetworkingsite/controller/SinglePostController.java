@@ -2,13 +2,16 @@ package com.michal.socialnetworkingsite.controller;
 
 import com.michal.socialnetworkingsite.dto.*;
 import com.michal.socialnetworkingsite.service.*;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/Z/news/singlePost")
@@ -23,110 +26,114 @@ public class SinglePostController {
 
     // CRUD for comments
     // Create
-    @GetMapping
-    public String commentAPost(@RequestParam Long postId,
+    @GetMapping("/postId={postId}")
+    public String commentAPost(HttpServletRequest request,
+                               RedirectAttributes attributes,
+                               @PathVariable Long postId,
+                               @RequestParam int page,
                                Model model){
 
-        PostDto currentPost = postService.getCurrentPost(postId);
+        // delete->redirect to news
+        Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
+        if (inputFlashMap != null) {
+            try{
+            boolean deleted = (boolean) inputFlashMap.get("postDeleted");
+            if(deleted) {
+                attributes.addFlashAttribute("postDeleted", true);
+                return "redirect:/Z/news?page=1";
+            }
+            } catch (NullPointerException ignored){}
+        }
+
+        // otherwise
+        List<Object> postCommentsPageAndPages  = postService.getCurrentPost(postId, page);
+        PostDto currentPost = (PostDto) postCommentsPageAndPages.get(0);
+        List<CommentDto> commentsPage = (List<CommentDto>) postCommentsPageAndPages.get(1);
+        currentPost.setComments(commentsPage);
         model.addAttribute("currentPost", currentPost);
 
-        String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        UserDto currentUser = userService.getCurrentUser(currentUsername);
+        UserDto currentUser = userService.getCurrentUser();
         model.addAttribute("currentUser", currentUser);
 
         CommentDto commentDto = new CommentDto();
-        commentDto.setUsername((SecurityContextHolder.getContext().getAuthentication().getName()));
+        commentDto.setUsername(currentUser.getUsername());
         model.addAttribute("comment", commentDto);
 
-        List<UserDto> users = userService.getAllUsers();
+        List<UserDto> users = userService.getRandomUsers();
         model.addAttribute("users", users);
+
+        model.addAttribute("totalPages", postCommentsPageAndPages.get(2));
+        model.addAttribute("pageNr", page);
 
         return "single-post";
     }
 
     @PostMapping("/comment/{postId}")
-    public String submitComment(@ModelAttribute CommentDto commentDto,
+    public String submitComment(HttpServletRequest request,
+                                @ModelAttribute CommentDto commentDto,
                                 @PathVariable Long postId){
 
-        commentDto.setUsername((SecurityContextHolder.getContext().getAuthentication().getName()));
+        UserDto currentUser = userService.getCurrentUser();
+        commentDto.setUsername(currentUser.getUsername());
         commentService.saveComment(commentDto, postId);
 
-        return "redirect:/Z/news/singlePost?postId={postId}";
+        String referer = request.getHeader("Referer");
+        return "redirect:" + referer;
     }
 
     // Read - everywhere :)
     // Update
     @PostMapping("/{postId}/editComment/{commentId}")
-    public String editComment(@PathVariable Long postId,
-                              @PathVariable Long commentId){
+    public String editComment(@PathVariable Long commentId,
+                              HttpServletRequest request,
+                              RedirectAttributes attributes){
 
-        return "redirect:/Z/news/singlePost/{postId}/comment?commentId={commentId}&editComment=true";
-    }
-
-    @GetMapping("/{postId}/comment")
-    public String editAComment(@PathVariable Long postId,
-                               @RequestParam Long commentId,
-                               Model model){
-
-        PostDto currentPost = postService.getCurrentPost(postId);
-        model.addAttribute("currentPost", currentPost);
-
+        attributes.addFlashAttribute("editComment", true);
         CommentDto commentDto = commentService.getCurrentComment(commentId);
-        model.addAttribute("currentComment", commentDto);
+        attributes.addFlashAttribute("currentComment", commentDto);
+        String referer = request.getHeader("Referer");
 
-        String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        UserDto currentUser = userService.getCurrentUser(currentUsername);
-        model.addAttribute("currentUser", currentUser);
+        return "redirect:" + referer;
 
-        List<UserDto> users = userService.getAllUsers();
-        model.addAttribute("users", users);
-
-        return "single-post";
     }
+
     @PostMapping("submitEdition/{postId}/comment/{commentId}")
-    public String submitCommentEdition(@ModelAttribute CommentDto currentComment,
-                                       @PathVariable Long commentId,
-                                       @PathVariable Long postId){
+    public String submitCommentEdition(HttpServletRequest request,
+                                       @ModelAttribute CommentDto currentComment,
+                                       @PathVariable Long commentId){
 
         currentComment.setId(commentId);
         commentService.updateComment(currentComment.getId(), currentComment.getContent());
 
-        return "redirect:/Z/news/singlePost?postId={postId}";
+        String referer = request.getHeader("Referer");
+        return "redirect:" + referer;
     }
 
     // Delete
     @PostMapping("/{postId}/deleteComment/{commentId}")
-    public String deleteComment(@PathVariable Long postId,
+    public String deleteComment(HttpServletRequest request,
                                 @PathVariable Long commentId){
 
         commentService.deleteComment(commentId);
 
-        return "redirect:/Z/news/singlePost?postId={postId}";
+        String referer = request.getHeader("Referer");
+        return "redirect:" + referer;
     }
 
     // Additional functionality
-    @PostMapping("/like/{postId}")
-    public String likeCurrentPost(@PathVariable Long postId){
-
-        PostLikeDto postLikeDto = new PostLikeDto();
-        postLikeDto.setUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-        postLikeDto.setPostId(postId);
-
-        postLikeService.savePostLike(postLikeDto);
-
-        return "redirect:/Z/news/singlePost?postId={postId}";
-    }
-
     @PostMapping("{postId}/likeComment/{commentId}")
-    public String likeComment(@PathVariable Long postId,
+    public String likeComment(HttpServletRequest request,
                               @PathVariable Long commentId){
 
+        UserDto currentUser = userService.getCurrentUser();
+
         CommentLikeDto commentLikeDto = new CommentLikeDto();
-        commentLikeDto.setUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        commentLikeDto.setUsername(currentUser.getUsername());
         commentLikeDto.setCommentId(commentId);
 
         commentLikeService.saveCommentLike(commentLikeDto);
 
-        return "redirect:/Z/news/singlePost?postId={postId}";
+        String referer = request.getHeader("Referer");
+        return "redirect:" + referer;
     }
 }

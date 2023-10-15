@@ -1,10 +1,8 @@
 package com.michal.socialnetworkingsite.service.Impl;
 
 import com.michal.socialnetworkingsite.dto.CommentLikeDto;
-import com.michal.socialnetworkingsite.dto.PostLikeDto;
 import com.michal.socialnetworkingsite.entity.*;
 import com.michal.socialnetworkingsite.mapper.CommentLikeMapper;
-import com.michal.socialnetworkingsite.mapper.PostLikeMapper;
 import com.michal.socialnetworkingsite.repository.CommentLikeRepository;
 import com.michal.socialnetworkingsite.repository.CommentRepository;
 import com.michal.socialnetworkingsite.repository.UserRepository;

@@ -46,7 +46,7 @@ public class SpringSecurity {
 //                })
                 .formLogin(form ->
                         form.loginPage("/Z/login").loginProcessingUrl("/Z/login")
-                                .defaultSuccessUrl("/Z/news") //.permitAll()
+                                .defaultSuccessUrl("/Z/news?page=1") //.permitAll()
                 )
                 .logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/Z/logout")));
 //                .httpBasic(Customizer.withDefaults());
