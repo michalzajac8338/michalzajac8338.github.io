@@ -37,7 +37,7 @@
 
             <br />
 
-            <form class="text-center card-text" method="post" th:action="@{/Z/editProfile}">
+            <form class="text-center card-text" method="post" th:action="@{/Z/editProfile/{userId}(userId=${currentUser.id})}">
                 <button class="btn btn-info" type="submit">Edit Profile</button>
             </form>
 

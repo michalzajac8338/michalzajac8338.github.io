@@ -14,7 +14,7 @@ public interface PostService {
 
     void updatePost(PostDto currentPost);
 
-    List<Object> getFollowingPosts(String currentUsername, int page);
+    Page<PostDto> getFollowingPosts(String currentUsername, Pageable pageable);
 
     List<Object> getRelatedPosts(Long userId, Pageable pageable);
 

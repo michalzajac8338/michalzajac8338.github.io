@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
 
         User user = userRepository.findById(userDto.getId()).get();
         User user1 = UserMapper.mapToUser(userDto, user);
-        if(userDto.getPassword()!=null) {
+        if(userDto.getPassword()!=null && !userDto.getPassword().isBlank()) {
             user1.setPassword(passwordEncoder.encode(userDto.getPassword()));
         }
         userRepository.save(user1);
@@ -79,6 +79,7 @@ public class UserServiceImpl implements UserService {
         return users.stream().map(UserMapper::mapToUserDto).toList();
     }
 
+
     @Override
     public UserDto getCurrentUser() {
 
@@ -112,6 +113,21 @@ public class UserServiceImpl implements UserService {
         return UserMapper.mapToUserDto(user);
     }
 
+    @Override
+    public UserDto getUserByEmail(String email) {
+
+        User user = userRepository.findByEmail(email);
+
+        return user == null ? null : UserMapper.mapToUserDto(user);
+    }
+
+    @Override
+    public UserDto getUserByUsername(String username) {
+
+        User user = userRepository.findByUsername(username);
+
+        return user == null ? null : UserMapper.mapToUserDto(user);
+    }
     private User getLoggedInUser(){
         return userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
     }

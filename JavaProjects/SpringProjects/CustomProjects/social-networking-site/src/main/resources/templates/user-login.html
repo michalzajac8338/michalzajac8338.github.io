@@ -17,6 +17,9 @@
         <div th:if="${param.logout}">
             <div class="alert alert-success">You've been logged out successfully</div>
         </div>
+        <div th:if="${param.profileUpdated}">
+            <div class="alert alert-success">Your profile has been updated successfully</div>
+        </div>
         <div th:if="${param.registered_successfully}">
             <div class="alert alert-success">You've been registered successfully</div>
         </div>

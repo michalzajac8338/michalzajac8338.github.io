@@ -81,7 +81,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public List<Object> getFollowingPosts(String currentUsername, int page) {
+    public Page<PostDto> getFollowingPosts(String currentUsername, Pageable pageable) {
 
         User currentUser = userRepository.findByUsername(currentUsername);
         List<User> followingUsers = new ArrayList<>(currentUser.getFollowing());
@@ -96,29 +96,19 @@ public class PostServiceImpl implements PostService {
                 .flatMap(Collection::stream).sorted(Comparator.comparing(PostDto::getLastUpdated, Comparator.reverseOrder()))
                 .toList();
 
-        // manual pagination
-        int size = 3;
-        int totalPages = (int) Math.ceil(((double) followingPosts.size() / size));
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), followingPosts.size());
+        List<PostDto> pageContent = followingPosts.subList(start, end);
+        // pagination from list
+        Page<PostDto> postsPage = new PageImpl<>(pageContent, pageable, followingPosts.size());
 
-        List<PostDto> postsReturned;
-        try {
-            postsReturned =  followingPosts.subList((page-1)*size, page*size);
-        } catch (IndexOutOfBoundsException e) {
-            postsReturned = followingPosts.subList((page-1)*size, followingPosts.size());
-        }
-
-        List<Object> postsAndNumberOfPages = new ArrayList<>();
-        postsAndNumberOfPages.add(postsReturned);
-        postsAndNumberOfPages.add(totalPages);
-
-        return postsAndNumberOfPages;
+        return postsPage;
     }
 
     @Override
     public List<Object> getRelatedPosts(Long userId, Pageable pageable) {
 
         User profileOwner = userRepository.findById(userId).get();
-
         Page<Post> userPostPage = postRepository.findByCreator(profileOwner, pageable);
 
         List<PostDto> followingPostsPage = userPostPage.stream().map(

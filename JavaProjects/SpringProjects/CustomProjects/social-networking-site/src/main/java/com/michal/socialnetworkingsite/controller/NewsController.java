@@ -1,14 +1,18 @@
 package com.michal.socialnetworkingsite.controller;
 
-import com.michal.socialnetworkingsite.dto.CommentDto;
 import com.michal.socialnetworkingsite.dto.PostDto;
 import com.michal.socialnetworkingsite.dto.UserDto;
 import com.michal.socialnetworkingsite.service.PostService;
 import com.michal.socialnetworkingsite.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -26,7 +30,8 @@ public class NewsController {
     // Home
     @GetMapping
     public String news(Model model,
-                       @RequestParam int page){
+                       @RequestParam int page,
+                       @PageableDefault(value = 5) Pageable pageable){
 
         PostDto postDto = new PostDto();
         model.addAttribute("post", postDto);
@@ -37,13 +42,10 @@ public class NewsController {
         List<UserDto> users = userService.getRandomUsers();
         model.addAttribute("users", users);
 
-        List<Object> followingPostsAndSize = postService.getFollowingPosts(currentUser.getUsername(), page);
-        List<PostDto> followingPosts = (List<PostDto>) followingPostsAndSize.get(0);
-        model.addAttribute("posts", followingPosts);
+        Page<PostDto> followingPostsPage = postService.getFollowingPosts(currentUser.getUsername(), pageable);
+        model.addAttribute("posts", followingPostsPage);
 
-        int totalPages = (int) followingPostsAndSize.get(1);
-
-        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("totalPages", followingPostsPage.getTotalPages());
         model.addAttribute("pageNr", page);
         return "news";
     }
@@ -51,13 +53,20 @@ public class NewsController {
     // CRUD for posts
     // Create
     @PostMapping("/post")
-    public String postAPost(@ModelAttribute("post") PostDto postDto){
+    public String postAPost(@ModelAttribute("post") @Valid PostDto postDto,
+                            BindingResult result,
+                            RedirectAttributes attributes){
+
+        if(result.hasErrors()){
+            attributes.addFlashAttribute("postBlank", true);
+            return "redirect:/Z/news?page=0";
+        }
 
         UserDto currentUser = userService.getCurrentUser();
         postDto.setCreator(currentUser.getUsername());
         postService.savePost(postDto);
 
-        return "redirect:/Z/news?page=1&success";
+        return "redirect:/Z/news?page=0";
     }
 
     // Read

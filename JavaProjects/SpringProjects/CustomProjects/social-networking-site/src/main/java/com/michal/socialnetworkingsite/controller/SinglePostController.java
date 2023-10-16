@@ -40,7 +40,7 @@ public class SinglePostController {
             boolean deleted = (boolean) inputFlashMap.get("postDeleted");
             if(deleted) {
                 attributes.addFlashAttribute("postDeleted", true);
-                return "redirect:/Z/news?page=1";
+                return "redirect:/Z/news?page=0";
             }
             } catch (NullPointerException ignored){}
         }
@@ -48,6 +48,7 @@ public class SinglePostController {
         // otherwise
         List<Object> postCommentsPageAndPages  = postService.getCurrentPost(postId, page);
         PostDto currentPost = (PostDto) postCommentsPageAndPages.get(0);
+
         List<CommentDto> commentsPage = (List<CommentDto>) postCommentsPageAndPages.get(1);
         currentPost.setComments(commentsPage);
         model.addAttribute("currentPost", currentPost);

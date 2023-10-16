@@ -15,4 +15,8 @@ public interface UserService {
     void followOrUnfollowUser(Long userId);
 
     List<UserDto> getUsers(String name);
+
+    UserDto getUserByEmail(String email);
+
+    UserDto getUserByUsername(String username);
 }

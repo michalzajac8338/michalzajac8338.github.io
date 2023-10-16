@@ -12,15 +12,6 @@
 <div th:replace="~{common/navbar::navbar}">Navbar Error</div>
 
 <div class="container-fluid">
-    <div th:if="${param.success}" class="row col-md-4 offset-md-4">
-        <br/> <br/> <br/>
-        <div class="alert alert-success">Your post has been saved successfully</div>
-    </div>
-    <div th:if="${postDeleted==true}" class="row col-md-4 offset-md-4">
-        <br/> <br/> <br/>
-        <div class="alert alert-info">Your post has been deleted successfully</div>
-    </div>
-
 
     <div class="row">
         <div th:replace="~{common/user-management::user-panel}">User error</div>
@@ -28,17 +19,28 @@
         <div class="col-md-4 offset-md-1">
             <br/> <br/> <br/>
 
+            <div th:if="${postAdded}">
+                <div class="alert alert-success">Your post has been saved successfully</div>
+            </div>
+            <div th:if="${postDeleted}">
+                <div class="alert alert-info">Your post has been deleted successfully</div>
+            </div>
+
             <div class="card shadow rounded">
 
                 <div class="card-header">
                     <h3>What's on Your mind?</h3>
                 </div>
-                <div class="card-body" >
-                    <form method="post" th:action="@{/Z/news/post}" th:object="${post}">
-                        <textarea class="card-text form-control" rows="10"  th:field="*{content}"></textarea>
-                        <button class="btn btn-primary" type="submit">Submit Your Thoughts</button>
-                    </form>
-                </div>
+                <form method="post" th:action="@{/Z/news/post}" th:object="${post}">
+                    <div class="card-body">
+                        <textarea class="card-text form-control" rows="10" id="content" name="content" th:field="*{content}"></textarea>
+                         <p class="text-danger" th:if="${postBlank}">Cannot submit blank post</p>
+<!--                        <p class="text-danger" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>-->
+                    </div>
+                    <div class="d-grid gap-2">
+                    <button class="btn btn-primary" type="submit">Submit Post</button>
+                    </div>
+                </form>
             </div>
             <br /><br />
             <h1 class="text-center">Recent posts:</h1>
@@ -85,12 +87,12 @@
             </div>
             <div class="row col-md-8 offset-md-2 text-center">
                 <form th:action="@{/Z/news}">
-                <span>
-                    <button th:if="${pageNr>2}" class="btn btn-secondary offset-md-1" type="submit" th:name="page" th:value="1" th:text="1"></button>
-                    <button th:unless="${pageNr==1}" class="btn btn-secondary offset-md-1" type="submit" th:name="page" th:value="${pageNr-1}" th:text="'Prev: '+${pageNr-1}"></button>
-                    <button th:if="${pageNr<totalPages}" class="btn btn-secondary offset-md-1" type="submit" th:name="page" th:value="${pageNr+1}" th:text="'Next: '+${pageNr+1}"></button>
-                    <button th:if="${pageNr<totalPages-1}" class="btn btn-secondary offset-md-1" type="submit" th:name="page" th:value="${totalPages}" th:text="'Last: ' + ${totalPages}"></button>
-                </span>
+                    <span>
+                    <button th:if="${pageNr>0}" class="btn btn-secondary offset-md-1" type="submit" th:name="page" th:value="0" th:text="1"></button>
+                    <button th:if="${pageNr>1}" class="btn btn-secondary offset-md-1" type="submit" th:name="page" th:value="${pageNr-1}" th:text="Prev"></button>
+                    <button th:if="${pageNr<totalPages-2}" class="btn btn-secondary offset-md-1" type="submit" th:name="page" th:value="${pageNr+1}" th:text="Next"></button>
+                    <button th:if="${pageNr<totalPages-1}" class="btn btn-secondary offset-md-1" type="submit" th:name="page" th:value="${totalPages-1}" th:text="Last"></button>
+                    </span>
                 </form>
             </div>
         </div>

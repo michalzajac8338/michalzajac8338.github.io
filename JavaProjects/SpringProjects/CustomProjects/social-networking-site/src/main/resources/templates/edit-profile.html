@@ -28,22 +28,27 @@
                             <label class="form-label" for="firstName" >Update Your first name</label>
                             <input class="form-control" id="firstName" name="firstName" type="text" placeholder="First Name" th:field="*{firstName}" th:text="*{firstName}">
                         </div>
+                        <p class="text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
                         <div class="mb-3">
                             <label class="form-label" for="lastName">Update Your last name</label>
                             <input class="form-control" id="lastName" name="lastName" type="text" placeholder="Last Name" th:field="*{lastName}" th:text="*{lastName}">
                         </div>
+                        <p class="text-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
                         <div class="mb-3">
                             <label class="form-label" for="email">Update Your email address</label>
                             <input class="form-control" id="email" name="email" type="email" placeholder="Email Address" th:field="*{email}" th:text="*{email}">
                         </div>
+                        <p class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
                         <div class="mb-3">
                             <label class="form-label" for="username">Update Your username</label>
                             <input class="form-control" id="username" name="username" type="text" placeholder="Username" th:field="*{username}" th:text="*{username}">
                         </div>
+                        <p class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
                         <div class="mb-3">
                             <label class="form-label" for="password">Update Your password</label>
                             <input class="form-control" id="password" name="password" type="password" placeholder="Password" th:field="*{password}">
                         </div>
+                        <p class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
                         <div class="float-start">
                             <button class="btn btn-success" type="submit">Submit</button>
                         </div>

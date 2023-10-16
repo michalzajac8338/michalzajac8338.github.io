@@ -15,4 +15,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByUsernameContainsOrFirstNameContainsOrLastNameContains(String username, String firstName, String lastName);
     @Query(nativeQuery=true, value="SELECT * FROM user ORDER BY RAND() LIMIT 3")
     List<User> getThreeRandomUsers();
+
+    User findByEmail(String email);
 }

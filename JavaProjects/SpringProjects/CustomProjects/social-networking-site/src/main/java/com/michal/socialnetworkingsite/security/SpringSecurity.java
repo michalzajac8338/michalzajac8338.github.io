@@ -16,7 +16,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
-@EnableMethodSecurity
 @AllArgsConstructor
 public class SpringSecurity {
 
@@ -37,22 +36,17 @@ public class SpringSecurity {
 
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(a->{
-//                    a.requestMatchers(HttpMethod.GET, "/Z/news").authenticated();
-                    a.anyRequest().permitAll();}
-                )
-//                    a.requestMatchers(HttpMethod.GET, "/Z/home").permitAll();
-//                    a.requestMatchers(HttpMethod.GET, )
-//                    a.anyRequest().authenticated()
-//                })
+//                    a.requestMatchers("/Z", "/Z/login/**", "/Z/register/**").permitAll();
+//                    a.anyRequest().authenticated();
+                    a.anyRequest().permitAll();
+                })
                 .formLogin(form ->
                         form.loginPage("/Z/login").loginProcessingUrl("/Z/login")
-                                .defaultSuccessUrl("/Z/news?page=1") //.permitAll()
+                                .defaultSuccessUrl("/Z/news?page=0")
                 )
                 .logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/Z/logout")));
-//                .httpBasic(Customizer.withDefaults());
 
         return http.build();
 
     }
-
 }

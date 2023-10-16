@@ -1,23 +1,25 @@
 package com.michal.socialnetworkingsite.controller;
 
-import com.michal.socialnetworkingsite.dto.PostDto;
 import com.michal.socialnetworkingsite.dto.PostLikeDto;
 import com.michal.socialnetworkingsite.dto.UserDto;
 import com.michal.socialnetworkingsite.service.PostLikeService;
 import com.michal.socialnetworkingsite.service.PostService;
 import com.michal.socialnetworkingsite.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("Z")
@@ -46,7 +48,28 @@ public class UserController {
     }
 
     @PostMapping("/register/save")
-    public String registerUser(@ModelAttribute("user") UserDto userDto){
+    public String registerUser(Model model,
+                               @ModelAttribute("user") @Valid UserDto userDto,
+                               BindingResult result){
+
+        UserDto existingUser = userService.getUserByEmail(userDto.getEmail());
+        if(existingUser!=null){
+            result.rejectValue("email", null, "email already in database");
+        }
+
+        existingUser = userService.getUserByUsername(userDto.getUsername());
+        if(existingUser!=null){
+            result.rejectValue("username", null, "username already in database");
+        }
+
+        if(userDto.getPassword().length()<4 ||  userDto.getPassword().length()>24){
+            result.rejectValue("password", null, "password should consist of 4-24 characters");
+        }
+
+        if(result.hasErrors()){
+            model.addAttribute("user", userDto);
+            return "register-form";
+        }
 
         userService.save(userDto);
 
@@ -84,28 +107,54 @@ public class UserController {
         return "view-profile";
     }
     // Update
-    @PostMapping("/editProfile")
-    public String editProfile(){
+    @PostMapping("/editProfile/{userId}")
+    public String editProfile(@PathVariable Long userId){
 
-        return "redirect:/Z/editProfile";
+        return "redirect:/Z/editProfile/{userId}";
     }
 
-    @GetMapping("/editProfile")
-    public String editUser(Model model){
+    @GetMapping("/editProfile/{userId}")
+    public String editUser(@PathVariable Long userId, Model model){
 
-        UserDto currentUser = userService.getCurrentUser();
+        UserDto currentUser = userService.getUser(userId);
         model.addAttribute("currentUser", currentUser);
 
         return "edit-profile";
     }
 
     @PostMapping("/editProfile/save/{userId}")
-    public String savedEditedProfile(@ModelAttribute("user") UserDto userDto,
-                                     @PathVariable Long userId){
+    public String savedEditedProfile(@ModelAttribute("currentUser") @Valid UserDto userDto,
+                                     BindingResult result,
+                                     @PathVariable Long userId,
+                                     Model model){
 
         userDto.setId(userId);
+        UserDto userBeforeUpdate = userService.getUser(userId);
+        UserDto existingUser;
+
+        if(!Objects.equals(userBeforeUpdate.getEmail(), userDto.getEmail())){
+            existingUser = userService.getUserByEmail(userDto.getEmail());
+            if(existingUser!=null){
+                result.rejectValue("email", null, "Email already in database");
+            }
+        }
+
+        if(!Objects.equals(userBeforeUpdate.getUsername(), userDto.getUsername())){
+            existingUser = userService.getUserByUsername(userDto.getUsername());
+            if(existingUser!=null){
+                result.rejectValue("username", null, "Username already in database");
+            }
+        }
+
+        if(result.hasErrors()){
+            model.addAttribute("currentUser", userDto);
+            return "edit-profile";
+        }
+
         userService.updateUser(userDto);
-        return "redirect:/Z/news?page=1";
+        SecurityContextHolder.clearContext();
+
+        return "redirect:/Z/login?profileUpdated";
     }
 
     // Delete
@@ -174,6 +223,6 @@ public class UserController {
     @PostMapping("/editProfile/cancel")
     public String cancelProfileEdition(){
 
-        return "redirect:/Z/news?page=1";
+        return "redirect:/Z/news?page=0";
     }
 }
