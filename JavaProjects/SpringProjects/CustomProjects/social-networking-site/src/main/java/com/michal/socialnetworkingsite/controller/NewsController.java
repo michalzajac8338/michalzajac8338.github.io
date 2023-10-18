@@ -66,6 +66,7 @@ public class NewsController {
             return "redirect:" + referer;
         }
 
+        attributes.addFlashAttribute("postAdded", true);
         UserDto currentUser = userService.getCurrentUser();
         postDto.setCreator(currentUser.getUsername());
         postService.create(postDto);
