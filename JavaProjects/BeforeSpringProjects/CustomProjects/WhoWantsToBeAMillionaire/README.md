@@ -1,6 +1,6 @@
 # Who wants to be a millionaire
 
-This is my custom project of a popular TV show. Project isn't yet finished, but I am going to update it regularly.
+This is my custom project of a popular TV show.
 
 The aim of the project is to demonstrate understanding of issues:
 * simple JavaFX implementation,
