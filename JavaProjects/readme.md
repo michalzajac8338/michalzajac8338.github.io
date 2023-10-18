@@ -1,4 +1,5 @@
 My main project is located in SpringProjects/CustomProjects/social-networking-site
+Docker image of project: https://hub.docker.com/repository/docker/michalzajac8338/social-networking-site_zv1/general
 
 # Z - social networking site
 
