@@ -8,7 +8,7 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
-<div th:fragment="user-panel" class="col-md-2 offset-md-1 text-center">
+<div th:fragment="user-panel" th:if="${currentUser!=null}" class="col-md-2 offset-md-1 text-center">
     <br/> <br/> <br/>
     <h1>Your profile</h1>
     <br />
@@ -53,7 +53,7 @@
     </div>
 
 </div>
-<div th:fragment="user-list" class="col-md-2 offset-md-1">
+<div th:fragment="user-list" th:if="${currentUser!=null}"  class="col-md-2 offset-md-1">
     <br/> <br/> <br/>
     <div class="card shadow rounded">
         <div class="card-header text-center">User Search</div>

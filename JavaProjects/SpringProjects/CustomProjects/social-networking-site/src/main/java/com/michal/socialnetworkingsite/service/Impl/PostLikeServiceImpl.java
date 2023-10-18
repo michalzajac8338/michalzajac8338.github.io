@@ -4,6 +4,7 @@ import com.michal.socialnetworkingsite.dto.PostLikeDto;
 import com.michal.socialnetworkingsite.entity.Post;
 import com.michal.socialnetworkingsite.entity.PostLike;
 import com.michal.socialnetworkingsite.entity.User;
+import com.michal.socialnetworkingsite.exception.ResourceNotFoundException;
 import com.michal.socialnetworkingsite.mapper.PostLikeMapper;
 import com.michal.socialnetworkingsite.repository.PostLikeRepository;
 import com.michal.socialnetworkingsite.repository.PostRepository;
@@ -25,17 +26,14 @@ public class PostLikeServiceImpl implements PostLikeService {
     @Transactional
     public void savePostLike(PostLikeDto postLikeDto) {
 
-        User user = userRepository.findByUsername(postLikeDto.getUsername());
-        Post post = postRepository.findById(postLikeDto.getPostId()).get();
+        User user = userRepository.findByUsername(postLikeDto.getUsername()).orElse(null);
+        Post post = postRepository.findById(postLikeDto.getPostId()).orElse(null);
 
-        PostLike postLikeCheck = postLikeRepository.findByCreatorAndPost(user,post);
+        PostLike postLikeCheck = postLikeRepository.findByCreatorAndPost(user,post).orElse(null);
 
         if(postLikeCheck!=null){
-
             postLikeRepository.delete(postLikeCheck);
-
         } else {
-
             PostLike postLike = PostLikeMapper.mapToPostLike(post, user);
             postLikeRepository.save(postLike);
         }

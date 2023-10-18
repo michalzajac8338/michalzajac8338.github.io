@@ -11,49 +11,54 @@
 
 <div th:replace="~{common/navbar::navbar}">Navbar Error</div>
 
-<!--<div><p>"ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ-->
-<!--    ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ-->
-<!--                                                                                 ZZZ-->
-<!--                                                                               ZZZ-->
-<!--                                                                             ZZZ-->
-<!--                                                                           ZZZ-->
-<!--                                                                         ZZZ-->
-<!--                                                                       ZZZ-->
-<!--                                                                     ZZZ-->
-<!--                                                                   ZZZ-->
-<!--                                                                 ZZZ-->
-<!--                                                               ZZZ-->
-<!--                                                             ZZZ-->
-<!--                                                           ZZZ-->
-<!--                                                         ZZZ-->
-<!--                                                       ZZZ-->
-<!--                                                     ZZZ-->
-<!--                                                   ZZZ-->
-<!--                                                 ZZZ-->
-<!--                                               ZZZ-->
-<!--                                             ZZZ-->
-<!--                                           ZZZ-->
-<!--                                         ZZZ-->
-<!--                                       ZZZ-->
-<!--                                     ZZZ-->
-<!--                                   ZZZ-->
-<!--                                 ZZZ-->
-<!--                               ZZZ-->
-<!--                             ZZZ-->
-<!--                           ZZZ-->
-<!--                         ZZZ-->
-<!--                       ZZZ-->
-<!--                     ZZZ-->
-<!--                   ZZZ-->
-<!--                 ZZZ-->
-<!--               ZZZ-->
-<!--             ZZZ-->
-<!--           ZZZ-->
-<!--         ZZZ-->
-<!--       ZZZ-->
-<!--    ZZZ-->
-<!--    ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ-->
-<!--    ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ"</p></div>-->
+<div class="container-fluid">
 
+    <div class="row">
+        <div th:replace="~{common/user-management::user-panel}">User error</div>
+        <div th:if="${currentUser==null}" class="col-md-3"></div>
+        <div class="col-md-4 offset-md-1">
+            <br/><br/><br/><br/>
+            <br/> <br/> <br/>
+
+            <div th:if="${errorOccurred}">
+                <div class="text-center alert alert-danger">Oops, something went wrong</div>
+            </div>
+
+            <br/>
+
+            <img class="rounded img-fluid" alt="logo" width="1500" height="825" th:src="@{/images/big_logo.png}"/>
+            <br/>
+
+            <div th:if="${currentUser==null}" class="row col-md-6 offset-md-3">
+                <div>
+                    <br/>
+                    <div class="clearfix">
+                        <div class="float-start">
+                            <a class="btn btn-link btn-lg" th:href="@{/Z/login}">Log in</a>
+                        </div>
+                        <div class="float-end">
+                            <a class="btn btn-link btn-lg" th:href="@{/Z/register}">Register</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div th:unless="${currentUser==null}" class="row col-md-6 offset-md-3">
+                <div class="clearfix">
+                    <div>
+                        <br/><br/>
+                        <div class="float-start">
+                            <a class="btn btn-dark" th:href="@{/Z/logout}">Log out</a>
+                        </div>
+                        <div class="float-end">
+                            <a class="btn btn-primary" th:href="@{/Z/news?page=0}">News</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:replace="~{common/user-management::user-list}">User List Error</div>
+    </div>
+</div>
 </body>
 </html>

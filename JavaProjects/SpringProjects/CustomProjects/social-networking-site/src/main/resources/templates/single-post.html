@@ -48,6 +48,7 @@
                         <div class="clearfix">
                             <form method="post" th:action="@{/Z/news/singlePost/submitEdition/{postId}(postId=${currentPost.id})}" th:object="${currentPost}">
                                 <textarea class="card-text form-control" rows="10" th:field="*{content}" th:text="${currentPost.content}"></textarea>
+                                <p class="text-danger" th:if="${emptyEdition}">post cannot be blank & should consist of 1-511 characters</p>
                                 <div class="float-start">
                                     <button class="btn btn-primary" type="submit">Submit Post Edition</button>
                                 </div>
@@ -99,6 +100,7 @@
                                     <form method="post" th:action="@{/Z/news/singlePost/submitEdition/{postId}/comment/{commentId}(postId=${currentPost.id},commentId=${c.id})}"
                                           th:object="${currentComment}">
                                         <textarea class="card-text form-control" rows="10" th:field="*{content}" th:text="*{content}"></textarea>
+                                        <p class="text-danger" th:if="${commentBlank}">comment cannot be blank & should consist of 1-511 characters</p>
                                         <div class="float-start">
                                             <button class="btn btn-secondary" type="submit">Submit comment edition</button>
                                         </div>
@@ -131,6 +133,7 @@
                     <div class="card-body">
                         <form method="post" th:object="${comment}" th:action="@{/Z/news/singlePost/comment/{postId}(postId=${currentPost.id})}">
                             <textarea class="card-text form-control" rows="10" th:field="*{content}"></textarea>
+                            <p class="text-danger" th:if="${commentBlank}">comment cannot be blank & should consist of 1-511 characters</p>
                             <button class="btn btn-secondary" type="submit">Submit a comment</button>
                         </form>
                     </div>

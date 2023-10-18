@@ -1,11 +1,16 @@
 package com.michal.socialnetworkingsite.controller;
 
-import com.michal.socialnetworkingsite.dto.*;
+import com.michal.socialnetworkingsite.dto.CommentDto;
+import com.michal.socialnetworkingsite.dto.CommentLikeDto;
+import com.michal.socialnetworkingsite.dto.PostDto;
+import com.michal.socialnetworkingsite.dto.UserDto;
 import com.michal.socialnetworkingsite.service.*;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
@@ -33,7 +38,7 @@ public class SinglePostController {
                                @RequestParam int page,
                                Model model){
 
-        // delete->redirect to news
+        // delete viewing post -> redirect to news
         Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
         if (inputFlashMap != null) {
             try{
@@ -70,15 +75,24 @@ public class SinglePostController {
     }
 
     @PostMapping("/comment/{postId}")
-    public String submitComment(HttpServletRequest request,
-                                @ModelAttribute CommentDto commentDto,
-                                @PathVariable Long postId){
+    public String submitComment(@ModelAttribute @Valid CommentDto commentDto,
+                                BindingResult result,
+                                @PathVariable Long postId,
+                                HttpServletRequest request,
+                                RedirectAttributes attributes){
+
+        String referer = request.getHeader("Referer");
+
+        // comment validation
+        if(result.hasErrors()){
+            attributes.addFlashAttribute("commentBlank", true);
+            return "redirect:" + referer;
+        }
 
         UserDto currentUser = userService.getCurrentUser();
         commentDto.setUsername(currentUser.getUsername());
         commentService.saveComment(commentDto, postId);
 
-        String referer = request.getHeader("Referer");
         return "redirect:" + referer;
     }
 
@@ -99,14 +113,27 @@ public class SinglePostController {
     }
 
     @PostMapping("submitEdition/{postId}/comment/{commentId}")
-    public String submitCommentEdition(HttpServletRequest request,
-                                       @ModelAttribute CommentDto currentComment,
-                                       @PathVariable Long commentId){
+    public String submitCommentEdition(@ModelAttribute @Valid CommentDto currentComment,
+                                       BindingResult result,
+                                       @PathVariable Long commentId,
+                                       HttpServletRequest request,
+                                       RedirectAttributes attributes){
+
+        String referer = request.getHeader("Referer");
+
+        // back to editing when invalid comment
+        if(result.hasErrors()) {
+            attributes.addFlashAttribute("editComment", true);
+            CommentDto commentDto = commentService.getCurrentComment(commentId);
+            attributes.addFlashAttribute("currentComment", commentDto);
+            attributes.addFlashAttribute("commentBlank", true);
+            return "redirect:" + referer;
+        }
+
 
         currentComment.setId(commentId);
         commentService.updateComment(currentComment.getId(), currentComment.getContent());
 
-        String referer = request.getHeader("Referer");
         return "redirect:" + referer;
     }
 

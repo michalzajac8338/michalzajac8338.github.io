@@ -5,18 +5,14 @@ import com.michal.socialnetworkingsite.dto.UserDto;
 import java.util.List;
 
 public interface UserService {
-    void save(UserDto userDto);
+    void create(UserDto userDto);
     UserDto getCurrentUser();
     UserDto getUser(Long userId);
     List<UserDto> getRandomUsers();
     void updateUser(UserDto userDto);
-
     void deleteCurrentUser();
     void followOrUnfollowUser(Long userId);
-
-    List<UserDto> getUsers(String name);
-
-    UserDto getUserByEmail(String email);
-
-    UserDto getUserByUsername(String username);
+    List<UserDto> findUsers(String name);
+    UserDto findUserByEmail(String email);
+    UserDto findUserByUsername(String username);
 }

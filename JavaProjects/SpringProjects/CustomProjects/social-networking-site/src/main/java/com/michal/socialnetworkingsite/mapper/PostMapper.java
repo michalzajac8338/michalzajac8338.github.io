@@ -1,16 +1,11 @@
 package com.michal.socialnetworkingsite.mapper;
 
 import com.michal.socialnetworkingsite.dto.PostDto;
-import com.michal.socialnetworkingsite.dto.PostLikeDto;
 import com.michal.socialnetworkingsite.entity.Post;
-import com.michal.socialnetworkingsite.entity.PostLike;
 import com.michal.socialnetworkingsite.entity.User;
-import com.michal.socialnetworkingsite.service.UserService;
-import lombok.AllArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 public class PostMapper {
 

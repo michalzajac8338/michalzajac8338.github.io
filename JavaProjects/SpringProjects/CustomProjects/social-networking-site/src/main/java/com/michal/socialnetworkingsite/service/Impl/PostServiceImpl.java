@@ -4,6 +4,7 @@ import com.michal.socialnetworkingsite.dto.CommentDto;
 import com.michal.socialnetworkingsite.dto.PostDto;
 import com.michal.socialnetworkingsite.entity.Post;
 import com.michal.socialnetworkingsite.entity.User;
+import com.michal.socialnetworkingsite.exception.ResourceNotFoundException;
 import com.michal.socialnetworkingsite.mapper.PostMapper;
 import com.michal.socialnetworkingsite.repository.PostRepository;
 import com.michal.socialnetworkingsite.repository.UserRepository;
@@ -24,16 +25,16 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public void savePost(PostDto postDto) {
+    public void create(PostDto postDto) {
 
-        User user = userRepository.findByUsername(postDto.getCreator());
+        User user = userRepository.findByUsername(postDto.getCreator())
+                .orElseThrow(ResourceNotFoundException::new);
 
         Post post = PostMapper.mapToPost(
                 postDto,
                 user);
 
         postRepository.save(post);
-
     }
 
     @Override
@@ -42,20 +43,22 @@ public class PostServiceImpl implements PostService {
         List<Post> posts = postRepository.findAll();
 
         return posts.stream().map(
-                        p->PostMapper.mapToPostDto(p, p.getCreator().getUsername()))
-                .toList().reversed();
+                        p->PostMapper.mapToPostDto(p, p.getCreator().getUsername())).toList().reversed();
     }
 
     @Override
     public List<Object> getCurrentPost(Long postId, int page) {
 
-        Post post = postRepository.findById(postId).get();
+        Post post = postRepository.findById(postId).orElseThrow(ResourceNotFoundException::new);
         PostDto postDto = PostMapper.mapToPostDto(post, post.getCreator().getUsername());
 
         int size = 3;
         int totalPages = (int) Math.ceil(((double) post.getComments().size() / size));
 
-        List<CommentDto> commentsSorted = postDto.getComments().stream().sorted(Comparator.comparing(CommentDto::getLastUpdated, Comparator.reverseOrder())).toList();
+        List<CommentDto> commentsSorted = postDto.getComments().stream()
+                .sorted(Comparator.comparing(CommentDto::getLastUpdated, Comparator.reverseOrder())).toList();
+
+        // paging comments
         List<CommentDto> commentsReturned;
         try {
             commentsReturned = commentsSorted.subList((page-1)*size, page*size);
@@ -74,7 +77,7 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public void updatePost(PostDto currentPost) {
-        Post post = postRepository.findById(currentPost.getId()).get();
+        Post post = postRepository.findById(currentPost.getId()).orElseThrow(ResourceNotFoundException::new);
         post.setContent(currentPost.getContent());
         postRepository.save(post);
     }
@@ -83,7 +86,7 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public Page<PostDto> getFollowingPosts(String currentUsername, Pageable pageable) {
 
-        User currentUser = userRepository.findByUsername(currentUsername);
+        User currentUser = userRepository.findByUsername(currentUsername).orElseThrow(ResourceNotFoundException::new);
         List<User> followingUsers = new ArrayList<>(currentUser.getFollowing());
 
         if(!followingUsers.contains(currentUser)) {
@@ -96,19 +99,19 @@ public class PostServiceImpl implements PostService {
                 .flatMap(Collection::stream).sorted(Comparator.comparing(PostDto::getLastUpdated, Comparator.reverseOrder()))
                 .toList();
 
+        // posts pagination from list
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), followingPosts.size());
         List<PostDto> pageContent = followingPosts.subList(start, end);
-        // pagination from list
-        Page<PostDto> postsPage = new PageImpl<>(pageContent, pageable, followingPosts.size());
 
-        return postsPage;
+        return new PageImpl<>(pageContent, pageable, followingPosts.size());
     }
 
     @Override
+    @Transactional
     public List<Object> getRelatedPosts(Long userId, Pageable pageable) {
 
-        User profileOwner = userRepository.findById(userId).get();
+        User profileOwner = userRepository.findById(userId).orElseThrow(ResourceNotFoundException::new);
         Page<Post> userPostPage = postRepository.findByCreator(profileOwner, pageable);
 
         List<PostDto> followingPostsPage = userPostPage.stream().map(

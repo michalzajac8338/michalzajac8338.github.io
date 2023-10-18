@@ -1,10 +1,8 @@
 package com.michal.socialnetworkingsite.mapper;
 
 import com.michal.socialnetworkingsite.dto.CommentDto;
-import com.michal.socialnetworkingsite.dto.PostLikeDto;
 import com.michal.socialnetworkingsite.entity.Comment;
 import com.michal.socialnetworkingsite.entity.Post;
-import com.michal.socialnetworkingsite.entity.PostLike;
 import com.michal.socialnetworkingsite.entity.User;
 
 import java.time.LocalDateTime;

@@ -7,17 +7,11 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface PostService {
-    void savePost(PostDto postDto);
-    List<PostDto> getAllPosts();
-
+    void create(PostDto postDto);
     List<Object> getCurrentPost(Long postId, int page);
-
+    List<PostDto> getAllPosts();
     void updatePost(PostDto currentPost);
-
-    Page<PostDto> getFollowingPosts(String currentUsername, Pageable pageable);
-
-    List<Object> getRelatedPosts(Long userId, Pageable pageable);
-
     void deletePost(Long postId);
-
+    Page<PostDto> getFollowingPosts(String currentUsername, Pageable pageable);
+    List<Object> getRelatedPosts(Long userId, Pageable pageable);
 }

@@ -5,13 +5,13 @@ import com.michal.socialnetworkingsite.dto.UserDto;
 import com.michal.socialnetworkingsite.service.PostLikeService;
 import com.michal.socialnetworkingsite.service.PostService;
 import com.michal.socialnetworkingsite.service.UserService;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,7 +32,16 @@ public class UserController {
 
     // Home
     @GetMapping
-    public String home(){
+    public String home(Model model){
+
+        // home page for logged-in user
+        try {
+            UserDto currentUser = userService.getCurrentUser();
+            model.addAttribute("currentUser", currentUser);
+            List<UserDto> users = userService.getRandomUsers();
+            model.addAttribute("users", users);
+        } catch (NullPointerException ignored){}
+
         return "home-page";
     }
 
@@ -52,12 +61,13 @@ public class UserController {
                                @ModelAttribute("user") @Valid UserDto userDto,
                                BindingResult result){
 
-        UserDto existingUser = userService.getUserByEmail(userDto.getEmail());
+        // data validation before saving to db
+        UserDto existingUser = userService.findUserByEmail(userDto.getEmail());
         if(existingUser!=null){
             result.rejectValue("email", null, "email already in database");
         }
 
-        existingUser = userService.getUserByUsername(userDto.getUsername());
+        existingUser = userService.findUserByUsername(userDto.getUsername());
         if(existingUser!=null){
             result.rejectValue("username", null, "username already in database");
         }
@@ -71,7 +81,7 @@ public class UserController {
             return "register-form";
         }
 
-        userService.save(userDto);
+        userService.create(userDto);
 
         return "redirect:/Z/login?registered_successfully";
     }
@@ -126,21 +136,23 @@ public class UserController {
     public String savedEditedProfile(@ModelAttribute("currentUser") @Valid UserDto userDto,
                                      BindingResult result,
                                      @PathVariable Long userId,
-                                     Model model){
+                                     Model model,
+                                     HttpServletRequest request) throws ServletException {
 
         userDto.setId(userId);
         UserDto userBeforeUpdate = userService.getUser(userId);
         UserDto existingUser;
 
+        // username & email db validation
         if(!Objects.equals(userBeforeUpdate.getEmail(), userDto.getEmail())){
-            existingUser = userService.getUserByEmail(userDto.getEmail());
+            existingUser = userService.findUserByEmail(userDto.getEmail());
             if(existingUser!=null){
                 result.rejectValue("email", null, "Email already in database");
             }
         }
 
         if(!Objects.equals(userBeforeUpdate.getUsername(), userDto.getUsername())){
-            existingUser = userService.getUserByUsername(userDto.getUsername());
+            existingUser = userService.findUserByUsername(userDto.getUsername());
             if(existingUser!=null){
                 result.rejectValue("username", null, "Username already in database");
             }
@@ -152,7 +164,7 @@ public class UserController {
         }
 
         userService.updateUser(userDto);
-        SecurityContextHolder.clearContext();
+        request.logout();
 
         return "redirect:/Z/login?profileUpdated";
     }
@@ -206,7 +218,7 @@ public class UserController {
                                 RedirectAttributes attributes,
                                 @RequestParam String searchValue) {
 
-        List<UserDto> results = userService.getUsers(searchValue);
+        List<UserDto> results = userService.findUsers(searchValue);
         attributes.addFlashAttribute("searchResults", results);
         String referer = request.getHeader("Referer");
 

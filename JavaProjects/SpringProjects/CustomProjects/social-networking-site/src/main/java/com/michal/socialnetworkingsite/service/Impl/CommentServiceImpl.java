@@ -4,6 +4,7 @@ import com.michal.socialnetworkingsite.dto.CommentDto;
 import com.michal.socialnetworkingsite.entity.Comment;
 import com.michal.socialnetworkingsite.entity.Post;
 import com.michal.socialnetworkingsite.entity.User;
+import com.michal.socialnetworkingsite.exception.ResourceNotFoundException;
 import com.michal.socialnetworkingsite.mapper.CommentMapper;
 import com.michal.socialnetworkingsite.repository.CommentRepository;
 import com.michal.socialnetworkingsite.repository.PostRepository;
@@ -21,28 +22,28 @@ public class CommentServiceImpl implements CommentService {
     PostRepository postRepository;
     CommentRepository commentRepository;
 
-    @Transactional
     @Override
+    @Transactional
     public void saveComment(CommentDto commentDto, Long postId) {
 
-        User user = userRepository.findByUsername(commentDto.getUsername());
-        Post post = postRepository.findById(postId).get();
+        User user = userRepository.findByUsername(commentDto.getUsername()).orElseThrow(ResourceNotFoundException::new);
+        Post post = postRepository.findById(postId).orElseThrow(ResourceNotFoundException::new);
         Comment comment = CommentMapper.mapToComment(commentDto, post, user);
         commentRepository.save(comment);
-
     }
 
     @Override
     public CommentDto getCurrentComment(Long commentId) {
 
-        Comment comment = commentRepository.findById(commentId).get();
+        Comment comment = commentRepository.findById(commentId).orElseThrow(ResourceNotFoundException::new);
         return CommentMapper.mapToCommentDto(comment, comment.getCreator().getUsername());
     }
 
     @Override
+    @Transactional
     public void updateComment(Long commentId, String content) {
 
-        Comment comment = commentRepository.findById(commentId).get();
+        Comment comment = commentRepository.findById(commentId).orElseThrow(ResourceNotFoundException::new);
         comment.setContent(content);
         commentRepository.save(comment);
     }

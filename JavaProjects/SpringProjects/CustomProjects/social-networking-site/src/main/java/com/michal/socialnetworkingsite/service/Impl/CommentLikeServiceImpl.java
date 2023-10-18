@@ -2,6 +2,7 @@ package com.michal.socialnetworkingsite.service.Impl;
 
 import com.michal.socialnetworkingsite.dto.CommentLikeDto;
 import com.michal.socialnetworkingsite.entity.*;
+import com.michal.socialnetworkingsite.exception.ResourceNotFoundException;
 import com.michal.socialnetworkingsite.mapper.CommentLikeMapper;
 import com.michal.socialnetworkingsite.repository.CommentLikeRepository;
 import com.michal.socialnetworkingsite.repository.CommentRepository;
@@ -23,10 +24,9 @@ public class CommentLikeServiceImpl implements CommentLikeService {
     @Transactional
     public void saveCommentLike(CommentLikeDto commentLikeDto) {
 
-        User user = userRepository.findByUsername(commentLikeDto.getUsername());
-        Comment comment = commentRepository.findById(commentLikeDto.getCommentId()).get();
-
-        CommentLike commentLikeCheck = commentLikeRepository.findByCreatorAndComment(user, comment);
+        User user = userRepository.findByUsername(commentLikeDto.getUsername()).orElse(null);
+        Comment comment = commentRepository.findById(commentLikeDto.getCommentId()).orElse(null);
+        CommentLike commentLikeCheck = commentLikeRepository.findByCreatorAndComment(user, comment).orElse(null);
 
         if(commentLikeCheck!=null){
             commentLikeRepository.delete(commentLikeCheck);
@@ -34,6 +34,5 @@ public class CommentLikeServiceImpl implements CommentLikeService {
             CommentLike commentLike = CommentLikeMapper.mapToCommentLike(comment, user);
             commentLikeRepository.save(commentLike);
         }
-
     }
 }

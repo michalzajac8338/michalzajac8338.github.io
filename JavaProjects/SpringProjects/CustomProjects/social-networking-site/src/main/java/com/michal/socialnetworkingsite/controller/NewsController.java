@@ -15,7 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import java.util.List;
 
 @Controller
@@ -32,6 +31,7 @@ public class NewsController {
     public String news(Model model,
                        @RequestParam int page,
                        @PageableDefault(value = 5) Pageable pageable){
+
 
         PostDto postDto = new PostDto();
         model.addAttribute("post", postDto);
@@ -55,16 +55,20 @@ public class NewsController {
     @PostMapping("/post")
     public String postAPost(@ModelAttribute("post") @Valid PostDto postDto,
                             BindingResult result,
-                            RedirectAttributes attributes){
+                            RedirectAttributes attributes,
+                            HttpServletRequest request){
 
+        String referer = request.getHeader("Referer");
+
+        // post validation
         if(result.hasErrors()){
             attributes.addFlashAttribute("postBlank", true);
-            return "redirect:/Z/news?page=0";
+            return "redirect:" + referer;
         }
 
         UserDto currentUser = userService.getCurrentUser();
         postDto.setCreator(currentUser.getUsername());
-        postService.savePost(postDto);
+        postService.create(postDto);
 
         return "redirect:/Z/news?page=0";
     }
@@ -86,16 +90,24 @@ public class NewsController {
     }
 
     @PostMapping("/singlePost/submitEdition/{postId}")
-    public String submitPostEdition(HttpServletRequest request,
-                                    @ModelAttribute PostDto currentPost,
+    public String submitPostEdition(@ModelAttribute @Valid PostDto currentPost,
+                                    BindingResult result,
+                                    HttpServletRequest request,
+                                    RedirectAttributes attributes,
                                     @PathVariable Long postId){
+
+        String referer = request.getHeader("Referer");
+
+        if(result.hasErrors()) {
+            attributes.addFlashAttribute("editPost", true);
+            attributes.addFlashAttribute("emptyEdition", true);
+            return "redirect:" + referer;
+        }
 
         UserDto currentUser = userService.getCurrentUser();
         currentPost.setId(postId);
         currentPost.setCreator(currentUser.getUsername());
         postService.updatePost(currentPost);
-
-        String referer = request.getHeader("Referer");
 
         return "redirect:" + referer;
     }

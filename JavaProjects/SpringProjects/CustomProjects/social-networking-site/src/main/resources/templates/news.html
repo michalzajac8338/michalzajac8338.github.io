@@ -33,12 +33,11 @@
                 </div>
                 <form method="post" th:action="@{/Z/news/post}" th:object="${post}">
                     <div class="card-body">
-                        <textarea class="card-text form-control" rows="10" id="content" name="content" th:field="*{content}"></textarea>
-                         <p class="text-danger" th:if="${postBlank}">Cannot submit blank post</p>
-<!--                        <p class="text-danger" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>-->
+                        <textarea class="card-text form-control" rows="10" th:field="*{content}"></textarea>
+                        <p class="text-danger" th:if="${postBlank}">post cannot be blank & should consist of 1-511 characters</p>
                     </div>
-                    <div class="d-grid gap-2">
-                    <button class="btn btn-primary" type="submit">Submit Post</button>
+                    <div class="d-grid gap-2 mb-3 col-md-6 offset-md-3">
+                        <button class="btn btn-primary" type="submit">Submit Post</button>
                     </div>
                 </form>
             </div>
