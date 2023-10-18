@@ -36,9 +36,11 @@ In this project I have constructed X-like social networking site with Spring Boo
 
 ## presentation
 * MySQL database diagram:
+
 ![image](https://github.com/michalzajac8338/michalzajac8338.github.io/assets/140641623/69cfab4e-4567-4617-baf0-99959abfc59a)
 
 * Some usage screenshots:
+
 ![image](https://github.com/michalzajac8338/michalzajac8338.github.io/assets/140641623/984d340e-b54a-4359-80a2-3561f5a93d5e)
 
 ![image](https://github.com/michalzajac8338/michalzajac8338.github.io/assets/140641623/1b3eded2-41f5-45e9-99f6-b544a712f590)
