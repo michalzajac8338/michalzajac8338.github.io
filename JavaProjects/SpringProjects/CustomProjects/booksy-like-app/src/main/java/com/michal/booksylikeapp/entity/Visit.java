@@ -8,7 +8,9 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Getter
 @Setter
@@ -27,7 +29,7 @@ public class Visit {
     private LocalDateTime updated;
 
     private LocalDateTime startTime;
-    private LocalDateTime duration;
+    private Duration duration;
     private VisitStatus status;
     private Double cost;
     private String type;
@@ -49,4 +51,6 @@ public class Visit {
     @JoinColumn(name = "reviews_id", unique = true)
     private Review review;
 
+    @ManyToOne
+    private Availability availability;
 }

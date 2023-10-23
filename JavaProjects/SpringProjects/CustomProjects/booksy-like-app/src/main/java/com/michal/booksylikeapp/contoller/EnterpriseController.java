@@ -18,7 +18,7 @@ public class EnterpriseController {
     private EnterpriseService enterpriseService;
     private EmployeeService employeeService;
 
-    // CRUD for enterprises & C for employee -> enterprise creates employee account
+    // CRUD for enterprises
 
     // Create
     @PostMapping
@@ -29,38 +29,27 @@ public class EnterpriseController {
     }
 
     // Read
-    @GetMapping("/id={id}")
-    public ResponseEntity<EnterpriseDto> readEnterprise(@PathVariable Long id){
+    @GetMapping("/enterpriseId={enterpriseId}")
+    public ResponseEntity<EnterpriseDto> readEnterprise(@PathVariable Long enterpriseId){
 
-        EnterpriseDto queriedEnterprise = enterpriseService.readEnterprise(id);
+        EnterpriseDto queriedEnterprise = enterpriseService.readEnterprise(enterpriseId);
         return new ResponseEntity<>(queriedEnterprise, HttpStatus.OK);
     }
 
     // Update
-    @PutMapping("/id={id}")
-    public ResponseEntity<EnterpriseDto> updateEnterprise(@PathVariable Long id,
-                                                  @RequestBody EnterpriseDto enterpriseDto){
+    @PutMapping("/enterpriseId={enterpriseId}")
+    public ResponseEntity<EnterpriseDto> updateEnterprise(@PathVariable Long enterpriseId,
+                                                          @RequestBody EnterpriseDto enterpriseDto){
 
-        EnterpriseDto updatedEnterprise = enterpriseService.updateEnterprise(id, enterpriseDto);
+        EnterpriseDto updatedEnterprise = enterpriseService.updateEnterprise(enterpriseId, enterpriseDto);
         return new ResponseEntity<>(updatedEnterprise, HttpStatus.OK);
     }
 
     // Delete
-    @DeleteMapping("/id={id}")
-    public ResponseEntity<Void> deleteEnterprise(@PathVariable Long id){
+    @DeleteMapping("/enterpriseId={enterpriseId}")
+    public ResponseEntity<Void> deleteEnterprise(@PathVariable Long enterpriseId){
 
-        enterpriseService.deleteEnterprise(id);
+        enterpriseService.deleteEnterprise(enterpriseId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    // Create EMPLOYEE
-    @PostMapping("/id={id}/createEmployee")
-    public ResponseEntity<EmployeeDto> createEmployee(@PathVariable("id") Long enterpriseId,
-                                                      @RequestBody EmployeeDto employeeDto){
-
-        employeeDto.setEnterpriseId(enterpriseId);
-        EmployeeDto createdEmployee = employeeService.createEmployee(employeeDto);
-        return new ResponseEntity<>(createdEmployee, HttpStatus.CREATED);
-
     }
 }

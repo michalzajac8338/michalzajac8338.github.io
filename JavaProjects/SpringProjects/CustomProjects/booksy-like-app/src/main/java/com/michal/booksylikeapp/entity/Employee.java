@@ -45,8 +45,8 @@ public class Employee {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "employee")
     private Set<Visit> visits;
 
-    @OneToMany
-    @JoinColumn(name = "employees_id")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "employee_id")
     private List<Availability> availabilityList;
 
     @ManyToOne(fetch = FetchType.EAGER)

@@ -27,7 +27,14 @@ public class Availability {
     private LocalDateTime lastUpdated;
 
     private LocalDate date;
-    private LocalTime workStartTime;
-    private LocalTime workEndTime;
+    private LocalDateTime workStartTime;
+    private LocalDateTime workEndTime;
+
+    @ManyToOne
+    private Employee employee;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "visits_id")
+    private List<Visit> visits;
 
 }
