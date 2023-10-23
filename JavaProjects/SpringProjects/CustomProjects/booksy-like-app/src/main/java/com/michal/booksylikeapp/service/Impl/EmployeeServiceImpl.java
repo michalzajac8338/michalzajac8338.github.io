@@ -75,14 +75,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee queriedEmployee = employeeRepository.findById(employeeId).orElseThrow(RuntimeException::new);
         List<Workday> workDays = queriedEmployee.getWorkdayList().stream().sorted(Comparator.comparing(Workday::getDate)).toList();
 
-        // get all available 15 min time slots of employee
-        List<List<LocalDateTime>> availableTimeSlots = workDays.stream().map(EmployeeServiceImpl::getAllAvailableTimeSlotsForADay).toList();
-//
-//        // return only time slots wide enough for visit duration
-        List<LocalDateTime> allTimeSlots = availableTimeSlots.stream().flatMap(Collection::stream).toList();
-        List<LocalDateTime> wideEnoughTimeSlots = checkIfTimeSlotIsWideEnough(allTimeSlots, visitDuration);
+        // get all valid visit hours (with enough time slots of employee to fulfill visit)
+        List<LocalDateTime> allTimeSlots = workDays.stream().map(
+                workday ->  getAllValidVisitHours(workday, visitDuration)).flatMap(Collection::stream).toList();
 
-        return wideEnoughTimeSlots;
+        return allTimeSlots;
     }
 
     public static List<LocalDateTime> getAllValidVisitHours(Workday workday, int visitDuration){
