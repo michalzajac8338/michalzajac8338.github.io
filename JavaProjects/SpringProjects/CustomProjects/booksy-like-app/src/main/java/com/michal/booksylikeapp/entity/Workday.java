@@ -34,8 +34,7 @@ public class Workday {
     @ManyToOne
     private Employee employee;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "visits_id")
+    @OneToMany(mappedBy = "workday", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Visit> visits;
 
 }

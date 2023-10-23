@@ -51,6 +51,7 @@ public class Visit {
     @JoinColumn(name = "reviews_id", unique = true)
     private Review review;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinColumn(name = "workdays_id")
     private Workday workday;
 }

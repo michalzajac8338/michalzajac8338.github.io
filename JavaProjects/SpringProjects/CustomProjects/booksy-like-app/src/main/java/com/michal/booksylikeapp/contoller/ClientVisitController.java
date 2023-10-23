@@ -43,7 +43,7 @@ public class ClientVisitController {
                                                                                          @PathVariable Long employeeId,
                                                                                          @RequestBody ClientVisitDto clientVisitDto){
 
-        List<LocalDateTime> availableTimeSlots = employeeService.getAllPossibleVisitTime(employeeId, clientVisitDto);
+        List<LocalDateTime> availableTimeSlots = employeeService.getAllPossibleVisitTime(employeeId, clientVisitDto.getDuration());
 
         return new ResponseEntity<>(availableTimeSlots, HttpStatus.OK);
     }

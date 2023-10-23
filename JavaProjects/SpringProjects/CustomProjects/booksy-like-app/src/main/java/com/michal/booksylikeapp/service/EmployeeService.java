@@ -16,5 +16,5 @@ public interface EmployeeService {
 
     void deleteEmployee(Long enterpriseId, Long employeeId);
 
-    List<LocalDateTime> getAllPossibleVisitTime(Long employeeId, ClientVisitDto clientVisitDto);
+    List<LocalDateTime> getAllPossibleVisitTime(Long employeeId, int visitDuration);
 }

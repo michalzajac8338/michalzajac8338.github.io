@@ -1,6 +1,5 @@
 package com.michal.booksylikeapp.service.Impl;
 
-import com.michal.booksylikeapp.dto.ClientVisitDto;
 import com.michal.booksylikeapp.dto.EmployeeDto;
 import com.michal.booksylikeapp.entity.Employee;
 import com.michal.booksylikeapp.entity.Enterprise;
@@ -15,12 +14,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
 import static com.michal.booksylikeapp.constants.OtherConstants.TIMESLOTDURATION_IN_MIN;
+import static java.util.stream.Collectors.toList;
+
 @Service
 @AllArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
@@ -68,48 +70,43 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<LocalDateTime> getAllPossibleVisitTime(Long employeeId, ClientVisitDto clientVisitDto) {
+    public List<LocalDateTime> getAllPossibleVisitTime(Long employeeId, int visitDuration) {
 
         Employee queriedEmployee = employeeRepository.findById(employeeId).orElseThrow(RuntimeException::new);
         List<Workday> workDays = queriedEmployee.getWorkdayList().stream().sorted(Comparator.comparing(Workday::getDate)).toList();
 
-        // get available 15 min time slots of employee
-        List<List<LocalDateTime>> availableTimeSlots = workDays.stream().map(workDay -> {
-
-                    List<LocalDateTime> timeSlots = cutWorkday(workDay.getWorkStartTime(), workDay.getWorkEndTime());
-                    workDay.getVisits().forEach(visit -> {
-                                LocalDateTime start = visit.getStartTime();
-                                int numberOfTakenTimeSlots = visit.getDuration().toMinutesPart()/ TIMESLOTDURATION_IN_MIN.getNumber();
-                                while (numberOfTakenTimeSlots>0){
-                                    timeSlots.remove(start);
-                                    start = start.plusMinutes(TIMESLOTDURATION_IN_MIN.getNumber());
-                                    numberOfTakenTimeSlots--;
-                                }
-                            }
-                    ); return timeSlots;}).toList();
-
-        // check if time slots are enough for visit duration
-        int duration = clientVisitDto.getDuration();
-        int timeSlotsNeeded = duration/TIMESLOTDURATION_IN_MIN.getNumber();
-
+        // get all available 15 min time slots of employee
+        List<List<LocalDateTime>> availableTimeSlots = workDays.stream().map(EmployeeServiceImpl::getAllAvailableTimeSlotsForADay).toList();
+//
+//        // return only time slots wide enough for visit duration
         List<LocalDateTime> allTimeSlots = availableTimeSlots.stream().flatMap(Collection::stream).toList();
-        List<LocalDateTime> wideEnoughTimeSlots = new LinkedList<>();
-
-        for (int i=0; i<allTimeSlots.size()-timeSlotsNeeded+1;i++){
-
-            var t1 = allTimeSlots.get(i).plusMinutes(duration-TIMESLOTDURATION_IN_MIN.getNumber());
-            var t2 = allTimeSlots.get(i+timeSlotsNeeded-1);
-
-            if(t1.equals(t2)){
-                wideEnoughTimeSlots.add(allTimeSlots.get(i));
-            }
-        }
+        List<LocalDateTime> wideEnoughTimeSlots = checkIfTimeSlotIsWideEnough(allTimeSlots, visitDuration);
 
         return wideEnoughTimeSlots;
     }
 
+    public static List<LocalDateTime> getAllValidVisitHours(Workday workday, int visitDuration){
+        List<LocalDateTime> allFreeTimeSlots = getAllAvailableTimeSlotsForADay(workday);
+        return checkIfTimeSlotIsWideEnough(allFreeTimeSlots, visitDuration);
+    }
+
     // Helper methods
-    private List<LocalDateTime> cutWorkday(LocalDateTime startTime, LocalDateTime endTime){
+
+    public static List<LocalDateTime> getAllAvailableTimeSlotsForADay(Workday workday){
+
+        List<LocalDateTime> timeSlots = cutWorkday(workday.getWorkStartTime(), workday.getWorkEndTime());
+        workday.getVisits().forEach(visit -> {
+                    LocalDateTime start = visit.getStartTime();
+                    int numberOfTakenTimeSlots = (int) (visit.getDuration().getSeconds()/60)/TIMESLOTDURATION_IN_MIN.getNumber();
+                    while (numberOfTakenTimeSlots>0){
+                        timeSlots.remove(start);
+                        start = start.plusMinutes(TIMESLOTDURATION_IN_MIN.getNumber());
+                        numberOfTakenTimeSlots--;
+                    }
+                }
+        ); return timeSlots;}
+
+    public static List<LocalDateTime> cutWorkday(LocalDateTime startTime, LocalDateTime endTime){
 
         List<LocalDateTime> timeSlots = new LinkedList<>();
         LocalDateTime timeSlot = startTime;
@@ -122,5 +119,22 @@ public class EmployeeServiceImpl implements EmployeeService {
         return timeSlots;
     }
 
-    private List<LocalDateTime> getPossibleVisitTimeForADay(Workday workday){return null;}
+    public static List<LocalDateTime> checkIfTimeSlotIsWideEnough(List<LocalDateTime> timeSlots, int duration){
+
+        List<LocalDateTime> wideEnoughTimeSlots = new LinkedList<>();
+        int timeSlotsNeeded = duration/TIMESLOTDURATION_IN_MIN.getNumber();
+
+        for (int i=0; i<timeSlots.size()-timeSlotsNeeded+1;i++){
+
+            var t1 = timeSlots.get(i).plusMinutes(duration-TIMESLOTDURATION_IN_MIN.getNumber());
+            var t2 = timeSlots.get(i+timeSlotsNeeded-1);
+
+            if(t1.equals(t2)){
+                wideEnoughTimeSlots.add(timeSlots.get(i));
+            }
+        }
+
+        return wideEnoughTimeSlots;
+
+    }
 }
