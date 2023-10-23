@@ -2,32 +2,32 @@ package com.michal.booksylikeapp.service.Impl;
 
 import com.michal.booksylikeapp.dto.ClientVisitDto;
 import com.michal.booksylikeapp.dto.EmployeeDto;
-import com.michal.booksylikeapp.entity.Availability;
 import com.michal.booksylikeapp.entity.Employee;
 import com.michal.booksylikeapp.entity.Enterprise;
-import com.michal.booksylikeapp.entity.Visit;
+import com.michal.booksylikeapp.entity.Workday;
 import com.michal.booksylikeapp.mapper.EmployeeMapper;
 import com.michal.booksylikeapp.repository.EmployeeRepository;
 import com.michal.booksylikeapp.repository.EnterpriseRepository;
+import com.michal.booksylikeapp.repository.RoleRepository;
 import com.michal.booksylikeapp.service.EmployeeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
+import static com.michal.booksylikeapp.constants.OtherConstants.TIMESLOTDURATION_IN_MIN;
 @Service
 @AllArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
 
     private EnterpriseRepository enterpriseRepository;
     private EmployeeRepository employeeRepository;
+    private RoleRepository roleRepository;
 
     @Override
     @Transactional
@@ -35,6 +35,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         Enterprise enterprise = enterpriseRepository.findById(employeeDto.getEnterpriseId()).orElseThrow(RuntimeException::new);
         Employee employee = EmployeeMapper.mapToEmployee(employeeDto, null);
+        employee.setRole(roleRepository.findByName("EMPLOYEE"));
         employee.setEnterprise(enterprise);
         Employee savedEmployee = employeeRepository.save(employee);
         EmployeeDto savedEmployeeDto = EmployeeMapper.mapToEmployeeDto(savedEmployee);
@@ -67,10 +68,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<LocalDateTime> getPossibleVisitTime(Long employeeId, ClientVisitDto clientVisitDto) {
+    public List<LocalDateTime> getAllPossibleVisitTime(Long employeeId, ClientVisitDto clientVisitDto) {
 
         Employee queriedEmployee = employeeRepository.findById(employeeId).orElseThrow(RuntimeException::new);
-        List<Availability> workDays = queriedEmployee.getAvailabilityList();
+        List<Workday> workDays = queriedEmployee.getWorkdayList().stream().sorted(Comparator.comparing(Workday::getDate)).toList();
 
         // get available 15 min time slots of employee
         List<List<LocalDateTime>> availableTimeSlots = workDays.stream().map(workDay -> {
@@ -78,10 +79,10 @@ public class EmployeeServiceImpl implements EmployeeService {
                     List<LocalDateTime> timeSlots = cutWorkday(workDay.getWorkStartTime(), workDay.getWorkEndTime());
                     workDay.getVisits().forEach(visit -> {
                                 LocalDateTime start = visit.getStartTime();
-                                int numberOfTakenTimeSlots = visit.getDuration().toMinutesPart()/15;
+                                int numberOfTakenTimeSlots = visit.getDuration().toMinutesPart()/ TIMESLOTDURATION_IN_MIN.getNumber();
                                 while (numberOfTakenTimeSlots>0){
                                     timeSlots.remove(start);
-                                    start = start.plusMinutes(15);
+                                    start = start.plusMinutes(TIMESLOTDURATION_IN_MIN.getNumber());
                                     numberOfTakenTimeSlots--;
                                 }
                             }
@@ -89,17 +90,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         // check if time slots are enough for visit duration
         int duration = clientVisitDto.getDuration();
-        int timeSlotsNeeded = duration/15;
+        int timeSlotsNeeded = duration/TIMESLOTDURATION_IN_MIN.getNumber();
 
         List<LocalDateTime> allTimeSlots = availableTimeSlots.stream().flatMap(Collection::stream).toList();
         List<LocalDateTime> wideEnoughTimeSlots = new LinkedList<>();
 
-        for (int i=0; i<allTimeSlots.size()-timeSlotsNeeded;i++){
+        for (int i=0; i<allTimeSlots.size()-timeSlotsNeeded+1;i++){
 
-            var t1 = allTimeSlots.get(i).plusMinutes(duration);
-            var t2 = (allTimeSlots.get(i+timeSlotsNeeded));
+            var t1 = allTimeSlots.get(i).plusMinutes(duration-TIMESLOTDURATION_IN_MIN.getNumber());
+            var t2 = allTimeSlots.get(i+timeSlotsNeeded-1);
 
-            if(allTimeSlots.get(i).plusMinutes(duration-15).equals(allTimeSlots.get(i+timeSlotsNeeded-1))){
+            if(t1.equals(t2)){
                 wideEnoughTimeSlots.add(allTimeSlots.get(i));
             }
         }
@@ -120,4 +121,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         return timeSlots;
     }
+
+    private List<LocalDateTime> getPossibleVisitTimeForADay(Workday workday){return null;}
 }

@@ -1,5 +1,6 @@
 package com.michal.booksylikeapp.entity;
 
+import com.michal.booksylikeapp.constants.VisitStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +11,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 @Getter
 @Setter
@@ -52,5 +52,5 @@ public class Visit {
     private Review review;
 
     @ManyToOne
-    private Availability availability;
+    private Workday workday;
 }

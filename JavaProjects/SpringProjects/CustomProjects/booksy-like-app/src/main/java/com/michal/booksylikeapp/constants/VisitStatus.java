@@ -1,4 +1,4 @@
-package com.michal.booksylikeapp.entity;
+package com.michal.booksylikeapp.constants;
 
 public enum VisitStatus {
 

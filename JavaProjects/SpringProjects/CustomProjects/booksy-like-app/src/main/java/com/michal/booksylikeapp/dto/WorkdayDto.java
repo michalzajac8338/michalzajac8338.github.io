@@ -14,7 +14,7 @@ import java.time.LocalTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AvailabilityDto {
+public class WorkdayDto {
 
     private Long id;
     @JsonFormat(pattern="yyyy-MM-dd")

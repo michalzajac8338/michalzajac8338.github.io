@@ -47,7 +47,7 @@ public class Employee {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_id")
-    private List<Availability> availabilityList;
+    private List<Workday> workdayList;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "roles_id")

@@ -4,7 +4,6 @@ import com.michal.booksylikeapp.dto.ClientVisitDto;
 import com.michal.booksylikeapp.dto.EmployeeDto;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 public interface EmployeeService {
@@ -17,5 +16,5 @@ public interface EmployeeService {
 
     void deleteEmployee(Long enterpriseId, Long employeeId);
 
-    List<LocalDateTime> getPossibleVisitTime(Long employeeId, ClientVisitDto clientVisitDto);
+    List<LocalDateTime> getAllPossibleVisitTime(Long employeeId, ClientVisitDto clientVisitDto);
 }

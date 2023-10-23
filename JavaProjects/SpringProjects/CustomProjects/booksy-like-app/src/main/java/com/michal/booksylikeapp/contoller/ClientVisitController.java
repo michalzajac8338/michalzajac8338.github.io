@@ -1,7 +1,6 @@
 package com.michal.booksylikeapp.contoller;
 
 import com.michal.booksylikeapp.dto.ClientVisitDto;
-import com.michal.booksylikeapp.entity.Visit;
 import com.michal.booksylikeapp.service.ClientVisitService;
 import com.michal.booksylikeapp.service.EmployeeService;
 import lombok.AllArgsConstructor;
@@ -10,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 @RestController
@@ -23,11 +21,14 @@ public class ClientVisitController {
 
     // Client CRUD Visits
     // Create
-    @PostMapping
-    public ResponseEntity<Visit> createVisit(@PathVariable Long clientId,
-                                             @RequestBody Visit visit){
+    @PostMapping("/employee/employeeId={employeeId}")
+    public ResponseEntity<ClientVisitDto> createVisit(@PathVariable Long clientId,
+                                                      @PathVariable Long employeeId,
+                                                      @RequestBody ClientVisitDto clientVisitDto){
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        ClientVisitDto createdVisit = clientVisitService.createVisit(clientId, employeeId, clientVisitDto);
+
+        return new ResponseEntity<>(createdVisit, HttpStatus.CREATED);
     }
 
     // Read - chosen employee
@@ -38,11 +39,11 @@ public class ClientVisitController {
 //        "type" : "learning java"
 //    }
     @GetMapping("/employee/employeeId={employeeId}")
-    public ResponseEntity<List<LocalDateTime>> readEmployeeCalendar(@PathVariable Long clientId,
-                                                                    @PathVariable Long employeeId,
-                                                                    @RequestBody ClientVisitDto clientVisitDto){
+    public ResponseEntity<List<LocalDateTime>> readAllSingleEmployeeTimeSlotsForDuration(@PathVariable Long clientId,
+                                                                                         @PathVariable Long employeeId,
+                                                                                         @RequestBody ClientVisitDto clientVisitDto){
 
-        List<LocalDateTime> availableTimeSlots = employeeService.getPossibleVisitTime(employeeId, clientVisitDto);
+        List<LocalDateTime> availableTimeSlots = employeeService.getAllPossibleVisitTime(employeeId, clientVisitDto);
 
         return new ResponseEntity<>(availableTimeSlots, HttpStatus.OK);
     }

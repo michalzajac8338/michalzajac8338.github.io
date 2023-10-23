@@ -1,15 +1,12 @@
 package com.michal.booksylikeapp.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.michal.booksylikeapp.entity.VisitStatus;
+import com.michal.booksylikeapp.constants.VisitStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 @Getter
 @Setter

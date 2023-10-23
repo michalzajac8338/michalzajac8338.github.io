@@ -17,8 +17,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="availabilities")
-public class Availability {
+@Table(name="workdays")
+public class Workday {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
