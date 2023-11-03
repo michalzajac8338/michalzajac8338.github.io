@@ -29,16 +29,9 @@ public class Client {
 
     private String firstName;
     private String lastName;
-    @Column(unique = true)
     private String email;
-    @Column(unique = true)
     private String username;
     private String password;
-
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "clients_id")
-    private Set<Review> reviews;
 
     @OneToMany(mappedBy = "client", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Visit> visits;

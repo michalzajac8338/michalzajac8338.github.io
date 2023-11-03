@@ -27,6 +27,7 @@ public class Workday {
     @UpdateTimestamp
     private LocalDateTime lastUpdated;
 
+//    @Column(unique = true)
     private LocalDate date;
     private LocalDateTime workStartTime;
     private LocalDateTime workEndTime;

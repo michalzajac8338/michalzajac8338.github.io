@@ -1,5 +1,6 @@
 package com.michal.booksylikeapp.service.Impl;
 
+import com.michal.booksylikeapp.constants.VisitStatus;
 import com.michal.booksylikeapp.dto.EmployeeDto;
 import com.michal.booksylikeapp.entity.Employee;
 import com.michal.booksylikeapp.entity.Enterprise;
@@ -73,13 +74,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<LocalDateTime> getAllPossibleVisitTime(Long employeeId, int visitDuration) {
 
         Employee queriedEmployee = employeeRepository.findById(employeeId).orElseThrow(RuntimeException::new);
-        List<Workday> workDays = queriedEmployee.getWorkdayList().stream().sorted(Comparator.comparing(Workday::getDate)).toList();
 
         // get all valid visit hours (with enough time slots of employee to fulfill visit)
-        List<LocalDateTime> allTimeSlots = workDays.stream().map(
+        List<LocalDateTime> validTimeSlots = queriedEmployee.getWorkdayList().stream()
+                .sorted(Comparator.comparing(Workday::getDate)).map(
                 workday ->  getAllValidVisitHours(workday, visitDuration)).flatMap(Collection::stream).toList();
 
-        return allTimeSlots;
+        return validTimeSlots;
     }
 
     public static List<LocalDateTime> getAllValidVisitHours(Workday workday, int visitDuration){
@@ -93,12 +94,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         List<LocalDateTime> timeSlots = cutWorkday(workday.getWorkStartTime(), workday.getWorkEndTime());
         workday.getVisits().forEach(visit -> {
-                    LocalDateTime start = visit.getStartTime();
-                    int numberOfTakenTimeSlots = (int) (visit.getDuration().getSeconds()/60)/TIMESLOTDURATION_IN_MIN.getNumber();
-                    while (numberOfTakenTimeSlots>0){
-                        timeSlots.remove(start);
-                        start = start.plusMinutes(TIMESLOTDURATION_IN_MIN.getNumber());
-                        numberOfTakenTimeSlots--;
+                    if (visit.getStatus() != VisitStatus.CANCELLED) {
+                        LocalDateTime start = visit.getStartTime();
+                        int numberOfTakenTimeSlots = (int) (visit.getDuration().getSeconds() / 60) / TIMESLOTDURATION_IN_MIN.getNumber();
+                        while (numberOfTakenTimeSlots > 0) {
+                            timeSlots.remove(start);
+                            start = start.plusMinutes(TIMESLOTDURATION_IN_MIN.getNumber());
+                            numberOfTakenTimeSlots--;
+                        }
                     }
                 }
         ); return timeSlots;}

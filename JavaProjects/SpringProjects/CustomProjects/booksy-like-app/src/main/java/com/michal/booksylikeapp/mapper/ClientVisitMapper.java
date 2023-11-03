@@ -7,6 +7,7 @@ import com.michal.booksylikeapp.entity.Visit;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 import static java.time.temporal.ChronoUnit.MINUTES;
@@ -20,10 +21,10 @@ public class ClientVisitMapper {
         }
 
         visit.setCost(clientVisitDto.getCost());
-        visit.setStartTime(clientVisitDto.getStartTime());
-        visit.setDuration(Duration.ofMinutes(clientVisitDto.getDuration()));
+        visit.setStartTime(LocalDateTime.parse(clientVisitDto.getStartTime()));
+        visit.setDuration(Duration.ofMinutes(clientVisitDto.getDurationInMin()));
         visit.setDescription(clientVisitDto.getDescription());
-        visit.setStatus(clientVisitDto.getStatus());
+        visit.setStatus(VisitStatus.valueOf(String.valueOf(clientVisitDto.getStatus())));
         visit.setCost(clientVisitDto.getCost());
         visit.setType(clientVisitDto.getType());
 
@@ -34,11 +35,12 @@ public class ClientVisitMapper {
 
         ClientVisitDto clientVisitDto = new ClientVisitDto();
 
+        clientVisitDto.setId(visit.getId());
         clientVisitDto.setCost(visit.getCost());
-        clientVisitDto.setStartTime(visit.getStartTime());
-        clientVisitDto.setDuration((int) visit.getDuration().getSeconds()/60);
+        clientVisitDto.setStartTime(visit.getStartTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        clientVisitDto.setDurationInMin((int) visit.getDuration().getSeconds()/60);
         clientVisitDto.setDescription(visit.getDescription());
-        clientVisitDto.setStatus(visit.getStatus());
+        clientVisitDto.setStatus(visit.getStatus().toString());
         clientVisitDto.setCost(visit.getCost());
         clientVisitDto.setType(visit.getType());
 

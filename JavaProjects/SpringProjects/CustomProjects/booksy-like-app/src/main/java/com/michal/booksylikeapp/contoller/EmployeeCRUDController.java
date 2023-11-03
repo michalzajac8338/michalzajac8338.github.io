@@ -1,8 +1,6 @@
 package com.michal.booksylikeapp.contoller;
 
-import com.michal.booksylikeapp.dto.ClientDto;
 import com.michal.booksylikeapp.dto.EmployeeDto;
-import com.michal.booksylikeapp.dto.EnterpriseDto;
 import com.michal.booksylikeapp.service.EmployeeService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -10,15 +8,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("B/enterprise/enterpriseId={enterpriseId}")
+@RequestMapping("B/enterprise/enterpriseId={enterpriseId}/employee")
 @AllArgsConstructor
-public class EmployeeController {
+public class EmployeeCRUDController {
 
     private EmployeeService employeeService;
 
     // CRUD for employees
     // Create
-    @PostMapping("/employee")
+    @PostMapping
     public ResponseEntity<EmployeeDto> createEmployee(@PathVariable Long enterpriseId,
                                                       @RequestBody EmployeeDto employeeDto){
 
@@ -29,7 +27,7 @@ public class EmployeeController {
     }
 
     // Read
-    @GetMapping("employee/employeeId={employeeId}")
+    @GetMapping("/employeeId={employeeId}")
     public ResponseEntity<EmployeeDto> readEmployee(@PathVariable Long enterpriseId,
                                                     @PathVariable Long employeeId){
 
@@ -38,7 +36,7 @@ public class EmployeeController {
     }
 
     // Update
-    @PutMapping("employee/employeeId={employeeId}")
+    @PutMapping("/employeeId={employeeId}")
     public ResponseEntity<EmployeeDto> updateEmployee(@PathVariable Long enterpriseId,
                                                       @PathVariable Long employeeId,
                                                       @RequestBody EmployeeDto employeeDto){
@@ -48,7 +46,7 @@ public class EmployeeController {
     }
 
     // Delete
-    @DeleteMapping("employee/employeeId={employeeId}")
+    @DeleteMapping("/employeeId={employeeId}")
     public ResponseEntity<Void> deleteEmployee(@PathVariable Long enterpriseId,
                                                @PathVariable Long employeeId){
 

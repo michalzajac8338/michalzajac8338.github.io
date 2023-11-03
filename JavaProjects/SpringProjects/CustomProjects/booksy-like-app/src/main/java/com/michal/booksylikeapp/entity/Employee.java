@@ -38,13 +38,6 @@ public class Employee {
     @JoinColumn(name = "enterprises_id")
     private Enterprise enterprise;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "employees_id")
-    private Set<Review> reviews;
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "employee")
-    private Set<Visit> visits;
-
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_id")
     private List<Workday> workdayList;

@@ -19,7 +19,6 @@ import java.time.LocalDateTime;
 public class Review {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @CreationTimestamp
     private LocalDateTime created;
@@ -29,7 +28,8 @@ public class Review {
     private Integer rating;
     private String content;
 
-    @OneToOne(mappedBy = "review")
+    @MapsId
+    @OneToOne(mappedBy = "review", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     Visit visit;
-
 }
+

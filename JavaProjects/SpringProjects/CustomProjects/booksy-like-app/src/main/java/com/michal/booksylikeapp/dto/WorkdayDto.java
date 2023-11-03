@@ -1,27 +1,21 @@
 package com.michal.booksylikeapp.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class WorkdayDto {
 
     private Long id;
-    @JsonFormat(pattern="yyyy-MM-dd")
-    private LocalDate date;
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm")
-    private LocalDateTime workStartTime;
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm")
-    private LocalDateTime workEndTime;
+    private String date;
+    private String workStartTime;
+    private String workEndTime;
 
 }

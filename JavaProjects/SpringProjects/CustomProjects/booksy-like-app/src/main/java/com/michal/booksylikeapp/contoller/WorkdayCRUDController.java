@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("B/enterprise/enterpriseId={enterpriseId}/employee/employeeId={employeeId}")
+@RequestMapping("B/enterprise/enterpriseId={enterpriseId}/employee/employeeId={employeeId}/workday")
 @AllArgsConstructor
-public class EmployeeWorkdayController {
+public class WorkdayCRUDController {
 
     private WorkdayService workdayService;
 
@@ -22,42 +22,42 @@ public class EmployeeWorkdayController {
     // body
 //    {
 //        "date" : "2023-01-01",
-//        "workStartTime" : "08:00",
-//        "workEndTime" : "16:00"
+//        "workStartTime" : "2023-01-01T10:00",
+//        "workEndTime" : "2023-01-01T16:00"
 //    }
 
     // CRUD for workdays
     // Create
-    @PostMapping("workday")
-    public ResponseEntity<Void> createWorkday(@PathVariable Long enterpriseId,
+    @PostMapping
+    public ResponseEntity<WorkdayDto> createWorkday(@PathVariable Long enterpriseId,
                                               @PathVariable Long employeeId,
                                               @RequestBody WorkdayDto workdayDto){
 
-        workdayService.createWorkday(employeeId, workdayDto);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        WorkdayDto createdWorkday = workdayService.createWorkday(employeeId, workdayDto);
+        return new ResponseEntity<>(createdWorkday, HttpStatus.CREATED);
     }
 
     // Read ->
-    @GetMapping("workday")
+    @GetMapping
     public ResponseEntity<List<WorkdayDto>> readAllSingleEmployeeWorkdaysForDuration(@PathVariable Long enterpriseId,
                                                                                      @PathVariable Long employeeId){
 
         List<WorkdayDto> workdayDtoList = workdayService.readWorkdayList(employeeId);
-        return new ResponseEntity<>(workdayDtoList, HttpStatus.CREATED);
+        return new ResponseEntity<>(workdayDtoList, HttpStatus.OK);
     }
 
     // Update
-    @PutMapping("workday")
-    public ResponseEntity<Void> updateWorkday(@PathVariable Long enterpriseId,
-                                              @PathVariable Long employeeId,
-                                              @RequestBody WorkdayDto workdayDto){
+    @PutMapping
+    public ResponseEntity<WorkdayDto> updateWorkday(@PathVariable Long enterpriseId,
+                                                    @PathVariable Long employeeId,
+                                                    @RequestBody WorkdayDto workdayDto){
 
-        workdayService.updateWorkday(employeeId, workdayDto);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        WorkdayDto updatedWorkday = workdayService.updateWorkday(employeeId, workdayDto);
+        return new ResponseEntity<>(updatedWorkday, HttpStatus.OK);
     }
 
     // Delete
-    @DeleteMapping("workday")
+    @DeleteMapping
     public ResponseEntity<Void> deleteWorkday(@PathVariable Long enterpriseId,
                                               @PathVariable Long employeeId,
                                               @RequestBody WorkdayDto workdayDto){

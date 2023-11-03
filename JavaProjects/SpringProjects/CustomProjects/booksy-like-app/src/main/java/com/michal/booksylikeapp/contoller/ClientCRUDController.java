@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("B/client")
 @AllArgsConstructor
-public class ClientController {
+public class ClientCRUDController {
 
     private ClientService clientService;
     private RoleService roleService;
@@ -27,7 +27,7 @@ public class ClientController {
     }
 
     // Read
-    @GetMapping("/id={id}")
+    @GetMapping("/clientId={id}")
     public ResponseEntity<ClientDto> readClient(@PathVariable Long id){
 
         ClientDto queriedClient = clientService.readClient(id);
@@ -35,7 +35,7 @@ public class ClientController {
     }
 
     // Update
-    @PutMapping("/id={id}")
+    @PutMapping("/clientId={id}")
     public ResponseEntity<ClientDto> updateClient(@PathVariable Long id,
                                                   @RequestBody ClientDto clientDto){
 
@@ -45,7 +45,7 @@ public class ClientController {
     }
 
     // Delete
-    @DeleteMapping("/id={id}")
+    @DeleteMapping("/clientId={id}")
     public ResponseEntity<Void> deleteClient(@PathVariable Long id){
 
         clientService.deleteClient(id);

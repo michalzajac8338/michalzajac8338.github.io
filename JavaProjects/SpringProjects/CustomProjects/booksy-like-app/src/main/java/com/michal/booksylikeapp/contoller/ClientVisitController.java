@@ -31,7 +31,17 @@ public class ClientVisitController {
         return new ResponseEntity<>(createdVisit, HttpStatus.CREATED);
     }
 
-    // Read - chosen employee
+    // Read your visits
+    @GetMapping
+    public ResponseEntity<List<ClientVisitDto>> readVisitsForCurrentClient(@PathVariable Long clientId){
+
+        List<ClientVisitDto> visitsForClient = clientVisitService.readVisitsForClient(clientId);
+
+        return new ResponseEntity<>(visitsForClient, HttpStatus.OK);
+
+    }
+
+    // Read possible visit hours (for set duration) for chosen employee
     // e.g. B/client/clientId=1/visit/employee/employeeId=1
     // body
 //    {
@@ -43,8 +53,21 @@ public class ClientVisitController {
                                                                                          @PathVariable Long employeeId,
                                                                                          @RequestBody ClientVisitDto clientVisitDto){
 
-        List<LocalDateTime> availableTimeSlots = employeeService.getAllPossibleVisitTime(employeeId, clientVisitDto.getDuration());
+        List<LocalDateTime> availableTimeSlots = employeeService.getAllPossibleVisitTime(employeeId, clientVisitDto.getDurationInMin());
 
         return new ResponseEntity<>(availableTimeSlots, HttpStatus.OK);
+    }
+
+    // Update -> pointless; have to cancel & create new one :)
+    // Delete (Cancel)
+
+    @DeleteMapping("/visitId={visitId}")
+    public ResponseEntity<Void> cancelVisitById(@PathVariable Long clientId,
+                                                @PathVariable Long visitId){
+
+        clientVisitService.cancelVisit(visitId);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
     }
 }

@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 
@@ -39,16 +40,7 @@ public class Visit {
     @JoinColumn(name = "clients_id")
     private Client client;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "enterprises_id")
-    private Enterprise enterprise;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "employees_id")
-    private Employee employee;
-
-    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "reviews_id", unique = true)
+    @OneToOne(fetch = FetchType.LAZY)
     private Review review;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})

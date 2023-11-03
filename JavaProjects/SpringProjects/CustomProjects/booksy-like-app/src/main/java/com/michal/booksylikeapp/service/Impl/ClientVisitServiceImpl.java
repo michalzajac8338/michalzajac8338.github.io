@@ -1,5 +1,6 @@
 package com.michal.booksylikeapp.service.Impl;
 
+import com.michal.booksylikeapp.constants.VisitStatus;
 import com.michal.booksylikeapp.dto.ClientDto;
 import com.michal.booksylikeapp.dto.ClientVisitDto;
 import com.michal.booksylikeapp.entity.Client;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -37,26 +39,43 @@ public class ClientVisitServiceImpl implements ClientVisitService {
 
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(RuntimeException::new);
         
-        Workday workday = workdayRepository.findByEmployeeAndDate(employee, clientVisitDto.getStartTime().toLocalDate())
+        Workday workday = workdayRepository.findByEmployeeAndDate(employee, visit.getStartTime().toLocalDate())
                 .orElseThrow(RuntimeException::new);
 
         visit.setClient(client);
-        visit.setEmployee(employee);
         visit.setWorkday(workday);
 
-        List<LocalDateTime> availableTimeSlots = EmployeeServiceImpl.getAllValidVisitHours(workday,clientVisitDto.getDuration());
-        Visit savedVisit = null;
-        
-        if(availableTimeSlots.contains(clientVisitDto.getStartTime())){
-            savedVisit = visitRepository.save(visit);
+        List<LocalDateTime> availableTimeSlots = EmployeeServiceImpl.getAllValidVisitHours(workday,clientVisitDto.getDurationInMin());
 
-            workday.getVisits().add(visit);
+        if(availableTimeSlots.contains(visit.getStartTime())){
+            Visit savedVisit = visitRepository.save(visit);
+            workday.getVisits().add(savedVisit);
             workdayRepository.save(workday);
-
-            employee.getVisits().add(savedVisit);
             employeeRepository.save(employee);
+            return ClientVisitMapper.mapToClientVisitDto(savedVisit);
+
+        } else {
+            throw new RuntimeException();
         }
 
-        return ClientVisitMapper.mapToClientVisitDto(savedVisit);
+    }
+
+    @Override
+    public void cancelVisit(Long visitId) {
+
+        Visit visitToCancel = visitRepository.findById(visitId).orElseThrow(RuntimeException::new);
+        visitToCancel.setStatus(VisitStatus.CANCELLED);
+        visitRepository.save(visitToCancel);
+
+    }
+
+    @Override
+    public List<ClientVisitDto> readVisitsForClient(Long clientId) {
+
+        Client client = clientRepository.findById(clientId).orElseThrow(RuntimeException::new);
+
+        List<Visit> visits = client.getVisits().stream().sorted(Comparator.comparing(Visit::getStartTime)).toList();
+
+        return visits.stream().map(ClientVisitMapper::mapToClientVisitDto).toList();
     }
 }

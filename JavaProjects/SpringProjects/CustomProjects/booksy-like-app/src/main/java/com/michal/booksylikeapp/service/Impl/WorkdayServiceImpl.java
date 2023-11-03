@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -21,7 +22,7 @@ public class WorkdayServiceImpl implements WorkdayService {
     private WorkdayRepository workdayRepository;
 
     @Override
-    public void createWorkday(Long employeeId, WorkdayDto workdayDto) {
+    public WorkdayDto createWorkday(Long employeeId, WorkdayDto workdayDto) {
 
         Workday workday = WorkdayMapper.mapToWorkday(workdayDto, null);
 
@@ -29,6 +30,7 @@ public class WorkdayServiceImpl implements WorkdayService {
         employee.getWorkdayList().add(workday);
         employeeRepository.save(employee);
 
+        return WorkdayMapper.mapToWorkdayDto(workday);
     }
 
     @Override
@@ -45,25 +47,26 @@ public class WorkdayServiceImpl implements WorkdayService {
 
     @Override
     @Transactional
-    public void updateWorkday(Long employeeId, WorkdayDto workdayDto) {
+    public WorkdayDto updateWorkday(Long employeeId, WorkdayDto workdayDto) {
 
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(RuntimeException::new);
-//        Workday currentWorkday = employee.getWorkdayList()
-        Workday currentWorkday = workdayRepository.findByEmployeeAndDate(employee, workdayDto.getDate()).orElseThrow(RuntimeException::new);
+        Workday currentWorkday = workdayRepository.findByEmployeeAndDate(employee, LocalDate.parse(workdayDto.getDate())).orElseThrow(RuntimeException::new);
 
-        Workday workday = WorkdayMapper.mapToWorkday(workdayDto, currentWorkday);
+        Workday updatedWorkday = WorkdayMapper.mapToWorkday(workdayDto, currentWorkday);
         employee.getWorkdayList().remove(currentWorkday);
-        employee.getWorkdayList().add(workday);
+        employee.getWorkdayList().add(updatedWorkday);
 
         employeeRepository.save(employee);
+        return WorkdayMapper.mapToWorkdayDto(updatedWorkday);
     }
 
+    @Override
     @Transactional
     public void deleteWorkday(Long employeeId, WorkdayDto workdayDto) {
 
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(RuntimeException::new);
-        Workday currentWorkday = workdayRepository.findByEmployeeAndDate(employee, workdayDto.getDate()).orElseThrow(RuntimeException::new);
-        workdayRepository.delete(currentWorkday);
+        Workday currentWorkday = workdayRepository.findByEmployeeAndDate(employee, LocalDate.parse(workdayDto.getDate())).orElseThrow(RuntimeException::new);
+//        workdayRepository.delete(currentWorkday);
         employee.getWorkdayList().remove(currentWorkday);
         employeeRepository.save(employee);
 
