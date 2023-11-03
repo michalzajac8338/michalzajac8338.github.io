@@ -15,6 +15,7 @@ public class RoleServiceImpl implements RoleService {
     private RoleRepository roleRepository;
     @Override
     public void initializeRoles() {
+
         Role role = new Role();
         role.setName("CLIENT");
         Role role1 = new Role();

@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 public class WorkdayDto {
 
     private Long id;
+    private Long employeeId;
     private String date;
     private String workStartTime;
     private String workEndTime;

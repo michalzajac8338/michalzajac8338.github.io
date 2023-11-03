@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static com.michal.booksylikeapp.InitializeRolesTest.asJsonString;
+import static com.michal.booksylikeapp.InitializeAndFillDatabaseWithExampleRecordsTest.asJsonString;
 import static org.springframework.test.util.AssertionErrors.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -28,10 +28,10 @@ class WorkdayCRUDControllerTest {
     private static final Long enterpriseId = 1L;
     private static final Long employeeId = 1L;
     private static Long workdayId;
-    private static final String date = "2023-03-08";
-    private static final String workStartTime = "2023-03-08T10:00";
-    private static final String workEndTime = "2023-03-08T16:00";
-    private static final String workEndTimeUpdated = "2023-03-08T18:00";
+    private static final String date = "2023-02-11";
+    private static final String workStartTime = "2023-02-11T10:00";
+    private static final String workEndTime = "2023-02-11T16:00";
+    private static final String workEndTimeUpdated = "2023-02-11T18:00";
 
 
     @Autowired
@@ -74,8 +74,8 @@ class WorkdayCRUDControllerTest {
         response.andExpect(status().isOk());
         assertTrue("Created workday from test 1 is in list of workdays for current employee",
                 response.andReturn().getResponse().getContentAsString().contains("\"id\":"+workdayId
+                        + ",\"employeeId\":"+employeeId
                         +",\"date\":\"" + date+"\""));
-
     }
 
     @Test

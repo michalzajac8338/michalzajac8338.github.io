@@ -5,9 +5,11 @@ import com.michal.booksylikeapp.entity.Review;
 
 public class ReviewMapper {
 
-    public static Review mapToReview(ReviewDto reviewDto){
+    public static Review mapToReview(ReviewDto reviewDto, Review review){
 
-        Review review = new Review();
+        if(review==null) {
+            review = new Review();
+        }
 
         review.setContent(reviewDto.getContent());
         review.setRating(reviewDto.getRating());

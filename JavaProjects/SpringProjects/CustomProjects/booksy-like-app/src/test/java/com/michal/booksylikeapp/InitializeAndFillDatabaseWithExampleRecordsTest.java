@@ -64,13 +64,13 @@ public class InitializeAndFillDatabaseWithExampleRecordsTest {
     @Order(2)
     void createEnterpriseTest() throws Exception {
 
+        // given
         String name = "Enterprise 1";
         String email = "e1@gmail.com";
         String description = "long and boring one";
         String username = "e1";
         String password = "password";
 
-        // given
         EnterpriseDto enterpriseDto = EnterpriseDto.builder().name(name).description(description).email(email)
                 .username(username).password(password).build();
 
@@ -228,7 +228,7 @@ public class InitializeAndFillDatabaseWithExampleRecordsTest {
 
     }
 
-    // public method for other tests
+    // public method for tests
     public static String asJsonString(final Object obj) {
         try {
             return new ObjectMapper().writeValueAsString(obj);

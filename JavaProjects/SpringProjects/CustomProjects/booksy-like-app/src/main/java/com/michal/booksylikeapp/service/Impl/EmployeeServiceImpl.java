@@ -36,15 +36,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional
     public EmployeeDto createEmployee(EmployeeDto employeeDto) {
 
-        Enterprise enterprise = enterpriseRepository.findById(employeeDto.getEnterpriseId()).orElseThrow(RuntimeException::new);
         Employee employee = EmployeeMapper.mapToEmployee(employeeDto, null);
         employee.setRole(roleRepository.findByName("EMPLOYEE"));
-        employee.setEnterprise(enterprise);
-        Employee savedEmployee = employeeRepository.save(employee);
-        EmployeeDto savedEmployeeDto = EmployeeMapper.mapToEmployeeDto(savedEmployee);
-        savedEmployeeDto.setEnterpriseId(employeeDto.getEnterpriseId());
 
-        return savedEmployeeDto;
+        Enterprise enterprise = enterpriseRepository.findById(employeeDto.getEnterpriseId()).orElseThrow(RuntimeException::new);
+        employee.setEnterprise(enterprise);
+
+        Employee savedEmployee = employeeRepository.save(employee);
+
+        return EmployeeMapper.mapToEmployeeDto(savedEmployee);
     }
 
     @Override

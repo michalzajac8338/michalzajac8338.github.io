@@ -31,6 +31,7 @@ public class WorkdayMapper {
         workdayDto.setDate(workday.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         workdayDto.setWorkStartTime(workday.getWorkStartTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
         workdayDto.setWorkEndTime(workday.getWorkEndTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        workdayDto.setEmployeeId(workday.getEmployee().getId());
 
         return workdayDto;
     }

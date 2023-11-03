@@ -35,10 +35,9 @@ public class ClientVisitServiceImpl implements ClientVisitService {
     public ClientVisitDto createVisit(Long clientId, Long employeeId, ClientVisitDto clientVisitDto) {
         
         Visit visit = ClientVisitMapper.mapToVisit(clientVisitDto, null);
-        Client client = clientRepository.findById(clientId).orElseThrow(RuntimeException::new);
 
+        Client client = clientRepository.findById(clientId).orElseThrow(RuntimeException::new);
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(RuntimeException::new);
-        
         Workday workday = workdayRepository.findByEmployeeAndDate(employee, visit.getStartTime().toLocalDate())
                 .orElseThrow(RuntimeException::new);
 
@@ -48,10 +47,8 @@ public class ClientVisitServiceImpl implements ClientVisitService {
         List<LocalDateTime> availableTimeSlots = EmployeeServiceImpl.getAllValidVisitHours(workday,clientVisitDto.getDurationInMin());
 
         if(availableTimeSlots.contains(visit.getStartTime())){
+
             Visit savedVisit = visitRepository.save(visit);
-            workday.getVisits().add(savedVisit);
-            workdayRepository.save(workday);
-            employeeRepository.save(employee);
             return ClientVisitMapper.mapToClientVisitDto(savedVisit);
 
         } else {

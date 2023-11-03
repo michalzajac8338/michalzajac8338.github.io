@@ -15,8 +15,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static com.michal.booksylikeapp.InitializeRolesTest.asJsonString;
-import static org.junit.jupiter.api.Assertions.*;
+import static com.michal.booksylikeapp.InitializeAndFillDatabaseWithExampleRecordsTest.asJsonString;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.util.AssertionErrors.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -29,8 +29,8 @@ class ClientVisitControllerTest {
     private static Long visitId;
     private static final Long clientId = 1L;
     private static final Long employeeId = 1L;
-    private static final String startTime = "2023-02-08T16:00";
-    private static final Integer durationInMin = 75;
+    private static final String startTime = "2023-01-01T13:00";
+    private static final Integer durationInMin = 15;
     private static final Double cost = 19.99;
     private static final String type = "Learning Java";
     private static final String description = "Lesson 03: Hibernate";
@@ -86,7 +86,7 @@ class ClientVisitControllerTest {
 
         // when
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders
-                .get("/B/client/clientId={clientId}/visit/employee/employeeId={employeeId}", 1, 1)
+                .get("/B/client/clientId={clientId}/visit/employee/employeeId={employeeId}", clientId, employeeId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(clientVisitDto)));
 

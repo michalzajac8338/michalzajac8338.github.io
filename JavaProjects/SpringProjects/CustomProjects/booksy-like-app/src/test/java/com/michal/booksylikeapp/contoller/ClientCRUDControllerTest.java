@@ -1,6 +1,5 @@
 package com.michal.booksylikeapp.contoller;
 
-import static com.michal.booksylikeapp.InitializeRolesTest.asJsonString;
 import com.jayway.jsonpath.JsonPath;
 import com.michal.booksylikeapp.dto.ClientDto;
 import org.junit.jupiter.api.MethodOrderer;
@@ -16,6 +15,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static com.michal.booksylikeapp.InitializeAndFillDatabaseWithExampleRecordsTest.asJsonString;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 

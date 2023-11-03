@@ -25,12 +25,11 @@ public class WorkdayServiceImpl implements WorkdayService {
     public WorkdayDto createWorkday(Long employeeId, WorkdayDto workdayDto) {
 
         Workday workday = WorkdayMapper.mapToWorkday(workdayDto, null);
-
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(RuntimeException::new);
-        employee.getWorkdayList().add(workday);
-        employeeRepository.save(employee);
+        workday.setEmployee(employee);
 
-        return WorkdayMapper.mapToWorkdayDto(workday);
+        Workday savedWorkday = workdayRepository.save(workday);
+        return WorkdayMapper.mapToWorkdayDto(savedWorkday);
     }
 
     @Override
@@ -53,11 +52,9 @@ public class WorkdayServiceImpl implements WorkdayService {
         Workday currentWorkday = workdayRepository.findByEmployeeAndDate(employee, LocalDate.parse(workdayDto.getDate())).orElseThrow(RuntimeException::new);
 
         Workday updatedWorkday = WorkdayMapper.mapToWorkday(workdayDto, currentWorkday);
-        employee.getWorkdayList().remove(currentWorkday);
-        employee.getWorkdayList().add(updatedWorkday);
+        Workday savedWorkday = workdayRepository.save(updatedWorkday);
 
-        employeeRepository.save(employee);
-        return WorkdayMapper.mapToWorkdayDto(updatedWorkday);
+        return WorkdayMapper.mapToWorkdayDto(savedWorkday);
     }
 
     @Override
@@ -66,9 +63,7 @@ public class WorkdayServiceImpl implements WorkdayService {
 
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(RuntimeException::new);
         Workday currentWorkday = workdayRepository.findByEmployeeAndDate(employee, LocalDate.parse(workdayDto.getDate())).orElseThrow(RuntimeException::new);
-//        workdayRepository.delete(currentWorkday);
-        employee.getWorkdayList().remove(currentWorkday);
-        employeeRepository.save(employee);
+        workdayRepository.delete(currentWorkday);
 
     }
 }

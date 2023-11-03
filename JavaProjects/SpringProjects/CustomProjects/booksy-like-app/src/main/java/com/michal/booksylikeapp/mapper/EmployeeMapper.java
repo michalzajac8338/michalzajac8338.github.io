@@ -28,6 +28,7 @@ public class EmployeeMapper {
         EmployeeDto employeeDto = new EmployeeDto();
 
         employeeDto.setId(employee.getId());
+        employeeDto.setEnterpriseId(employee.getEnterprise().getId());
         employeeDto.setFirstName(employee.getFirstName());
         employeeDto.setLastName(employee.getLastName());
         employeeDto.setEmail(employee.getEmail());

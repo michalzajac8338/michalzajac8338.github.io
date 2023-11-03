@@ -1,6 +1,7 @@
 package com.michal.booksylikeapp.contoller;
 
 import com.michal.booksylikeapp.dto.ReviewDto;
+import com.michal.booksylikeapp.entity.Review;
 import com.michal.booksylikeapp.service.ReviewService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,34 @@ public class ReviewController {
     }
 
     // Read
-//    @GetMapping("reviewId={reviewId}")
-//    public ResponseEntity<ReviewDto> readReview(@RequestParam)
+    @GetMapping
+    public ResponseEntity<ReviewDto> readReview(@PathVariable Long clientId,
+                                                @PathVariable Long visitId){
+
+        ReviewDto reviewDto = reviewService.readReviewForAVisit(visitId);
+
+        return new ResponseEntity<>(reviewDto, HttpStatus.OK);
+    }
+
+    // Update
+    @PutMapping
+    public ResponseEntity<ReviewDto> updateReview(@PathVariable Long clientId,
+                                                  @PathVariable Long visitId,
+                                                  @RequestBody ReviewDto reviewDto){
+
+        reviewDto.setReviewAndVisitId(visitId);
+        ReviewDto updatedReview = reviewService.updateReview(reviewDto);
+
+        return new ResponseEntity<>(updatedReview, HttpStatus.OK);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Void> updateReview(@PathVariable Long clientId,
+                                                  @PathVariable Long visitId){
+
+        reviewService.deleteReview(visitId);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
 }

@@ -32,7 +32,7 @@ public class Workday {
     private LocalDateTime workStartTime;
     private LocalDateTime workEndTime;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Employee employee;
 
     @OneToMany(mappedBy = "workday", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
