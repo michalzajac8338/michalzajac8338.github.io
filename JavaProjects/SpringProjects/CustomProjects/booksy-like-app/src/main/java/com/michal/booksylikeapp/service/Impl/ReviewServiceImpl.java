@@ -1,9 +1,11 @@
 package com.michal.booksylikeapp.service.Impl;
 
 import com.michal.booksylikeapp.dto.ReviewDto;
+import com.michal.booksylikeapp.entity.Employee;
 import com.michal.booksylikeapp.entity.Review;
 import com.michal.booksylikeapp.entity.Visit;
 import com.michal.booksylikeapp.mapper.ReviewMapper;
+import com.michal.booksylikeapp.repository.EmployeeRepository;
 import com.michal.booksylikeapp.repository.ReviewRepository;
 import com.michal.booksylikeapp.repository.VisitRepository;
 import com.michal.booksylikeapp.service.ReviewService;
@@ -17,14 +19,17 @@ public class ReviewServiceImpl implements ReviewService {
 
     private VisitRepository visitRepository;
     private ReviewRepository reviewRepository;
+    private EmployeeRepository employeeRepository;
 
     @Override
+    @Transactional
     public ReviewDto createReview(ReviewDto reviewDto) {
 
         Review review = ReviewMapper.mapToReview(reviewDto, null);
         Visit visit = visitRepository.findById(reviewDto.getReviewAndVisitId()).orElseThrow(RuntimeException::new);
-
+        Employee employee = employeeRepository.findById(visit.getWorkday().getEmployee().getId()).orElseThrow(RuntimeException::new);
         review.setVisit(visit);
+        review.setEmployee(employee);
         visit.setReview(review);
 
         Review savedReview = reviewRepository.save(review);

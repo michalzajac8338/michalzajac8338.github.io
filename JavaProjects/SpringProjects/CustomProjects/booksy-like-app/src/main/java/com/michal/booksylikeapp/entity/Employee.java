@@ -42,6 +42,10 @@ public class Employee {
     @JoinColumn(name = "employee_id")
     private List<Workday> workdayList;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "employee_id")
+    private List<Review> reviews;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "roles_id")
     private Role role;

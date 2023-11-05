@@ -68,7 +68,7 @@ class EmployeeCRUDControllerTest {
         // given - from test1
         // when
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders
-                .get("/B/enterprise/enterpriseId={enterpriseId}/employee/employeeId={employeeId}", enterpriseId,employeeId));
+                .get("/B/enterprise/enterpriseId={enterpriseId}/employee/employeeId={employeeId}", enterpriseId,1L));
 
         // then
         response.andExpect(status().isOk());

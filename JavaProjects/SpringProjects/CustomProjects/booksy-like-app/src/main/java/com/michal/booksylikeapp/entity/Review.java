@@ -28,6 +28,9 @@ public class Review {
     private Integer rating;
     private String content;
 
+    @ManyToOne
+    private Employee employee;
+
     @MapsId
     @OneToOne(mappedBy = "review", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     Visit visit;

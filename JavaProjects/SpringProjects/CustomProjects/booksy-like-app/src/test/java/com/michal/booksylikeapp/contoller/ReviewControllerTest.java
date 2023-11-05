@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class ReviewControllerTest {
 
     private final Long clientId = 1L;
-    private final Long reviewAndVisitId = 3L;
+    private final Long reviewAndVisitId = 1L;
     private final Integer rating = 5;
     private final Integer updatedRating = 4;
     private final String content = "Valuable lesson";

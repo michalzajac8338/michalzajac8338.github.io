@@ -38,6 +38,7 @@ public class ReviewController {
         return new ResponseEntity<>(reviewDto, HttpStatus.OK);
     }
 
+
     // Update
     @PutMapping
     public ResponseEntity<ReviewDto> updateReview(@PathVariable Long clientId,
@@ -50,6 +51,7 @@ public class ReviewController {
         return new ResponseEntity<>(updatedReview, HttpStatus.OK);
     }
 
+    // Delete
     @DeleteMapping
     public ResponseEntity<Void> updateReview(@PathVariable Long clientId,
                                                   @PathVariable Long visitId){

@@ -4,10 +4,13 @@ import com.michal.booksylikeapp.constants.VisitStatus;
 import com.michal.booksylikeapp.dto.EmployeeDto;
 import com.michal.booksylikeapp.entity.Employee;
 import com.michal.booksylikeapp.entity.Enterprise;
+import com.michal.booksylikeapp.entity.Review;
 import com.michal.booksylikeapp.entity.Workday;
 import com.michal.booksylikeapp.mapper.EmployeeMapper;
+import com.michal.booksylikeapp.mapper.ReviewMapper;
 import com.michal.booksylikeapp.repository.EmployeeRepository;
 import com.michal.booksylikeapp.repository.EnterpriseRepository;
+import com.michal.booksylikeapp.repository.ReviewRepository;
 import com.michal.booksylikeapp.repository.RoleRepository;
 import com.michal.booksylikeapp.service.EmployeeService;
 import lombok.AllArgsConstructor;
@@ -31,6 +34,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EnterpriseRepository enterpriseRepository;
     private EmployeeRepository employeeRepository;
     private RoleRepository roleRepository;
+    private ReviewRepository reviewRepository;
 
     @Override
     @Transactional
@@ -51,7 +55,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeDto readEmployee(Long enterpriseId, Long employeeId) {
 
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(RuntimeException::new);
-        return EmployeeMapper.mapToEmployeeDto(employee);
+        List<Review> employeeReviews = reviewRepository.findByEmployee(employee);
+
+        EmployeeDto employeeDto = EmployeeMapper.mapToEmployeeDto(employee);
+        employeeDto.setReviews(employeeReviews.stream().map(ReviewMapper::mapToReviewDto).toList());
+
+        return employeeDto;
     }
 
     @Override

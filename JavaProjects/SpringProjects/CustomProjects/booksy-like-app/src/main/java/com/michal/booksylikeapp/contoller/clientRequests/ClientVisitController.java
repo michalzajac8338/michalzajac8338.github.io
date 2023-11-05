@@ -1,4 +1,4 @@
-package com.michal.booksylikeapp.contoller;
+package com.michal.booksylikeapp.contoller.clientRequests;
 
 import com.michal.booksylikeapp.dto.ClientVisitDto;
 import com.michal.booksylikeapp.service.ClientVisitService;
@@ -36,14 +36,12 @@ public class ClientVisitController {
     public ResponseEntity<List<ClientVisitDto>> readVisitsForCurrentClient(@PathVariable Long clientId){
 
         List<ClientVisitDto> visitsForClient = clientVisitService.readVisitsForClient(clientId);
-
         return new ResponseEntity<>(visitsForClient, HttpStatus.OK);
 
     }
 
     // Read possible visit hours (for set duration) for chosen employee
-    // e.g. B/client/clientId=1/visit/employee/employeeId=1
-    // body
+    // e.g. body
 //    {
 //        "duration" : "01:15",
 //        "type" : "learning java"

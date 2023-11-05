@@ -1,4 +1,4 @@
-package com.michal.booksylikeapp.contoller;
+package com.michal.booksylikeapp.contoller.clientRequests;
 
 import com.michal.booksylikeapp.dto.ClientDto;
 import com.michal.booksylikeapp.service.ClientService;
@@ -14,43 +14,39 @@ import org.springframework.web.bind.annotation.*;
 public class ClientCRUDController {
 
     private ClientService clientService;
-    private RoleService roleService;
 
     // CRUD FOR CLIENTS
     // Create
     @PostMapping
     public ResponseEntity<ClientDto> createClient(@RequestBody ClientDto clientDto){
 
-//        roleService.initializeRoles();
         ClientDto createdClient = clientService.createClient(clientDto);
         return new ResponseEntity<>(createdClient, HttpStatus.CREATED);
     }
 
     // Read
-    @GetMapping("/clientId={id}")
-    public ResponseEntity<ClientDto> readClient(@PathVariable Long id){
+    @GetMapping("/clientId={clientId}")
+    public ResponseEntity<ClientDto> readClient(@PathVariable Long clientId){
 
-        ClientDto queriedClient = clientService.readClient(id);
+        ClientDto queriedClient = clientService.readClient(clientId);
         return new ResponseEntity<>(queriedClient, HttpStatus.OK);
     }
 
     // Update
-    @PutMapping("/clientId={id}")
-    public ResponseEntity<ClientDto> updateClient(@PathVariable Long id,
+    @PutMapping("/clientId={clientId}")
+    public ResponseEntity<ClientDto> updateClient(@PathVariable Long clientId,
                                                   @RequestBody ClientDto clientDto){
 
-        ClientDto updatedClient = clientService.updateClient(id, clientDto);
+        ClientDto updatedClient = clientService.updateClient(clientId, clientDto);
 
         return new ResponseEntity<>(updatedClient, HttpStatus.OK);
     }
 
     // Delete
-    @DeleteMapping("/clientId={id}")
-    public ResponseEntity<Void> deleteClient(@PathVariable Long id){
+    @DeleteMapping("/clientId={clientId}")
+    public ResponseEntity<Void> deleteClient(@PathVariable Long clientId){
 
-        clientService.deleteClient(id);
+        clientService.deleteClient(clientId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
-
 }
