@@ -1,4 +1,4 @@
-package com.michal.booksylikeapp.contoller;
+package com.michal.booksylikeapp.contoller.clientRequests;
 
 import com.jayway.jsonpath.JsonPath;
 import com.michal.booksylikeapp.dto.ClientDto;
@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class ClientCRUDControllerTest {
+class CRUDControllerTest {
 
     private static Long clientId;
     private static final String firstName = "Michal";

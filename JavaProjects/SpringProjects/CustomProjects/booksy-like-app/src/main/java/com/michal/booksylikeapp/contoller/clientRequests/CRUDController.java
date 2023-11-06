@@ -2,7 +2,6 @@ package com.michal.booksylikeapp.contoller.clientRequests;
 
 import com.michal.booksylikeapp.dto.ClientDto;
 import com.michal.booksylikeapp.service.ClientService;
-import com.michal.booksylikeapp.service.RoleService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("B/client")
 @AllArgsConstructor
-public class ClientCRUDController {
+public class CRUDController {
 
     private ClientService clientService;
 
@@ -38,7 +37,6 @@ public class ClientCRUDController {
                                                   @RequestBody ClientDto clientDto){
 
         ClientDto updatedClient = clientService.updateClient(clientId, clientDto);
-
         return new ResponseEntity<>(updatedClient, HttpStatus.OK);
     }
 

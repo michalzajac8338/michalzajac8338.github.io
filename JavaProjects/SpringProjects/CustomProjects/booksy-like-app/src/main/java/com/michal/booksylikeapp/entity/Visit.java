@@ -30,11 +30,12 @@ public class Visit {
     private LocalDateTime updated;
 
     private LocalDateTime startTime;
-    private Duration duration;
     private VisitStatus status;
-    private Double cost;
-    private String type;
     private String description;
+
+    @OneToOne
+    @JoinColumn(name = "services_id")
+    private Service service;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "clients_id")

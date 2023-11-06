@@ -1,4 +1,4 @@
-package com.michal.booksylikeapp.contoller;
+package com.michal.booksylikeapp.contoller.enterpriseRequests;
 
 import com.michal.booksylikeapp.dto.EnterpriseDto;
 import com.michal.booksylikeapp.service.EmployeeService;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("B/enterprise")
 @AllArgsConstructor
-public class EnterpriseCRUDController {
+public class CRUDController {
 
     private EnterpriseService enterpriseService;
     private EmployeeService employeeService;

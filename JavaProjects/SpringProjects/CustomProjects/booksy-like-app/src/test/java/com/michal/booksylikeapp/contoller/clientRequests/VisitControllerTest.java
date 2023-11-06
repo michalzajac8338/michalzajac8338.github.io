@@ -1,4 +1,4 @@
-package com.michal.booksylikeapp.contoller;
+package com.michal.booksylikeapp.contoller.clientRequests;
 
 import com.jayway.jsonpath.JsonPath;
 import com.michal.booksylikeapp.dto.ClientVisitDto;
@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class ClientVisitControllerTest {
+class VisitControllerTest {
 
     private static Long visitId;
     private static final Long clientId = 1L;
@@ -45,7 +45,7 @@ class ClientVisitControllerTest {
 
         // given
         ClientVisitDto clientVisitDto = ClientVisitDto.builder().startTime(startTime).durationInMin(durationInMin)
-                .cost(cost).type(type).description(description).status(status).build();
+                .cost(cost).description(description).status(status).build();
 
         // when
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders
@@ -55,7 +55,7 @@ class ClientVisitControllerTest {
 
         // then
         response.andExpect(status().isCreated());
-        response.andExpect(jsonPath("$.type").value(type));
+        response.andExpect(jsonPath("$.description").value(description));
 
         // assigning id to test the other operations on same instance
         MvcResult response1 = response.andReturn();

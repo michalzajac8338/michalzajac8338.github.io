@@ -1,4 +1,4 @@
-package com.michal.booksylikeapp.contoller;
+package com.michal.booksylikeapp.contoller.enterpriseRequests;
 
 import com.jayway.jsonpath.JsonPath;
 import com.michal.booksylikeapp.dto.EnterpriseDto;
@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class EnterpriseCRUDControllerTest {
+class CRUDControllerTest {
 
     private static Long enterpriseId;
 

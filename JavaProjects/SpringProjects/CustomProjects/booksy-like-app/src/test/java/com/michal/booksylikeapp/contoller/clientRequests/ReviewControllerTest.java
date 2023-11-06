@@ -1,4 +1,4 @@
-package com.michal.booksylikeapp.contoller;
+package com.michal.booksylikeapp.contoller.clientRequests;
 
 import com.michal.booksylikeapp.dto.ReviewDto;
 import org.junit.jupiter.api.MethodOrderer;

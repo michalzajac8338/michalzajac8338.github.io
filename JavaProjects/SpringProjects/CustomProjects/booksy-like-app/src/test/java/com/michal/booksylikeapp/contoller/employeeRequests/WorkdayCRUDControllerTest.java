@@ -1,4 +1,4 @@
-package com.michal.booksylikeapp.contoller;
+package com.michal.booksylikeapp.contoller.employeeRequests;
 
 import com.jayway.jsonpath.JsonPath;
 import com.michal.booksylikeapp.dto.WorkdayDto;
@@ -68,7 +68,7 @@ class WorkdayCRUDControllerTest {
         // given (from test 1)
         // when
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders
-                .get("/B/enterprise/enterpriseId={enterpriseId}/employee/employeeId={employeeId}/workday", enterpriseId, employeeId));
+                .get("/B/employee/employeeId={employeeId}/workday", enterpriseId, employeeId));
 
         // then
         response.andExpect(status().isOk());
@@ -88,7 +88,7 @@ class WorkdayCRUDControllerTest {
 
         // when
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders
-                .put("/B/enterprise/enterpriseId={enterpriseId}/employee/employeeId={employeeId}/workday", enterpriseId, employeeId)
+                .put("/B/employee/employeeId={employeeId}/workday", enterpriseId, employeeId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(workdayDto)));
 
@@ -106,7 +106,7 @@ class WorkdayCRUDControllerTest {
 
         // when
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders.delete
-                ("/B/enterprise/enterpriseId={enterpriseId}/employee/employeeId={employeeId}/workday", enterpriseId, employeeId)
+                ("/B/employee/employeeId={employeeId}/workday", enterpriseId, employeeId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(workdayDto)));
 

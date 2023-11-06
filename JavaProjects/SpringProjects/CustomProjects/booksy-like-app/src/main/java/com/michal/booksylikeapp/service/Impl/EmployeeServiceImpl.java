@@ -18,14 +18,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
 import static com.michal.booksylikeapp.constants.OtherConstants.TIMESLOTDURATION_IN_MIN;
-import static java.util.stream.Collectors.toList;
 
 @Service
 @AllArgsConstructor
@@ -105,7 +103,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         workday.getVisits().forEach(visit -> {
                     if (visit.getStatus() != VisitStatus.CANCELLED) {
                         LocalDateTime start = visit.getStartTime();
-                        int numberOfTakenTimeSlots = (int) (visit.getDuration().getSeconds() / 60) / TIMESLOTDURATION_IN_MIN.getNumber();
+                        int numberOfTakenTimeSlots = (int) (visit.getService().getDuration().getSeconds() / 60) / TIMESLOTDURATION_IN_MIN.getNumber();
                         while (numberOfTakenTimeSlots > 0) {
                             timeSlots.remove(start);
                             start = start.plusMinutes(TIMESLOTDURATION_IN_MIN.getNumber());

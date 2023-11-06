@@ -46,6 +46,9 @@ public class Employee {
     @JoinColumn(name = "employee_id")
     private List<Review> reviews;
 
+    @ManyToMany(mappedBy = "employees")
+    private Set<Service> services;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "roles_id")
     private Role role;

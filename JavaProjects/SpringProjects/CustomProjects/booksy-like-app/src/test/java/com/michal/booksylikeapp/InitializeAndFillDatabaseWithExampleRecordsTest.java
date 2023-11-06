@@ -131,7 +131,7 @@ public class InitializeAndFillDatabaseWithExampleRecordsTest {
 
         // when
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders
-                .post("/B/enterprise/enterpriseId={enterpriseId}/employee/employeeId={employeeId}/workday", enterpriseId, employeeId)
+                .post("/B/employee/employeeId={employeeId}/workday", enterpriseId, employeeId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(workdayDto)));
 
@@ -182,12 +182,11 @@ public class InitializeAndFillDatabaseWithExampleRecordsTest {
 
         // given
         Double cost = 19.99;
-        String type = "Learning Java";
         String description = "Lesson 03: Hibernate";
         String status = "AWAITS_CONFIRMATION";
 
         ClientVisitDto clientVisitDto = ClientVisitDto.builder().startTime(visitStartTime).durationInMin(durationInMin)
-                .cost(cost).type(type).description(description).status(status).build();
+                .cost(cost).description(description).status(status).build();
 
         // when
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders
@@ -197,7 +196,7 @@ public class InitializeAndFillDatabaseWithExampleRecordsTest {
 
         // then
         response.andExpect(status().isCreated());
-        response.andExpect(jsonPath("$.type").value(type));
+        response.andExpect(jsonPath("$.description").value(description));
 
         // assigning id to test the other operations on same instance
         MvcResult response1 = response.andReturn();

@@ -14,10 +14,11 @@ public class ClientVisitDto {
 
     private Long id;
     private String startTime;
-    private Integer durationInMin;
     private String status;
-    private Double cost;
-    private String type;
     private String description;
+
+    private String name;
+    private Double cost;
+    private Integer durationInMin;
 
 }

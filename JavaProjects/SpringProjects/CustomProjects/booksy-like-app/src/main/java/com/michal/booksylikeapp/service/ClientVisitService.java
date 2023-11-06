@@ -6,8 +6,7 @@ import java.util.List;
 
 public interface ClientVisitService {
     ClientVisitDto createVisit(Long clientId, Long employeeId, ClientVisitDto clientVisitDto);
-
-    void cancelVisit(Long visitId);
-
+    ClientVisitDto readVisitForClient(Long visitId);
     List<ClientVisitDto> readVisitsForClient(Long clientId);
+    void cancelVisit(Long visitId);
 }

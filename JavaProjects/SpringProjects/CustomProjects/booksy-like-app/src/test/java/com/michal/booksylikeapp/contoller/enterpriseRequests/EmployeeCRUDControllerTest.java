@@ -1,4 +1,4 @@
-package com.michal.booksylikeapp.contoller;
+package com.michal.booksylikeapp.contoller.enterpriseRequests;
 
 import com.jayway.jsonpath.JsonPath;
 import com.michal.booksylikeapp.dto.EmployeeDto;

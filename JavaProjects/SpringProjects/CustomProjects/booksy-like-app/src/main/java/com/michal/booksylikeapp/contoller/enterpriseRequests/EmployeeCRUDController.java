@@ -1,4 +1,4 @@
-package com.michal.booksylikeapp.contoller;
+package com.michal.booksylikeapp.contoller.enterpriseRequests;
 
 import com.michal.booksylikeapp.dto.EmployeeDto;
 import com.michal.booksylikeapp.service.EmployeeService;
