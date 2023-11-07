@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("B/client")
 @AllArgsConstructor
-public class CRUDController {
+public class ClientCRUDController {
 
     private ClientService clientService;
 

@@ -2,19 +2,12 @@ package com.michal.booksylikeapp.service.Impl;
 
 import com.michal.booksylikeapp.constants.VisitStatus;
 import com.michal.booksylikeapp.dto.EmployeeDto;
-import com.michal.booksylikeapp.entity.Employee;
-import com.michal.booksylikeapp.entity.Enterprise;
-import com.michal.booksylikeapp.entity.Review;
-import com.michal.booksylikeapp.entity.Workday;
+import com.michal.booksylikeapp.entity.*;
 import com.michal.booksylikeapp.mapper.EmployeeMapper;
 import com.michal.booksylikeapp.mapper.ReviewMapper;
-import com.michal.booksylikeapp.repository.EmployeeRepository;
-import com.michal.booksylikeapp.repository.EnterpriseRepository;
-import com.michal.booksylikeapp.repository.ReviewRepository;
-import com.michal.booksylikeapp.repository.RoleRepository;
+import com.michal.booksylikeapp.repository.*;
 import com.michal.booksylikeapp.service.EmployeeService;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -23,15 +16,16 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
-import static com.michal.booksylikeapp.constants.OtherConstants.TIMESLOTDURATION_IN_MIN;
+import static com.michal.booksylikeapp.constants.OtherConstants.TIME_SLOT_DURATION_IN_MIN;
 
-@Service
+@org.springframework.stereotype.Service
 @AllArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
 
     private EnterpriseRepository enterpriseRepository;
     private EmployeeRepository employeeRepository;
     private RoleRepository roleRepository;
+    private ServiceRepository serviceRepository;
     private ReviewRepository reviewRepository;
 
     @Override
@@ -78,14 +72,16 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<LocalDateTime> getAllPossibleVisitTime(Long employeeId, int visitDuration) {
+    public List<LocalDateTime> getAllPossibleVisitTime(Long employeeId, Long serviceId) {
 
         Employee queriedEmployee = employeeRepository.findById(employeeId).orElseThrow(RuntimeException::new);
+        Service service = serviceRepository.findById(serviceId).orElseThrow(RuntimeException::new);
 
         // get all valid visit hours (with enough time slots of employee to fulfill visit)
         List<LocalDateTime> validTimeSlots = queriedEmployee.getWorkdayList().stream()
                 .sorted(Comparator.comparing(Workday::getDate)).map(
-                workday ->  getAllValidVisitHours(workday, visitDuration)).flatMap(Collection::stream).toList();
+                workday ->  getAllValidVisitHours(workday, (int)service.getDuration().toSeconds()/60))
+                .flatMap(Collection::stream).toList();
 
         return validTimeSlots;
     }
@@ -103,10 +99,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         workday.getVisits().forEach(visit -> {
                     if (visit.getStatus() != VisitStatus.CANCELLED) {
                         LocalDateTime start = visit.getStartTime();
-                        int numberOfTakenTimeSlots = (int) (visit.getService().getDuration().getSeconds() / 60) / TIMESLOTDURATION_IN_MIN.getNumber();
+                        int numberOfTakenTimeSlots = (int) (visit.getService().getDuration().getSeconds() / 60) / TIME_SLOT_DURATION_IN_MIN.getNumber();
                         while (numberOfTakenTimeSlots > 0) {
                             timeSlots.remove(start);
-                            start = start.plusMinutes(TIMESLOTDURATION_IN_MIN.getNumber());
+                            start = start.plusMinutes(TIME_SLOT_DURATION_IN_MIN.getNumber());
                             numberOfTakenTimeSlots--;
                         }
                     }
@@ -129,11 +125,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     public static List<LocalDateTime> checkIfTimeSlotIsWideEnough(List<LocalDateTime> timeSlots, int duration){
 
         List<LocalDateTime> wideEnoughTimeSlots = new LinkedList<>();
-        int timeSlotsNeeded = duration/TIMESLOTDURATION_IN_MIN.getNumber();
+        int timeSlotsNeeded = duration/ TIME_SLOT_DURATION_IN_MIN.getNumber();
 
         for (int i=0; i<timeSlots.size()-timeSlotsNeeded+1;i++){
 
-            var t1 = timeSlots.get(i).plusMinutes(duration-TIMESLOTDURATION_IN_MIN.getNumber());
+            var t1 = timeSlots.get(i).plusMinutes(duration- TIME_SLOT_DURATION_IN_MIN.getNumber());
             var t2 = timeSlots.get(i+timeSlotsNeeded-1);
 
             if(t1.equals(t2)){

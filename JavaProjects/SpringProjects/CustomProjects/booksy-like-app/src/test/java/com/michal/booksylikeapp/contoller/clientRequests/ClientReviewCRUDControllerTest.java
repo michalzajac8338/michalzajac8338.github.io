@@ -14,19 +14,23 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static com.michal.booksylikeapp.InitializeAndFillDatabaseWithExampleRecordsTest.asJsonString;
+import static org.springframework.test.util.AssertionErrors.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class ReviewControllerTest {
+class ClientReviewCRUDControllerTest {
 
     private final Long clientId = 1L;
-    private final Long reviewAndVisitId = 1L;
+    private final Long reviewAndVisitId = 2L;
     private final Integer rating = 5;
     private final Integer updatedRating = 4;
     private final String content = "Valuable lesson";
+    private final Long enterpriseId = 1L;
+    private final Long employeeId = 1L;
+
 
     @Autowired
     MockMvc mockMvc;
@@ -48,6 +52,8 @@ class ReviewControllerTest {
         response.andExpect(status().isCreated());
         response.andExpect(jsonPath("$.rating").value(rating));
         response.andExpect(jsonPath("$.content").value(content));
+
+
     }
 
     @Test
@@ -85,7 +91,7 @@ class ReviewControllerTest {
     }
 
     @Test
-    @Order(4)
+    @Order(6)
     void deleteReviewTest() throws Exception {
 
         // given - from test 1
@@ -98,4 +104,35 @@ class ReviewControllerTest {
 
     }
 
+    @Test
+    @Order(4)
+    void readEnterpriseReviewTest() throws Exception {
+
+        // given - from test 1
+        // when
+        ResultActions response = mockMvc.perform(MockMvcRequestBuilders
+                .get("/B/review/enterprise/enterpriseId={enterpriseId}", enterpriseId));
+
+        // then
+        response.andExpect(status().isOk());
+        assertTrue("Created review from test 1 is not in list of reviews for current employee",
+                response.andReturn().getResponse().getContentAsString().contains("\"reviewAndVisitId\":"+reviewAndVisitId
+                        + ",\"rating\":"+updatedRating));
+    }
+
+    @Test
+    @Order(5)
+    void readEmployeeReviewTest() throws Exception {
+
+        // given - from test 1
+        // when
+        ResultActions response = mockMvc.perform(MockMvcRequestBuilders
+                .get("/B/review/employee/employeeId={employeeId}", employeeId));
+
+        // then
+        response.andExpect(status().isOk());
+        assertTrue("Created review from test 1 is not in list of reviews for current enterprise",
+                response.andReturn().getResponse().getContentAsString().contains("\"reviewAndVisitId\":"+reviewAndVisitId
+                        + ",\"rating\":"+updatedRating));
+    }
 }

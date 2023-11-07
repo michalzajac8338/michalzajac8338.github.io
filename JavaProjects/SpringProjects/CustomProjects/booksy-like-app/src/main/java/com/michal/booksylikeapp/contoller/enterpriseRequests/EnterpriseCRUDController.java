@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("B/enterprise")
 @AllArgsConstructor
-public class CRUDController {
+public class EnterpriseCRUDController {
 
     private EnterpriseService enterpriseService;
     private EmployeeService employeeService;

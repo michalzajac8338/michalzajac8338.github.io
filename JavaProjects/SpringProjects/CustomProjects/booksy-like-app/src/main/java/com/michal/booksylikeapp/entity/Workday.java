@@ -24,8 +24,6 @@ public class Workday {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @UpdateTimestamp
-    private LocalDateTime lastUpdated;
 
 //    @Column(unique = true)
     private LocalDate date;

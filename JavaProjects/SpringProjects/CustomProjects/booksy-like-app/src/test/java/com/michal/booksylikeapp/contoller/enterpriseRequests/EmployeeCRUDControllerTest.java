@@ -68,7 +68,8 @@ class EmployeeCRUDControllerTest {
         // given - from test1
         // when
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders
-                .get("/B/enterprise/enterpriseId={enterpriseId}/employee/employeeId={employeeId}", enterpriseId,1L));
+                .get("/B/enterprise/enterpriseId={enterpriseId}/employee/employeeId={employeeId}",
+                        enterpriseId,employeeId));
 
         // then
         response.andExpect(status().isOk());
@@ -87,7 +88,8 @@ class EmployeeCRUDControllerTest {
 
         // when
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders
-                .put("/B/enterprise/enterpriseId={enterpriseId}/employee/employeeId={employeeId}", enterpriseId,employeeId)
+                .put("/B/enterprise/enterpriseId={enterpriseId}/employee/employeeId={employeeId}",
+                        enterpriseId,employeeId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(updatedEmployeeDto)));
 
@@ -105,7 +107,8 @@ class EmployeeCRUDControllerTest {
         // given - from test 1
         // when
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders
-                .delete("/B/enterprise/enterpriseId={enterpriseId}/employee/employeeId={employeeId}", enterpriseId,employeeId));
+                .delete("/B/enterprise/enterpriseId={enterpriseId}/employee/employeeId={employeeId}",
+                        enterpriseId,employeeId));
 
         // then
         response.andExpect(status().isNoContent());

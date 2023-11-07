@@ -1,9 +1,9 @@
 package com.michal.booksylikeapp.service.Impl;
 
 import com.michal.booksylikeapp.constants.VisitStatus;
-import com.michal.booksylikeapp.dto.ClientVisitDto;
+import com.michal.booksylikeapp.dto.VisitDto;
 import com.michal.booksylikeapp.entity.*;
-import com.michal.booksylikeapp.mapper.ClientVisitMapper;
+import com.michal.booksylikeapp.mapper.VisitMapper;
 import com.michal.booksylikeapp.repository.*;
 import com.michal.booksylikeapp.service.ClientVisitService;
 import lombok.AllArgsConstructor;
@@ -25,10 +25,10 @@ public class ClientVisitServiceImpl implements ClientVisitService {
 
     @Override
     @Transactional
-    public ClientVisitDto createVisit(Long clientId, Long employeeId, ClientVisitDto clientVisitDto) {
+    public VisitDto createVisit(Long clientId, Long employeeId, VisitDto visitDto) {
         
-        Visit visit = ClientVisitMapper.mapToVisit(clientVisitDto, null);
-        Service service = serviceRepository.findByNameAndCost(clientVisitDto.getName(), clientVisitDto.getCost()) ;
+        Visit visit = VisitMapper.mapToVisit(visitDto, null);
+        Service service = serviceRepository.findById(visitDto.getServiceId()).orElseThrow(RuntimeException::new);
 
         Client client = clientRepository.findById(clientId).orElseThrow(RuntimeException::new);
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(RuntimeException::new);
@@ -39,12 +39,13 @@ public class ClientVisitServiceImpl implements ClientVisitService {
         visit.setWorkday(workday);
         visit.setService(service);
 
-        List<LocalDateTime> availableTimeSlots = EmployeeServiceImpl.getAllValidVisitHours(workday,clientVisitDto.getDurationInMin());
+        List<LocalDateTime> availableTimeSlots = EmployeeServiceImpl.getAllValidVisitHours(workday,
+                (int) service.getDuration().toSeconds()/60);
 
         if(availableTimeSlots.contains(visit.getStartTime())){
 
             Visit savedVisit = visitRepository.save(visit);
-            return ClientVisitMapper.mapToClientVisitDto(savedVisit, service);
+            return VisitMapper.mapToVisitDto(savedVisit);
 
         } else {
             throw new RuntimeException();
@@ -62,18 +63,18 @@ public class ClientVisitServiceImpl implements ClientVisitService {
     }
 
     @Override
-    public List<ClientVisitDto> readVisitsForClient(Long clientId) {
+    public List<VisitDto> readVisitsForClient(Long clientId) {
 
         Client client = clientRepository.findById(clientId).orElseThrow(RuntimeException::new);
 
         List<Visit> visits = client.getVisits().stream().sorted(Comparator.comparing(Visit::getStartTime)).toList();
 
-        return visits.stream().map(visit -> ClientVisitMapper.mapToClientVisitDto(visit, visit.getService())).toList();
+        return visits.stream().map(VisitMapper::mapToVisitDto).toList();
     }
 
     @Override
-    public ClientVisitDto readVisitForClient(Long visitId) {
+    public VisitDto readVisitForClient(Long visitId) {
         Visit visit = visitRepository.findById(visitId).orElseThrow(RuntimeException::new);
-        return ClientVisitMapper.mapToClientVisitDto(visit, visit.getService());
+        return VisitMapper.mapToVisitDto(visit);
     }
 }

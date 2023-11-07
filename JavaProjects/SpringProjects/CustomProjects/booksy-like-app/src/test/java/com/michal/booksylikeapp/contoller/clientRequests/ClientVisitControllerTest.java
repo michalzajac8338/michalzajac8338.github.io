@@ -1,7 +1,7 @@
 package com.michal.booksylikeapp.contoller.clientRequests;
 
 import com.jayway.jsonpath.JsonPath;
-import com.michal.booksylikeapp.dto.ClientVisitDto;
+import com.michal.booksylikeapp.dto.VisitDto;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -24,17 +24,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class VisitControllerTest {
-
-    private static Long visitId;
+class ClientVisitControllerTest {
+    private static final Long serviceId = 1L;
     private static final Long clientId = 1L;
     private static final Long employeeId = 1L;
-    private static final String startTime = "2023-01-01T13:00";
-    private static final Integer durationInMin = 15;
-    private static final Double cost = 19.99;
-    private static final String type = "Learning Java";
-    private static final String description = "Lesson 03: Hibernate";
+    private static final String startTime = "2023-01-01T14:00";
+    private static final String clientMessage = "Lesson 03: Hibernate";
     private static final String status = "AWAITS_CONFIRMATION";
+    private static Long visitId;
 
     @Autowired
     MockMvc mockMvc;
@@ -44,18 +41,18 @@ class VisitControllerTest {
     void createVisitTest() throws Exception {
 
         // given
-        ClientVisitDto clientVisitDto = ClientVisitDto.builder().startTime(startTime).durationInMin(durationInMin)
-                .cost(cost).description(description).status(status).build();
+        VisitDto visitDto = VisitDto.builder().startTime(startTime).serviceId(serviceId)
+                .clientMessage(clientMessage).status(status).build();
 
         // when
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders
                 .post("/B/client/clientId={clientId}/visit/employee/employeeId={employeeId}", clientId, employeeId)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(clientVisitDto)));
+                .content(asJsonString(visitDto)));
 
         // then
         response.andExpect(status().isCreated());
-        response.andExpect(jsonPath("$.description").value(description));
+        response.andExpect(jsonPath("$.clientMessage").value(clientMessage));
 
         // assigning id to test the other operations on same instance
         MvcResult response1 = response.andReturn();
@@ -82,13 +79,13 @@ class VisitControllerTest {
     void readAllSingleEmployeeTimeSlotsForDurationTest() throws Exception {
 
         // given + from test 1
-        ClientVisitDto clientVisitDto = ClientVisitDto.builder().durationInMin(durationInMin).build();
+        VisitDto visitDto = VisitDto.builder().serviceId(serviceId).build();
 
         // when
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders
                 .get("/B/client/clientId={clientId}/visit/employee/employeeId={employeeId}", clientId, employeeId)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(clientVisitDto)));
+                .content(asJsonString(visitDto)));
 
         // then
         response.andExpect(status().isOk());

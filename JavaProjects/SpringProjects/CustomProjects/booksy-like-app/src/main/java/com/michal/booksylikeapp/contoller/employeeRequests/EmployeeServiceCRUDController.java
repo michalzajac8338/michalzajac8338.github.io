@@ -1,7 +1,6 @@
 package com.michal.booksylikeapp.contoller.employeeRequests;
 
 import com.michal.booksylikeapp.dto.ServiceDto;
-import com.michal.booksylikeapp.dto.WorkdayDto;
 import com.michal.booksylikeapp.service.ServiceService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -9,11 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("B/employee/employeeId={employeeId}/service")
 @AllArgsConstructor
-public class ServiceCRUDController {
+public class EmployeeServiceCRUDController {
 
     private ServiceService service;
 
@@ -29,9 +29,9 @@ public class ServiceCRUDController {
 
     // Read (all your services)
     @GetMapping
-    public ResponseEntity<List<ServiceDto>> readEmployeeServices(@PathVariable Long employeeId){
+    public ResponseEntity<Set<ServiceDto>> readEmployeeServices(@PathVariable Long employeeId){
 
-        List<ServiceDto> serviceDtos = service.readEmployeeServices(employeeId);
+        Set<ServiceDto> serviceDtos = service.readEmployeeServices(employeeId);
         return new ResponseEntity<>(serviceDtos, HttpStatus.OK);
     }
 

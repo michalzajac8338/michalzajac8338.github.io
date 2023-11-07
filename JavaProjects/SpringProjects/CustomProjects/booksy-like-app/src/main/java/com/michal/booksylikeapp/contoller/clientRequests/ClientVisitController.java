@@ -3,7 +3,7 @@ package com.michal.booksylikeapp.contoller.clientRequests;
 // Additionally R of all client's visits
 // Additionally R of possible visit time for employee/ enterprise
 
-import com.michal.booksylikeapp.dto.ClientVisitDto;
+import com.michal.booksylikeapp.dto.VisitDto;
 import com.michal.booksylikeapp.service.ClientVisitService;
 import com.michal.booksylikeapp.service.EmployeeService;
 import lombok.AllArgsConstructor;
@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("B/client/clientId={clientId}/visit")
 @AllArgsConstructor
-public class VisitController {
+public class ClientVisitController {
 
     private EmployeeService employeeService;
     private ClientVisitService clientVisitService;
@@ -25,21 +25,21 @@ public class VisitController {
     // CRUD
     // Create
     @PostMapping("/employee/employeeId={employeeId}")
-    public ResponseEntity<ClientVisitDto> createVisit(@PathVariable Long clientId,
-                                                      @PathVariable Long employeeId,
-                                                      @RequestBody ClientVisitDto clientVisitDto){
+    public ResponseEntity<VisitDto> createVisit(@PathVariable Long clientId,
+                                                @PathVariable Long employeeId,
+                                                @RequestBody VisitDto visitDto){
 
-        ClientVisitDto createdVisit = clientVisitService.createVisit(clientId, employeeId, clientVisitDto);
+        VisitDto createdVisit = clientVisitService.createVisit(clientId, employeeId, visitDto);
         return new ResponseEntity<>(createdVisit, HttpStatus.CREATED);
     }
 
     // Read
     @GetMapping("visitId={visitId}")
-    public ResponseEntity<ClientVisitDto> readVisit(@PathVariable Long clientId,
-                                                    @PathVariable Long visitId){
+    public ResponseEntity<VisitDto> readVisit(@PathVariable Long clientId,
+                                              @PathVariable Long visitId){
 
-        ClientVisitDto clientVisitDto = clientVisitService.readVisitForClient(visitId);
-        return new ResponseEntity<>(clientVisitDto, HttpStatus.OK);
+        VisitDto visitDto = clientVisitService.readVisitForClient(visitId);
+        return new ResponseEntity<>(visitDto, HttpStatus.OK);
     }
 
     // Update -> pointless; have to cancel & create new one :)
@@ -55,24 +55,18 @@ public class VisitController {
 
     // Read your visits
     @GetMapping
-    public ResponseEntity<List<ClientVisitDto>> readVisitsForCurrentClient(@PathVariable Long clientId){
+    public ResponseEntity<List<VisitDto>> readVisitsForCurrentClient(@PathVariable Long clientId){
 
-        List<ClientVisitDto> visitsForClient = clientVisitService.readVisitsForClient(clientId);
+        List<VisitDto> visitsForClient = clientVisitService.readVisitsForClient(clientId);
         return new ResponseEntity<>(visitsForClient, HttpStatus.OK);
     }
 
-    // Read possible visit hours (for set duration) for chosen employee
-    // e.g. body
-//    {
-//        "duration" : "01:15",
-//        "type" : "learning java"
-//    }
     @GetMapping("/employee/employeeId={employeeId}")
     public ResponseEntity<List<LocalDateTime>> readAllSingleEmployeeTimeSlotsForDuration(@PathVariable Long clientId,
                                                                                          @PathVariable Long employeeId,
-                                                                                         @RequestBody ClientVisitDto clientVisitDto){
+                                                                                         @RequestBody VisitDto visitDto){
 
-        List<LocalDateTime> availableTimeSlots = employeeService.getAllPossibleVisitTime(employeeId, clientVisitDto.getDurationInMin());
+        List<LocalDateTime> availableTimeSlots = employeeService.getAllPossibleVisitTime(employeeId, visitDto.getServiceId());
         return new ResponseEntity<>(availableTimeSlots, HttpStatus.OK);
     }
 

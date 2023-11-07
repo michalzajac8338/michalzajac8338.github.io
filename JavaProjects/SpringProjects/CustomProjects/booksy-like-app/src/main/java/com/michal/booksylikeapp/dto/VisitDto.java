@@ -7,10 +7,12 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ServiceDto {
+public class VisitDto {
 
     private Long id;
-    private String name;
-    private Double cost;
-    private Integer durationInMin;
+    private String startTime;
+    private String status;
+    private String clientMessage;
+
+    private Long serviceId;
 }

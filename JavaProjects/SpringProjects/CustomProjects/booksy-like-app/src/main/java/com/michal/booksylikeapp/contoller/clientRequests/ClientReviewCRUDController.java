@@ -1,7 +1,6 @@
 package com.michal.booksylikeapp.contoller.clientRequests;
 
 import com.michal.booksylikeapp.dto.ReviewDto;
-import com.michal.booksylikeapp.entity.Review;
 import com.michal.booksylikeapp.service.ReviewService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("B/client/clientId={clientId}/visit/visitId={visitId}/review")
 @AllArgsConstructor
-public class ReviewController {
+public class ClientReviewCRUDController {
 
     private ReviewService reviewService;
 
@@ -54,7 +53,7 @@ public class ReviewController {
     // Delete
     @DeleteMapping
     public ResponseEntity<Void> updateReview(@PathVariable Long clientId,
-                                                  @PathVariable Long visitId){
+                                             @PathVariable Long visitId){
 
         reviewService.deleteReview(visitId);
 

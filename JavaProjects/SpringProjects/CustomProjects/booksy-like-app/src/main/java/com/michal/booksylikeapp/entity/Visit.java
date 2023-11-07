@@ -31,9 +31,9 @@ public class Visit {
 
     private LocalDateTime startTime;
     private VisitStatus status;
-    private String description;
+    private String clientMessage;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "services_id")
     private Service service;
 

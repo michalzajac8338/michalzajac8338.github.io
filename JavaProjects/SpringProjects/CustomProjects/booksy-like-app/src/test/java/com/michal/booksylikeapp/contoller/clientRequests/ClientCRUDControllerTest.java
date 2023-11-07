@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class CRUDControllerTest {
+class ClientCRUDControllerTest {
 
     private static Long clientId;
     private static final String firstName = "Michal";

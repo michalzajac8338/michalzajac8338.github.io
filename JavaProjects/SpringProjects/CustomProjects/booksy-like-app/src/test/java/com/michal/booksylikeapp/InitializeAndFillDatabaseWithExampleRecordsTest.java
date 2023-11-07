@@ -54,7 +54,6 @@ public class InitializeAndFillDatabaseWithExampleRecordsTest {
     private static final String workStartTime = "2023-01-01T10:00";
     private static final String workEndTime = "2023-01-01T18:00";
     private static final String visitStartTime = "2023-01-01T10:00";
-    private static final Integer durationInMin = 75;
 
     @Autowired
     MockMvc mockMvc;
@@ -144,9 +143,37 @@ public class InitializeAndFillDatabaseWithExampleRecordsTest {
         workdayId = Long.valueOf(JsonPath.read(response1.getResponse().getContentAsString(), "$.id").toString());
     }
 
-    // Create client
+    // Create service
+    private static final String serviceName = "Learn Java";
+    private static Long serviceId;
+
     @Test
     @Order(5)
+    void addServiceTest() throws Exception {
+
+        // given
+        Double cost = 19.99;
+        Integer durationInMinutes = 75;
+
+        ServiceDto serviceDto = ServiceDto.builder().name(serviceName).cost(cost).durationInMin(durationInMinutes).build();
+
+        // when
+        ResultActions response = mockMvc.perform(MockMvcRequestBuilders
+                .post("/B/employee/employeeId={employeeId}/service", employeeId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(serviceDto)));
+
+        // then
+        response.andExpect(status().isCreated());
+        response.andExpect(jsonPath("$.cost").value(cost));
+
+        MvcResult response1 = response.andReturn();
+        serviceId = Long.valueOf(JsonPath.read(response1.getResponse().getContentAsString(), "$.id").toString());
+    }
+
+    // Create client
+    @Test
+    @Order(6)
     void createClientTest() throws Exception {
 
         // given
@@ -177,26 +204,25 @@ public class InitializeAndFillDatabaseWithExampleRecordsTest {
 
     // Create visit
     @Test
-    @Order(6)
+    @Order(7)
     void createVisitTest() throws Exception {
 
         // given
-        Double cost = 19.99;
-        String description = "Lesson 03: Hibernate";
+        String clientMessage = "Lesson 03: Hibernate";
         String status = "AWAITS_CONFIRMATION";
 
-        ClientVisitDto clientVisitDto = ClientVisitDto.builder().startTime(visitStartTime).durationInMin(durationInMin)
-                .cost(cost).description(description).status(status).build();
+        VisitDto visitDto = VisitDto.builder().startTime(visitStartTime).serviceId(serviceId)
+                .clientMessage(clientMessage).status(status).build();
 
         // when
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders
                 .post("/B/client/clientId={clientId}/visit/employee/employeeId={employeeId}", clientId, employeeId)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(clientVisitDto)));
+                .content(asJsonString(visitDto)));
 
         // then
         response.andExpect(status().isCreated());
-        response.andExpect(jsonPath("$.description").value(description));
+        response.andExpect(jsonPath("$.clientMessage").value(clientMessage));
 
         // assigning id to test the other operations on same instance
         MvcResult response1 = response.andReturn();
@@ -205,7 +231,7 @@ public class InitializeAndFillDatabaseWithExampleRecordsTest {
 
     // Create review
     @Test
-    @Order(7)
+    @Order(8)
     void createReviewTest() throws Exception {
 
         // given

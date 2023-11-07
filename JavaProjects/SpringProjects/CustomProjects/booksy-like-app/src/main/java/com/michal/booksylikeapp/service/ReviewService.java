@@ -2,6 +2,8 @@ package com.michal.booksylikeapp.service;
 
 import com.michal.booksylikeapp.dto.ReviewDto;
 
+import java.util.List;
+
 public interface ReviewService {
     ReviewDto createReview(ReviewDto reviewDto);
 
@@ -10,4 +12,8 @@ public interface ReviewService {
     ReviewDto updateReview(ReviewDto reviewDto);
 
     void deleteReview(Long visitId);
+
+    List<ReviewDto> readReviewsForEnterprise(Long enterpriseId);
+
+    List<ReviewDto> readReviewsForEmployee(Long employeeId);
 }

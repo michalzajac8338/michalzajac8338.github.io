@@ -23,12 +23,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class CRUDControllerTest {
+class EnterpriseCRUDControllerTest {
 
     private static Long enterpriseId;
 
     // set params to test
-    private static final String name = "Enterprise 1";
+    private static final String name = "Enterprise 2";
     private static final String emailToCreate = "e1@gmail.com";
     private static final String emailToUpdate = "e1@notGmail.com";
     private static final String description = "long and boring one";

@@ -1,6 +1,7 @@
 package com.michal.booksylikeapp.contoller.employeeRequests;
 
 import com.jayway.jsonpath.JsonPath;
+import com.michal.booksylikeapp.dto.ServiceDto;
 import com.michal.booksylikeapp.dto.WorkdayDto;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -16,6 +17,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static com.michal.booksylikeapp.InitializeAndFillDatabaseWithExampleRecordsTest.asJsonString;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.util.AssertionErrors.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -23,15 +25,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class WorkdayCRUDControllerTest {
+class EmployeeServiceCRUDControllerTest {
 
-    private static final Long enterpriseId = 1L;
     private static final Long employeeId = 1L;
-    private static Long workdayId;
-    private static final String date = "2023-02-12";
-    private static final String workStartTime = "2023-02-12T10:00";
-    private static final String workEndTime = "2023-02-12T16:00";
-    private static final String workEndTimeUpdated = "2023-02-12T18:00";
+    private static final String name = "Learn Java 8";
+    private static final Double cost = 19.99;
+    private static final Double costToUpdate = 14.99;
+    private static final Integer durationInMinutes = 75;
+    private static Long serviceId;
 
 
     @Autowired
@@ -39,76 +40,74 @@ class WorkdayCRUDControllerTest {
 
     @Test
     @Order(1)
-    void createWorkdayTest() throws Exception {
+    void addServiceTest() throws Exception {
 
         // given
-        WorkdayDto workdayDto = WorkdayDto.builder().date(date).workStartTime(workStartTime).workEndTime(workEndTime)
-                .build();
+        ServiceDto serviceDto = ServiceDto.builder().name(name).cost(cost).durationInMin(durationInMinutes).build();
 
         // when
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders
-                .post("/B/employee/employeeId={employeeId}/workday", enterpriseId, employeeId)
+                .post("/B/employee/employeeId={employeeId}/service", employeeId)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(workdayDto)));
+                .content(asJsonString(serviceDto)));
 
         // then
         response.andExpect(status().isCreated());
-        response.andExpect(jsonPath("$.date").value(date));
+        response.andExpect(jsonPath("$.cost").value(cost));
 
         // assigning id to test the other operations on same instance
         MvcResult response1 = response.andReturn();
-        workdayId = Long.valueOf(JsonPath.read(response1.getResponse().getContentAsString(), "$.id").toString());
+        serviceId = Long.valueOf(JsonPath.read(response1.getResponse().getContentAsString(), "$.id").toString());
     }
-
 
     @Test
     @Order(2)
-    void readAllSingleEmployeeWorkdaysForDurationTest() throws Exception {
+    void readEmployeeServicesTest() throws Exception {
 
-        // given (from test 1)
+        // given - from test 1
         // when
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders
-                .get("/B/employee/employeeId={employeeId}/workday", enterpriseId, employeeId));
+                .get("/B/employee/employeeId={employeeId}/service", employeeId));
 
-        // then
         response.andExpect(status().isOk());
-        assertTrue("Created workday from test 1 is not in list of workdays for current employee",
-                response.andReturn().getResponse().getContentAsString().contains("\"id\":"+workdayId
-                        + ",\"employeeId\":"+employeeId
-                        +",\"date\":\"" + date+"\""));
+        assertTrue("Created service from test 1 is not in list of services for current employee",
+                response.andReturn().getResponse().getContentAsString().contains("\"id\":"+serviceId
+                        + ",\"name\":"+ "\"" + name + "\""
+                        +",\"cost\":" + cost));
     }
 
     @Test
     @Order(3)
-    void updateWorkdayTest() throws Exception {
+    void updateServiceTest() throws Exception {
 
-        // given (+from test 1)
-        WorkdayDto workdayDto = WorkdayDto.builder().date(date).workStartTime(workStartTime).workEndTime(workEndTimeUpdated)
-                .build();
+        // given (+ from test 1)
+        ServiceDto serviceDto = ServiceDto.builder().id(serviceId).name(name).cost(costToUpdate)
+                .durationInMin(durationInMinutes).build();
 
         // when
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders
-                .put("/B/employee/employeeId={employeeId}/workday", enterpriseId, employeeId)
+                .put("/B/employee/employeeId={employeeId}/service", employeeId)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(workdayDto)));
+                .content(asJsonString(serviceDto)));
 
         // then
         response.andExpect(status().isOk());
-        response.andExpect(jsonPath("$.workEndTime").value(workEndTimeUpdated.replace("T", " ")));
+        response.andExpect(jsonPath("$.cost").value(costToUpdate));
+
     }
 
     @Test
     @Order(4)
-    void deleteWorkdayTest() throws Exception {
+    void deleteServiceTest() throws Exception {
 
-        // given - from test 1
-        WorkdayDto workdayDto = WorkdayDto.builder().date(date).build();
+        // given (+ from test 1)
+        ServiceDto serviceDto = ServiceDto.builder().id(serviceId).build();
 
         // when
-        ResultActions response = mockMvc.perform(MockMvcRequestBuilders.delete
-                ("/B/employee/employeeId={employeeId}/workday", enterpriseId, employeeId)
+        ResultActions response = mockMvc.perform(MockMvcRequestBuilders
+                .delete("/B/employee/employeeId={employeeId}/service", employeeId)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(workdayDto)));
+                .content(asJsonString(serviceDto)));
 
         // then
         response.andExpect(status().isNoContent());
