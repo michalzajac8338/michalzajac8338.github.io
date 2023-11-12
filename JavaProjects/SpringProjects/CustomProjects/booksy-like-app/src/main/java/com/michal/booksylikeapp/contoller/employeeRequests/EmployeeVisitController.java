@@ -25,7 +25,7 @@ public class EmployeeVisitController {
         return new ResponseEntity<>(visits, HttpStatus.OK);
     }
 
-    // Update("Delete") - confirm/ cancel/ set not attended
+    // Update, 'Delete' -> confirm/ cancel/ set not attended
     @PatchMapping
     public ResponseEntity<VisitDto> updateVisit(@PathVariable Long employeeId,
                                                 @RequestBody VisitDto visitDto){

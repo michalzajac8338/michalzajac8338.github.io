@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 public class EnterpriseCRUDController {
 
     private EnterpriseService enterpriseService;
-    private EmployeeService employeeService;
 
     // CRUD for enterprises
 

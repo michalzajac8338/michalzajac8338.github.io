@@ -1,5 +1,6 @@
-package com.michal.booksylikeapp.contoller.clientRequests;
+package com.michal.booksylikeapp.contoller;
 
+import com.jayway.jsonpath.JsonPath;
 import com.michal.booksylikeapp.dto.ReviewDto;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -21,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class ClientReviewCRUDControllerTest {
+class ReviewControllerTest {
 
     private final Long clientId = 1L;
     private final Long reviewAndVisitId = 2L;
@@ -52,8 +53,6 @@ class ClientReviewCRUDControllerTest {
         response.andExpect(status().isCreated());
         response.andExpect(jsonPath("$.rating").value(rating));
         response.andExpect(jsonPath("$.content").value(content));
-
-
     }
 
     @Test

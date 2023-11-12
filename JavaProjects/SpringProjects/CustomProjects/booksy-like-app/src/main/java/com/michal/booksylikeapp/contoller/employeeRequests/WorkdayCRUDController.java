@@ -26,7 +26,7 @@ public class WorkdayCRUDController {
         return new ResponseEntity<>(createdWorkday, HttpStatus.CREATED);
     }
 
-    // Read ->
+    // Read (All)
     @GetMapping
     public ResponseEntity<List<WorkdayDto>> readAllSingleEmployeeWorkdaysForDuration(@PathVariable Long employeeId){
 

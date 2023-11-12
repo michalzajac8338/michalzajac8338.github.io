@@ -47,6 +47,10 @@ public class Employee {
     @JoinColumn(name = "employee_id")
     private List<Review> reviews;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "employee_id")
+    private List<DefaultWeekWorkHours> defaultWeekWorkHours;
+
     @ManyToMany(mappedBy = "employees")
     private Set<Service> services = new HashSet<>();
 

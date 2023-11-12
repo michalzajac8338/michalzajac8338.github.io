@@ -63,7 +63,7 @@ public class ClientVisitServiceImpl implements ClientVisitService {
     }
 
     @Override
-    public List<VisitDto> readVisitsForClient(Long clientId) {
+    public List<VisitDto> readAllVisitsForClient(Long clientId) {
 
         Client client = clientRepository.findById(clientId).orElseThrow(RuntimeException::new);
 

@@ -2,9 +2,11 @@ package com.michal.booksylikeapp.service.Impl;
 
 import com.michal.booksylikeapp.dto.ServiceDto;
 import com.michal.booksylikeapp.entity.Employee;
+import com.michal.booksylikeapp.entity.Enterprise;
 import com.michal.booksylikeapp.entity.Service;
 import com.michal.booksylikeapp.mapper.ServiceMapper;
 import com.michal.booksylikeapp.repository.EmployeeRepository;
+import com.michal.booksylikeapp.repository.EnterpriseRepository;
 import com.michal.booksylikeapp.repository.ServiceRepository;
 import com.michal.booksylikeapp.service.ServiceService;
 import lombok.AllArgsConstructor;
@@ -12,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -22,6 +25,7 @@ import static java.time.temporal.ChronoUnit.MINUTES;
 @AllArgsConstructor
 public class ServiceServiceImpl implements ServiceService {
 
+    private EnterpriseRepository enterpriseRepository;
     private EmployeeRepository employeeRepository;
     private ServiceRepository serviceRepository;
 
@@ -83,5 +87,15 @@ public class ServiceServiceImpl implements ServiceService {
         if(service.getEmployees() == null){
             serviceRepository.delete(service);
         }
+    }
+
+    @Override
+    public Set<ServiceDto> readEnterpriseServices(Long enterpriseId) {
+
+        Enterprise enterprise = enterpriseRepository.findById(enterpriseId).orElseThrow(RuntimeException::new);
+        Set<Service> services = enterprise.getEmployees().stream().map(Employee::getServices)
+                .flatMap(Collection::stream).collect(Collectors.toSet());
+
+        return services.stream().map(ServiceMapper::mapToServiceDto).collect(Collectors.toSet());
     }
 }

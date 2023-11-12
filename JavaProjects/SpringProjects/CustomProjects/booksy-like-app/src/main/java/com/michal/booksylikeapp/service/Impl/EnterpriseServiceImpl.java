@@ -5,15 +5,22 @@ import com.michal.booksylikeapp.entity.Enterprise;
 import com.michal.booksylikeapp.mapper.EnterpriseMapper;
 import com.michal.booksylikeapp.repository.EnterpriseRepository;
 import com.michal.booksylikeapp.repository.RoleRepository;
+import com.michal.booksylikeapp.service.EmployeeService;
 import com.michal.booksylikeapp.service.EnterpriseService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Service
 @AllArgsConstructor
 public class EnterpriseServiceImpl implements EnterpriseService {
 
+    private EmployeeServiceImpl employeeService;
     private EnterpriseRepository enterpriseRepository;
     private RoleRepository roleRepository;
 
@@ -48,6 +55,20 @@ public class EnterpriseServiceImpl implements EnterpriseService {
     public void deleteEnterprise(Long id) {
 
         enterpriseRepository.deleteById(id);
+    }
 
+    @Override
+    @Transactional
+    public Map<Long, List<LocalDateTime>> getAllPossibleVisitTimeForEnterprise(Long enterpriseId, Long serviceId) {
+
+        Enterprise queriedEnterprise = enterpriseRepository.findById(enterpriseId).orElseThrow(RuntimeException::new);
+        Map<Long, List<LocalDateTime>> employeeIdAndTimeSlots = new HashMap<>();
+
+        queriedEnterprise.getEmployees().forEach(employee -> {
+            employeeIdAndTimeSlots.put(employee.getId(),
+                    employeeService.getAllPossibleVisitTimeForEmployee(employee.getId(), serviceId));
+        });
+
+        return employeeIdAndTimeSlots;
     }
 }

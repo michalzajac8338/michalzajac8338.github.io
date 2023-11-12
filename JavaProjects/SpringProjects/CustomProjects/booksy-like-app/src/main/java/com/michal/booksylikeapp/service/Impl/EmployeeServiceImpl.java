@@ -1,5 +1,6 @@
 package com.michal.booksylikeapp.service.Impl;
 
+import com.michal.booksylikeapp.constants.OtherConstants;
 import com.michal.booksylikeapp.constants.VisitStatus;
 import com.michal.booksylikeapp.dto.EmployeeDto;
 import com.michal.booksylikeapp.entity.*;
@@ -11,10 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import static com.michal.booksylikeapp.constants.OtherConstants.TIME_SLOT_DURATION_IN_MIN;
 
@@ -68,11 +66,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void deleteEmployee(Long enterpriseId, Long employeeId) {
 
         employeeRepository.deleteById(employeeId);
-
     }
 
     @Override
-    public List<LocalDateTime> getAllPossibleVisitTime(Long employeeId, Long serviceId) {
+    public List<LocalDateTime> getAllPossibleVisitTimeForEmployee(Long employeeId, Long serviceId) {
 
         Employee queriedEmployee = employeeRepository.findById(employeeId).orElseThrow(RuntimeException::new);
         Service service = serviceRepository.findById(serviceId).orElseThrow(RuntimeException::new);
@@ -86,12 +83,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         return validTimeSlots;
     }
 
+    // Helper methods
     public static List<LocalDateTime> getAllValidVisitHours(Workday workday, int visitDuration){
         List<LocalDateTime> allFreeTimeSlots = getAllAvailableTimeSlotsForADay(workday);
         return checkIfTimeSlotIsWideEnough(allFreeTimeSlots, visitDuration);
     }
-
-    // Helper methods
 
     public static List<LocalDateTime> getAllAvailableTimeSlotsForADay(Workday workday){
 
@@ -99,7 +95,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         workday.getVisits().forEach(visit -> {
                     if (visit.getStatus() != VisitStatus.CANCELLED) {
                         LocalDateTime start = visit.getStartTime();
-                        int numberOfTakenTimeSlots = (int) (visit.getService().getDuration().getSeconds() / 60) / TIME_SLOT_DURATION_IN_MIN.getNumber();
+                        int numberOfTakenTimeSlots = (int) (visit.getService().getDuration().getSeconds()/60)/TIME_SLOT_DURATION_IN_MIN.getNumber();
                         while (numberOfTakenTimeSlots > 0) {
                             timeSlots.remove(start);
                             start = start.plusMinutes(TIME_SLOT_DURATION_IN_MIN.getNumber());
@@ -116,7 +112,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         while(timeSlot.isBefore(endTime)){
             timeSlots.add(timeSlot);
-            timeSlot = timeSlot.plusMinutes(15);
+            timeSlot = timeSlot.plusMinutes(TIME_SLOT_DURATION_IN_MIN.getNumber());
         }
 
         return timeSlots;
@@ -138,6 +134,5 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         return wideEnoughTimeSlots;
-
     }
 }
