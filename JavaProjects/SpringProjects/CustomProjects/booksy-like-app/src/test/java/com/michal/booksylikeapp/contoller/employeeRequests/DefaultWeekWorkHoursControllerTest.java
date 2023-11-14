@@ -77,4 +77,49 @@ class DefaultWeekWorkHoursControllerTest {
             response.andExpect(jsonPath("$.dayOfWeekWorkHours.MONDAY."+k).value(monday.get(k)));
         }
     }
+
+    @Test
+    @Order(3)
+    void updateDefaultWorkHoursForWeekDaysTest() throws Exception {
+
+        // given
+        monday.clear();
+        monday.put("00:00", "06:30");
+
+        Map<String, String> tuesday = new HashMap<>();
+        tuesday.put("08:00", "11:30");
+        tuesday.put("12:00", "18:00");
+
+        dayOfWeekWorkHours.put("MONDAY", monday);
+        dayOfWeekWorkHours.put("TUESDAY", tuesday);
+
+        DefaultWeekWorkHoursDto dto = DefaultWeekWorkHoursDto.builder().dayOfWeekWorkHours(dayOfWeekWorkHours).build();
+
+        // when
+        ResultActions response = mockMvc.perform(MockMvcRequestBuilders
+                .put("/B/employee/employeeId={employeeId}/workday/defaultWorkHours", employeeId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(dto)));
+
+        // then
+        response.andExpect(status().isOk());
+
+        for(String k: monday.keySet()) {
+            response.andExpect(jsonPath("$.dayOfWeekWorkHours.MONDAY."+k).value(monday.get(k)));
+        }
+    }
+
+    @Test
+    @Order(4)
+    void deleteDefaultWorkHoursForWeekDaysTest() throws Exception {
+
+        // given - from test 1
+        // when
+        ResultActions response = mockMvc.perform(MockMvcRequestBuilders
+                .delete("/B/employee/employeeId={employeeId}/workday/defaultWorkHours", employeeId));
+
+        // then
+        response.andExpect(status().isNoContent());
+    }
+
 }

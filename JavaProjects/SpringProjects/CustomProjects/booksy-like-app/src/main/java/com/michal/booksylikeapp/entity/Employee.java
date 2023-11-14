@@ -28,6 +28,7 @@ public class Employee {
     private LocalDateTime created;
     @UpdateTimestamp
     private LocalDateTime updated;
+    private LocalDateTime workdayUpdatedUpTo;
 
     private String firstName;
     private String lastName;
@@ -39,7 +40,7 @@ public class Employee {
     @JoinColumn(name = "enterprises_id")
     private Enterprise enterprise;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id")
     private List<Workday> workdayList;
 
@@ -47,7 +48,7 @@ public class Employee {
     @JoinColumn(name = "employee_id")
     private List<Review> reviews;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id")
     private List<DefaultWeekWorkHours> defaultWeekWorkHours;
 

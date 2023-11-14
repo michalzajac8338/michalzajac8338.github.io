@@ -21,7 +21,6 @@ public class DefaultWeekWorkHoursController {
                                                                                   @RequestBody DefaultWeekWorkHoursDto dto){
 
         DefaultWeekWorkHoursDto defaultWeekWorkHoursDto = defaultWeekWorkHoursService.setDefaultWeekWorkHours(employeeId, dto);
-
         return new ResponseEntity<>(defaultWeekWorkHoursDto, HttpStatus.CREATED);
     }
 
@@ -30,7 +29,23 @@ public class DefaultWeekWorkHoursController {
     public ResponseEntity<DefaultWeekWorkHoursDto> readDefaultWorkHoursForWeekDays(@PathVariable Long employeeId){
 
         DefaultWeekWorkHoursDto defaultWeekWorkHoursDto = defaultWeekWorkHoursService.readDefaultWeekWorkHours(employeeId);
-
         return new ResponseEntity<>(defaultWeekWorkHoursDto, HttpStatus.OK);
+    }
+
+    // Update
+    @PutMapping
+    public ResponseEntity<DefaultWeekWorkHoursDto> updateDefaultWorkHoursForWeekDays(@PathVariable Long employeeId,
+                                                                                     @RequestBody DefaultWeekWorkHoursDto dto){
+
+        DefaultWeekWorkHoursDto defaultWeekWorkHoursDto = defaultWeekWorkHoursService.updateDefaultWeekWorkHours(employeeId, dto);
+        return new ResponseEntity<>(defaultWeekWorkHoursDto, HttpStatus.OK);
+    }
+
+    // Delete
+    @DeleteMapping
+    public ResponseEntity<Void> deleteDefaultWorkHoursForWeekDays(@PathVariable Long employeeId){
+
+        defaultWeekWorkHoursService.deleteDefaultWeekWorkHours(employeeId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

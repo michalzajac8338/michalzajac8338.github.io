@@ -16,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -80,5 +81,22 @@ public class DefaultWeekWorkHoursServiceImpl implements DefaultWeekWorkHoursServ
         );
 
         return DefaultWeekWorkHoursDto.builder().dayOfWeekWorkHours(savedDefaultWWHDto).build();
+    }
+
+    @Override
+    @Transactional
+    public DefaultWeekWorkHoursDto updateDefaultWeekWorkHours(Long employeeId, DefaultWeekWorkHoursDto dto) {
+
+        deleteDefaultWeekWorkHours(employeeId);
+        return setDefaultWeekWorkHours(employeeId, dto);
+    }
+
+    @Override
+    public void deleteDefaultWeekWorkHours(Long employeeId) {
+
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(RuntimeException::new);
+        Set<DefaultWeekWorkHours> defaultWeekWorkHoursSet = weekWorkHoursRepository.findByEmployee(employee);
+        weekWorkHoursRepository.deleteAll(defaultWeekWorkHoursSet);
+
     }
 }

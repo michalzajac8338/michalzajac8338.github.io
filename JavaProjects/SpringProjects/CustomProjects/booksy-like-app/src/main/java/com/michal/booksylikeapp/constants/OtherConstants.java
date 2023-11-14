@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public enum OtherConstants {
 
-    TIME_SLOT_DURATION_IN_MIN(15);
+    TIME_SLOT_DURATION_IN_MIN(15), DAYS_TO_AUTO_SCHEDULE(14);
     final int number;
 }
 
